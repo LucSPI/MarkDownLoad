@@ -31,7 +31,7 @@ function generateValidFileName(title) {
   return name;
 }
 
-function downloadMarkdown(markdown, article) {
+function downloadMarkdown(markdown, title) {
   var blob = new Blob([markdown], {
     type: "text/markdown;charset=utf-8"
   });
@@ -39,7 +39,7 @@ function downloadMarkdown(markdown, article) {
   if (chrome) {
     chrome.downloads.download({
       url: url,
-      filename: generateValidFileName(article.title) + ".md",
+      filename: generateValidFileName(title) + ".md",
       saveAs: true
     }, function(id) {
       chrome.downloads.onChanged.addListener((delta ) => {
@@ -54,7 +54,7 @@ function downloadMarkdown(markdown, article) {
   }else {
     browser.downloads.download({
       url: url,
-      filename: generateValidFileName(article.title) + ".md",
+      filename: generateValidFileName(title) + ".md",
       incognito: true,
       saveAs: true
     }).then((id) => {
@@ -75,13 +75,23 @@ function downloadMarkdown(markdown, article) {
 
 //function that handles messages from the injected script into the site
 function notify(message) {
-  var parser = new DOMParser();
-  var dom = parser.parseFromString(message.dom, "text/html");
-  if (dom.documentElement.nodeName == "parsererror"){
-    console.error( "error while parsing");
-  } 
+  if (message.type == "clip") {
+    var parser = new DOMParser();
+    var dom = parser.parseFromString(message.dom, "text/html");
+    if (dom.documentElement.nodeName == "parsererror") {
+      console.error("error while parsing");
+    }
 
-  var article = createReadableVersion(dom);
-  var markdown = convertArticleToMarkdown(article);
-  downloadMarkdown(markdown, article);
+    var article = createReadableVersion(dom);
+    var markdown = convertArticleToMarkdown(article);
+    //downloadMarkdown(markdown, article);
+    if (chrome) {
+      chrome.runtime.sendMessage({type: "display.md", markdown: markdown, article: article});
+    } else {
+      browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article });
+    }
+  }
+  else if (message.type == "download") {
+    downloadMarkdown(message.markdown, message.title);
+  }
 }

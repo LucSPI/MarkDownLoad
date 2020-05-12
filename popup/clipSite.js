@@ -16,11 +16,42 @@ if (chrome) {
       var url = tabs[0].url;
         browser.tabs.executeScript(id, {
             file: "/contentScript/pageScrapper.js"
-        }),then( () => {
+        }).then( () => {
             console.log("Successfully injected");
         }).catch( (error) => {
             console.error(error);
         });
       });
+}
+
+if (chrome) {
+    chrome.runtime.onMessage.addListener(notify);
+} else {
+    browser.runtime.onMessage.addListener(notify);
+}
+
+function download(e) {
+    e.preventDefault();
+    var message = {
+        type: "download",
+        markdown: document.getElementById("md").value,
+        title: document.getElementById("md").title
+    };
+    if (chrome) {
+        chrome.runtime.sendMessage(message);
+    } else {
+        browser.runtime.sendMessage(message);
+    }
+}
+
+//function that handles messages from the injected script into the site
+function notify(message) {
+    if (message.type == "display.md") {
+        document.getElementById("md").value = message.markdown;
+        document.getElementById("md").title = message.article.title;
+        document.getElementById("download").addEventListener("click", download);
+        document.getElementById("container").style.display = 'block';
+        document.getElementById("spinner").style.display = 'none';
+    }
 }
 
