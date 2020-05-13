@@ -1,7 +1,7 @@
 {
 
     "manifest_version": 2,
-    "name": "markdown-clipper",
+    "name": "MarkDownload - Markdown Web Clipper",
     "version": "2.0",
     "author": "Enrico Kaack/Gordon Pedsersen",
   
@@ -31,9 +31,7 @@
     },
 
     "background": {
-        "scripts": ["background/turndown.js", "/background/Readability.js", "background/background.js"]
+        "scripts": ["browser-polyfill.min.js", "background/turndown.js", "/background/Readability.js", "background/background.js"]
     }
-
-
   
   }

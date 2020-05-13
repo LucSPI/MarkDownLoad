@@ -1,8 +1,4 @@
-if (chrome) {
-  chrome.runtime.onMessage.addListener(notify);
-}else {
-  browser.runtime.onMessage.addListener(notify);
-}
+browser.runtime.onMessage.addListener(notify);
 
 function createReadableVersion(dom) {
   var reader = new Readability(dom);
@@ -14,7 +10,7 @@ function convertArticleToMarkdown(article) {
   var turndownService = new TurndownService()
   var markdown = turndownService.turndown(article.content);
   
-  //add article titel as header
+  //add article title as header
   markdown = "# " + article.title + "\n" + markdown;
 
   //add summary if exist
@@ -36,40 +32,23 @@ function downloadMarkdown(markdown, title) {
     type: "text/markdown;charset=utf-8"
   });
   var url = URL.createObjectURL(blob);
-  if (chrome) {
-    chrome.downloads.download({
-      url: url,
-      filename: generateValidFileName(title) + ".md",
-      saveAs: true
-    }, function(id) {
-      chrome.downloads.onChanged.addListener((delta ) => {
-        //release the url for the blob
-        if (delta.state && delta.state.current == "complete") {
-          if (delta.id === id) {
-            window.URL.revokeObjectURL(url);
-          }
+
+  browser.downloads.download({
+    url: url,
+    filename: generateValidFileName(title) + ".md",
+    saveAs: true
+  }).then((id) => {
+    browser.downloads.onChanged.addListener((delta ) => {
+      //release the url for the blob
+      if (delta.state && delta.state.current == "complete") {
+        if (delta.id === id) {
+          window.URL.revokeObjectURL(url);
         }
-      });
+      }
     });
-  }else {
-    browser.downloads.download({
-      url: url,
-      filename: generateValidFileName(title) + ".md",
-      incognito: true,
-      saveAs: true
-    }).then((id) => {
-      browser.downloads.onChanged.addListener((delta ) => {
-        //release the url for the blob
-        if (delta.state && delta.state.current == "complete") {
-          if (delta.id === id) {
-            window.URL.revokeObjectURL(url);
-          }
-        }
-      });
-    }).catch((err) => {
-      console.error("Download failed" + err)
-    });
-  }
+  }).catch((err) => {
+    console.error("Download failed" + err)
+  });
 }
 
 
@@ -84,12 +63,7 @@ function notify(message) {
 
     var article = createReadableVersion(dom);
     var markdown = convertArticleToMarkdown(article);
-    //downloadMarkdown(markdown, article);
-    if (chrome) {
-      chrome.runtime.sendMessage({type: "display.md", markdown: markdown, article: article});
-    } else {
-      browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article });
-    }
+    browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article });
   }
   else if (message.type == "download") {
     downloadMarkdown(message.markdown, message.title);
