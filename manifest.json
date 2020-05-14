@@ -2,7 +2,7 @@
 
     "manifest_version": 2,
     "name": "MarkDownload - Markdown Web Clipper",
-    "version": "2.1.3",
+    "version": "2.1.4",
     "author": "Enrico Kaack/Gordon Pedsersen",
   
     "description": "This extension works like a web clipper, but it downloads articles in a markdown format using Turndown and Readability.js.",
