@@ -8,12 +8,12 @@
     "description": "This extension works like a web clipper, but it downloads articles in a markdown format using Turndown and Readability.js.",
   
     "icons": {
-        "16": "/icons/favicon-16x16.png",
-        "32": "/icons/favicon-32x32.png",
-        "48": "/icons/favicon-48x48.png",
-        "128": "/icons/appicon-128x128.png",
-        "192": "/icons/favicon-192x192.png",
-        "512": "/icons/favicon-512x512.png"
+        "16": "icons/favicon-16x16.png",
+        "32": "icons/favicon-32x32.png",
+        "48": "icons/favicon-48x48.png",
+        "128": "icons/appicon-128x128.png",
+        "192": "icons/favicon-192x192.png",
+        "512": "icons/favicon-512x512.png"
     },
   
     "permissions": [
@@ -27,10 +27,10 @@
         "default_title": "MarkDownload",
         "default_popup": "popup/clipSite.html",
         "default_icon": {
-            "16": "/icons/favicon-16x16.png",
-            "32": "/icons/favicon-32x32.png",
-            "48": "/icons/favicon-48x48.png",
-            "128": "/icons/appicon-128x128.png"
+            "16": "icons/favicon-16x16.png",
+            "32": "icons/favicon-32x32.png",
+            "48": "icons/favicon-48x48.png",
+            "128": "icons/appicon-128x128.png"
           }
     },
 
