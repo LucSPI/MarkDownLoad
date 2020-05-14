@@ -35,8 +35,7 @@ function downloadMarkdown(markdown, title) {
 
   browser.downloads.download({
     url: url,
-    filename: generateValidFileName(title) + ".md",
-    saveAs: true
+    filename: generateValidFileName(title) + ".md"
   }).then((id) => {
     browser.downloads.onChanged.addListener((delta ) => {
       //release the url for the blob
