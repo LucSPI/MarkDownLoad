@@ -5,7 +5,6 @@ browser.runtime.onMessage.addListener(notify);
 function createReadableVersion(dom) {
   var reader = new Readability(dom);
   var article = reader.parse();
-  console.log(article);
   return article;
 }
 
@@ -24,7 +23,7 @@ function convertArticleToMarkdown(article, url) {
 
   //add url
   markdown = url + "\n\n" + markdown;
-  
+
   return markdown;
 }
 
