@@ -48,31 +48,34 @@ function notify(message) {
     }
 }
 
+var selectedText = null;
+
 function select (event) {
     var start = event.currentTarget.selectionStart;
     var finish = event.currentTarget.selectionEnd;
+
     var a = document.getElementById("downloadSelection");
 
     if (start != finish) {
+        selectedText = event.currentTarget.value.substring(start, finish);
         a.style.display = "block";
     }
     else {
+        selectedText = null;
         a.style.display = "none";
     }
 }
 
 function downloadSelection(e) {
     e.preventDefault();
-    var md = document.getElementById("md");
-    var start = md.selectionStart;
-    var finish = md.selectionEnd;
-    var selection = md.value.substring(start, finish);
+    if (selectedText != null) {
     
-    var message = {
-        type: "download",
-        markdown: selection,
-        title: md.title
-    };
+        var message = {
+            type: "download",
+            markdown: selectedText,
+            title: document.getElementById("title").value
+        };
 
-    browser.runtime.sendMessage(message);
+        browser.runtime.sendMessage(message);
+    }
 }
