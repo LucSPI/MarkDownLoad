@@ -1,5 +1,19 @@
 
-browser.tabs.query({currentWindow: true, active: true})
+// default variables
+var selectedText = null;
+
+// set up event handlers
+document.getElementById("md").addEventListener("select", select);
+document.getElementById("md").addEventListener("change", select);
+document.getElementById("md").addEventListener("blur", select);
+document.getElementById("md").addEventListener("mouseup", select);
+document.getElementById("md").addEventListener("keyup", select);
+document.getElementById("md").addEventListener("click", select);
+document.getElementById("download").addEventListener("click", download);
+document.getElementById("downloadSelection").addEventListener("click", downloadSelection);
+
+// inject the necessary scripts
+browser.tabs.query({ currentWindow: true, active: true })
 .then((tabs) => {
     var id = tabs[0].id;
     var url = tabs[0].url;
@@ -16,41 +30,39 @@ browser.tabs.query({currentWindow: true, active: true})
     });
 });
 
-
+// listen for notifications from the background page
 browser.runtime.onMessage.addListener(notify);
 
-function download(e) {
-    e.preventDefault();
-    var message = {
-        type: "download",
-        markdown: document.getElementById("md").value,
-        title: document.getElementById("title").value
-    };
+//function to send the download message to the background page
+function sendDownloadMessage(text) {
+    if (text != null) {
 
-    browser.runtime.sendMessage(message);
-}
+        var message = {
+            type: "download",
+            markdown: text,
+            title: document.getElementById("title").value
+        };
 
-//function that handles messages from the injected script into the site
-function notify(message) {
-    if (message.type == "display.md") {
-        document.getElementById("md").value = message.markdown;
-        document.getElementById("title").value = message.article.title;
-        document.getElementById("md").addEventListener("select", select);
-        document.getElementById("md").addEventListener("change", select);
-        document.getElementById("md").addEventListener("blur", select);
-        document.getElementById("md").addEventListener("mouseup", select);
-        document.getElementById("md").addEventListener("keyup", select);
-        document.getElementById("md").addEventListener("click", select);
-        document.getElementById("download").addEventListener("click", download);
-        document.getElementById("downloadSelection").addEventListener("click", downloadSelection);
-        document.getElementById("container").style.display = 'flex';
-        document.getElementById("spinner").style.display = 'none';
+        browser.runtime.sendMessage(message);
     }
 }
 
-var selectedText = null;
+// event handler for download button
+function download(e) {
+    e.preventDefault();
+    sendDownloadMessage(document.getElementById("md").value);
+}
 
-function select (event) {
+// event handler for download selected button
+function downloadSelection(e) {
+    e.preventDefault();
+    if (selectedText != null) {
+        sendDownloadMessage(selectedText);
+    }
+}
+
+// event handler for selecting (or deselecting) text
+function select(event) {
     var start = event.currentTarget.selectionStart;
     var finish = event.currentTarget.selectionEnd;
 
@@ -66,16 +78,18 @@ function select (event) {
     }
 }
 
-function downloadSelection(e) {
-    e.preventDefault();
-    if (selectedText != null) {
-    
-        var message = {
-            type: "download",
-            markdown: selectedText,
-            title: document.getElementById("title").value
-        };
+//function that handles messages from the injected script into the site
+function notify(message) {
+    // message for displaying markdown
+    if (message.type == "display.md") {
 
-        browser.runtime.sendMessage(message);
+        // set the values from the message
+        document.getElementById("md").value = message.markdown;
+        document.getElementById("title").value = message.article.title;
+        
+        // show the hidden elements
+        document.getElementById("container").style.display = 'flex';
+        document.getElementById("spinner").style.display = 'none';
     }
 }
+
