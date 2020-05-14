@@ -3,14 +3,14 @@ browser.runtime.onMessage.addListener(notify);
 
 // creates the readable article object from Readability
 function createReadableVersion(dom) {
-  var reader = new Readability(dom, { debug: true });
+  var reader = new Readability(dom);
   var article = reader.parse();
   return article;
 }
 
 // convert the article content to markdown using Turndown
 function convertArticleToMarkdown(article) {
-  var turndownService = new TurndownService()
+  var turndownService = new TurndownService();
   var markdown = turndownService.turndown(article.content);
   
   //add article title as header
