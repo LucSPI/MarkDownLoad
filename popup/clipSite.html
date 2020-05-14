@@ -36,6 +36,10 @@
         border:none;
         padding:0.5em;
       }
+      input#title {
+        width: calc(100% - 1em);
+        padding: 0.5em;
+      }
       #container {
         width: 100%;
         height: 100%;
@@ -69,6 +73,7 @@
 
 <body>
   <div id="container">
+    <input type="text" id="title"></input>
     <textarea id="md"></textarea>
     <a href="#" id="download">Download</a>
     <a href="#" id="downloadSelection">Download selected</a>

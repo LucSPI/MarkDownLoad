@@ -24,7 +24,7 @@ function download(e) {
     var message = {
         type: "download",
         markdown: document.getElementById("md").value,
-        title: document.getElementById("md").title
+        title: document.getElementById("title").value
     };
 
     browser.runtime.sendMessage(message);
@@ -34,7 +34,7 @@ function download(e) {
 function notify(message) {
     if (message.type == "display.md") {
         document.getElementById("md").value = message.markdown;
-        document.getElementById("md").title = message.article.title;
+        document.getElementById("title").value = message.article.title;
         document.getElementById("md").addEventListener("select", select);
         document.getElementById("md").addEventListener("change", select);
         document.getElementById("md").addEventListener("blur", select);
