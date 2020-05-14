@@ -1,4 +1,4 @@
-# markdown-clipper
+# MarkDownload - Markdown Web Clipper
 
 This is a Firefox and Google Chrome extension to clip websites and download them into a readable markdown file.  
 It will now display the markdown in a popup, with an option to download the file (or just copy paste the text you want).
@@ -8,7 +8,7 @@ It uses the following two libraries:
 - [Turndown](https://github.com/domchristie/turndown) by Dom Christie in version 6.0.0 is used to convert the simplified HTML (from Readability.js) into markdown. (Licensed under MIT License)
 
 # Installation
-The plugin is available for [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/markdownload/) and coming soon for [Google Chrome]().  
+The plugin is available for [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/markdownload/) and coming soon for [Google Chrome]() and [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/hajanaajapkhaabfcofdjgjnlgkdkknm).
 
 # Permissions
 - Access tabs: used to access the website content when the icon in the browser bar is clicked.

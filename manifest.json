@@ -24,7 +24,7 @@
     
       "browser_action": {
         
-        "default_title": "markdown-clipper",
+        "default_title": "MarkDownload",
         "default_popup": "popup/clipSite.html",
         "default_icon": {
             "16": "/icons/favicon-16x16.png",
