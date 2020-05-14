@@ -3,13 +3,13 @@ browser.runtime.onMessage.addListener(notify);
 
 // creates the readable article object from Readability
 function createReadableVersion(dom) {
-  var reader = new Readability(dom);
+  var reader = new Readability(dom, { debug: true });
   var article = reader.parse();
   return article;
 }
 
 // convert the article content to markdown using Turndown
-function convertArticleToMarkdown(article, url) {
+function convertArticleToMarkdown(article) {
   var turndownService = new TurndownService()
   var markdown = turndownService.turndown(article.content);
   
@@ -20,9 +20,6 @@ function convertArticleToMarkdown(article, url) {
   if (article.excerpt != null) {
     markdown = "> " + article.excerpt + "\n\n" + markdown;
   }
-
-  //add url
-  markdown = url + "\n\n" + markdown;
 
   return markdown;
 }
@@ -63,14 +60,22 @@ function downloadMarkdown(markdown, title) {
 function notify(message) {
   // message for initial clipping of the dom
   if (message.type == "clip") {
+
+    // parse the dom
     var parser = new DOMParser();
     var dom = parser.parseFromString(message.dom, "text/html");
     if (dom.documentElement.nodeName == "parsererror") {
       console.error("error while parsing");
     }
 
+    // make markdown document from the dom
     var article = createReadableVersion(dom);
-    var markdown = convertArticleToMarkdown(article, message.url);
+    var markdown = convertArticleToMarkdown(article);
+
+    // add url to the top of the markdown
+    markdown = dom.baseURI + "\n\n" + markdown;
+
+    // send a message to display the markdown
     browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article });
   }
   // message for triggering download
