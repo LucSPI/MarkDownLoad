@@ -8,8 +8,7 @@ It uses the following two libraries:
 - [Turndown](https://github.com/domchristie/turndown) by Dom Christie in version 6.0.0 is used to convert the simplified HTML (from Readability.js) into markdown. (Licensed under MIT License)
 
 # Installation
-The original plugin is available for [Firefox](https://addons.mozilla.org/de/firefox/addon/markdown-clipper/) and [Google Chrome](https://chrome.google.com/webstore/detail/markdown-clipper/cjedbglnccaioiolemnfhjncicchinao).  
-TODO: Publish this version of the plugin under a different name
+The plugin is available for [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/markdownload/) and coming soon for [Google Chrome]().  
 
 # Permissions
 - Access tabs: used to access the website content when the icon in the browser bar is clicked.
