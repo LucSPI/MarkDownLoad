@@ -26,9 +26,10 @@ function convertArticleToMarkdown(article) {
 
 // function to turn the title into a valid file name
 function generateValidFileName(title) {
-  //remove < > : " / \ | ? * 
+  // remove < > : " / \ | ? * 
+  // and non-breaking spaces (thanks @Licat)
   var illegalRe = /[\/\?<>\\:\*\|":]/g;
-  var name =  title.replace(illegalRe, "");
+  var name = title.replace(illegalRe, "").replace('\u00A0', ' ');
   return name;
 }
 
