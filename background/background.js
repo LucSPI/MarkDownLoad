@@ -1,13 +1,6 @@
 // add notification listener for foreground page messages
 browser.runtime.onMessage.addListener(notify);
 
-// creates the readable article object from Readability
-function createReadableVersion(dom) {
-  var reader = new Readability(dom);
-  var article = reader.parse();
-  return article;
-}
-
 // these are the default options
 const defaultOptions = {
   headingStyle: "setext",
@@ -124,9 +117,9 @@ function notify(message) {
     }
 
     // make markdown document from the dom
-    var article = createReadableVersion(dom);
+    var article = new Readability(dom).parse();
     convertArticleToMarkdown(article, dom).then(markdown => 
-    // send a message to display the markdown
+      // send a message to display the markdown
       browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article })
     );
   }
