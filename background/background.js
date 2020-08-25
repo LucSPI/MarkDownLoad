@@ -8,20 +8,74 @@ function createReadableVersion(dom) {
   return article;
 }
 
-// convert the article content to markdown using Turndown
-function convertArticleToMarkdown(article) {
-  var turndownService = new TurndownService();
-  var markdown = turndownService.turndown(article.content);
-  
-  //add article title as header
-  markdown = "# " + article.title + "\n" + markdown;
+// these are the default options
+const defaultOptions = {
+  headingStyle: "setext",
+  hr: "***",
+  bulletListMarker: "*",
+  codeBlockStyle: "indented",
+  fence: "```",
+  emDelimiter: "_",
+  strongDelimiter: "**",
+  linkStyle: "inlined",
+  linkReferenceStyle: "full",
+  frontmatter: "{baseURI}\n\n> {excerpt}\n\n# {title}",
+  backmatter: ""
+}
 
-  //add summary if exist
-  if (article.excerpt != null) {
-    markdown = "> " + article.excerpt + "\n\n" + markdown;
+// convert the article content to markdown using Turndown
+function convertArticleToMarkdownForReal(content, options) {
+  var turndownService = new TurndownService(options);
+  var markdown = options.frontmatter + '\n' + turndownService.turndown(content)
+    + '\n' + options.backmatter;
+  return markdown;
+}
+
+function textReplace(string, article, dom) {
+  for (const key in article) {
+    if (article.hasOwnProperty(key) && key != "content") {
+      string = string.split('{' + key + '}').join(article[key]);
+    }
   }
 
-  return markdown;
+  string = string.replace("{baseURI}", dom.baseURI);
+
+  // replace date formats
+  const now = new Date();
+  const dateRegex = /{date:(.+?)}/g
+  const matches = string.match(dateRegex);
+  if (matches && matches.forEach) {
+    matches.forEach(match => {
+      const format = match.substring(6, match.length - 1);
+      const dateString = moment(now).format(format);
+      string = string.replace(match, dateString);
+    });
+  }
+
+  return string;
+}
+
+function convertArticleToMarkdown(article, dom) {
+
+  const optionsLoaded = options => {
+    let testOptions = {
+      ...options,
+      frontmatter: textReplace(options.frontmatter, article, dom),
+      backmatter: textReplace(options.backmatter, article, dom),
+    }
+    return convertArticleToMarkdownForReal(article.content, testOptions);
+  }
+
+  const onError = error => {
+    console.log(error);
+    return convertArticleToMarkdownForReal(article.content, {
+      ...defaultOptions,
+      frontmatter: textReplace(defaultOptions.frontmatter, article, dom),
+      backmatter: textReplace(defaultOptions.backmatter, article, dom),
+    });
+  }
+
+  return browser.storage.sync.get(defaultOptions).then(optionsLoaded, onError);
 }
 
 // function to turn the title into a valid file name
@@ -71,13 +125,10 @@ function notify(message) {
 
     // make markdown document from the dom
     var article = createReadableVersion(dom);
-    var markdown = convertArticleToMarkdown(article);
-
-    // add url to the top of the markdown
-    markdown = dom.baseURI + "\n\n" + markdown;
-
+    convertArticleToMarkdown(article, dom).then(markdown => 
     // send a message to display the markdown
-    browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article });
+      browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article })
+    );
   }
   // message for triggering download
   else if (message.type == "download") {

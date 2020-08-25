@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>MarkDownload Options</title>
+    <link rel="stylesheet" type="text/css" href="options.css" media="screen">
+</head>
+
+<body>
+    <h2>Custom text</h2>
+    <small>For the front- and back-matter custom text, you can use the following text replacement values.
+        Please note that not all websites will provide all values
+        <ul>
+            <li><code>{title}</code> - Article Title</li>
+            <li><code>{length}</code> - Length of the article, in characters</li>
+            <li><code>{excerpt}</code> - Article description or short excerpt from the content</li>
+            <li><code>{byline}</code> - Author metadata</li>
+            <li><code>{dir}</code> - Content direction</li>
+            <li><code>{baseURI}</code> - The url of the article</li>
+            <li><code>{date:FORMAT}</code> - The current date and time. Check the <a href="https://momentjs.com/docs/#/displaying/format/" target="_blank" rel="noopener noreferrer">format reference</a> </li>
+        </ul>
+    </small>
+    
+    <h3>Front-matter template</h3>
+    <label for="frontmatter">Enter the text here that should appear at the top of the output file.</label>
+    <span id="frontmatter" class="textarea" role="textbox" contenteditable></span>
+
+    <h3>Back-matter template</h3>
+    <label for="backmatter">Enter the text here that should appear at the bottom of the output file.</label>
+    <span id="backmatter" class="textarea" role="textbox" contenteditable></span>
+
+    <div class="status"></div>
+    <button class="save">Save</button>
+
+    <h2>Markdown conversion options</h2>
+
+    <h3>Heading Style</h3>
+    <input type="radio" name="headingStyle" id="setext" value="setext" />
+    <label for="setext">Setext-Style Headers
+        <pre>All About Dogs
+==============</pre>
+    </label>
+    <input type="radio" name="headingStyle" id="atx" value="atx" />
+    <label for="atx">Atx-Style Headers
+        <pre># All About Dogs</pre>
+    </label>
+
+    <h3>Horizontal Rule style</h3>
+    <input type="radio" name="hr" id="***" value="***" />
+    <label for="***"><code>***</code></label>
+    <input type="radio" name="hr" id="---" value="---" />
+    <label for="---"><code>---</code></label>
+    <input type="radio" name="hr" id="___" value="___" />
+    <label for="___"><code>___</code></label>
+
+    <h3>Bullet List Marker</h3>
+    <input type="radio" name="bulletListMarker" id="*" value="*" />
+    <label for="*"><code>*</code></label>
+    <input type="radio" name="bulletListMarker" id="-" value="-" />
+    <label for="-"><code>-</code></label>
+    <input type="radio" name="bulletListMarker" id="+" value="+" />
+    <label for="+"><code>+</code></label>
+
+    <h3>Code Block Style</h3>
+    <input type="radio" name="codeBlockStyle" id="indented" value="indented" />
+    <label for="indented">Intented
+        <pre>    const helloWorld = () => {
+        console.log("Hello World");
+    }</pre>
+    </label>
+    <input type="radio" name="codeBlockStyle" id="fenced" value="fenced" />
+    <label for="fenced">Fenced
+        <pre>```
+const helloWorld = () => {
+    console.log("Hello World");
+}
+```</pre>
+    </label>
+    
+    <h3>Code Block Fence</h3>
+    <input type="radio" name="fence" id="```" value="```" />
+    <label for="```"><code>```</code></label>
+    <input type="radio" name="fence" id="~~~" value="~~~" />
+    <label for="~~~"><code>~~~</code></label>
+
+    <h3>Emphesis (italics) Delimiter</h3>
+    <input type="radio" name="emDelimiter" id="_" value="_" />
+    <label for="_"><code>_italics_</code></label>
+    <input type="radio" name="emDelimiter" id="*" value="*" />
+    <label for="*"><code>*italics*</code></label>
+
+    <h3>Strong (bold) Delimiter</h3>
+    <input type="radio" name="strongDelimiter" id="**" value="**" />
+    <label for="**"><code>**bold**</code></label>
+    <input type="radio" name="strongDelimiter" id="__" value="__" />
+    <label for="__"><code>__bold__</code></label>
+
+    <h3>Link Style</h3>
+    <input type="radio" name="linkStyle" id="inlined" value="inlined" />
+    <label for="inlined">Inlined
+        <pre>[Google](http://google.com)</pre>
+    </label>
+    <input type="radio" name="linkStyle" id="referenced" value="referenced" />
+    <label for="referenced">Referenced
+        <pre>[Google]
+
+[Google]: http://google.com</pre>
+    </label>
+
+    <h3>Link Reference Style</h3>
+    <input type="radio" name="linkReferenceStyle" id="full" value="full" />
+    <label for="full">Full</label>
+    <input type="radio" name="linkReferenceStyle" id="collapsed" value="collapsed" />
+    <label for="collapsed">Collapsed</label>
+    <input type="radio" name="linkReferenceStyle" id="shortcut" value="shortcut" />
+    <label for="shortcut">Shortcut</label>
+
+    <div class="status"></div>
+    <button class="save">Save</button>
+
+    <script src="../browser-polyfill.min.js"></script>
+    <script src="options.js"></script>
+</body>
+
+</html>
