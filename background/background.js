@@ -1,6 +1,3 @@
-// add notification listener for foreground page messages
-browser.runtime.onMessage.addListener(notify);
-
 // these are the default options
 const defaultOptions = {
   headingStyle: "setext",
@@ -19,23 +16,27 @@ const defaultOptions = {
   saveAs: false
 }
 
-// convert the article content to markdown using Turndown
-function convertArticleToMarkdownForReal(content, options) {
+// add notification listener for foreground page messages
+browser.runtime.onMessage.addListener(notify);
+// create context menus
+createMenus();
+
+// function to convert the article content to markdown using Turndown
+function turndown(content, options) {
   var turndownService = new TurndownService(options);
   var markdown = options.frontmatter + turndownService.turndown(content)
     + options.backmatter;
   return markdown;
 }
 
-function textReplace(string, article, dom) {
+// function to replace placeholder strings with article info
+function textReplace(string, article) {
   for (const key in article) {
     if (article.hasOwnProperty(key) && key != "content") {
       const s = article[key] || '';
       string = string.split('{' + key + '}').join(s);
     }
   }
-
-  string = string.replace("{baseURI}", dom.baseURI);
 
   // replace date formats
   const now = new Date();
@@ -52,27 +53,31 @@ function textReplace(string, article, dom) {
   return string;
 }
 
-function convertArticleToMarkdown(article, dom) {
+// function to get the options from storage and substitute default options if it fails
+async function getOptions() {
+  let options = defaultOptions;
+  try {
+    options = await browser.storage.sync.get(defaultOptions);
+  } catch (err) {
+    console.error(err);
+  }
+  return options;
+}
 
-  const optionsLoaded = options => {
-    let testOptions = {
-      ...options,
-      frontmatter: !options.includeTemplate ? '' : (textReplace(options.frontmatter, article, dom) + '\n'),
-      backmatter: !options.includeTemplate ? '' : ('\n' + textReplace(options.backmatter, article, dom)),
-    }
-    return convertArticleToMarkdownForReal(article.content, testOptions);
+// function to convert an article info object into markdown
+async function convertArticleToMarkdown(article) {
+  const options = await getOptions();
+
+  // substitute front and backmatter templates if necessary
+  if (options.includeTemplate) {
+    options.frontmatter = textReplace(options.frontmatter, article) + '\n';
+    options.backmatter = '\n' + textReplace(options.backmatter, article);
+  }
+  else {
+    options.frontmatter = options.backmatter = '';
   }
 
-  const onError = error => {
-    console.error(error);
-    return convertArticleToMarkdownForReal(article.content, {
-      ...defaultOptions,
-      frontmatter: !defaultOptions.includeTemplate ? '' : (textReplace(defaultOptions.frontmatter, article, dom) + '\n'),
-      backmatter: !defaultOptions.includeTemplate ? '' : ('\n' + textReplace(defaultOptions.backmatter, article, dom)),
-    });
-  }
-
-  return browser.storage.sync.get(defaultOptions).then(optionsLoaded, onError);
+  return turndown(article.content, options);
 }
 
 // function to turn the title into a valid file name
@@ -85,63 +90,55 @@ function generateValidFileName(title) {
 }
 
 // function to actually download the markdown file
-function downloadMarkdown(markdown, title) {
-  var blob = new Blob([markdown], {
+async function downloadMarkdown(markdown, title) {
+  // create the object url with markdown data as a blob
+  const url = URL.createObjectURL(new Blob([markdown], {
     type: "text/markdown;charset=utf-8"
-  });
-  var url = URL.createObjectURL(blob);
+  }));
 
-  browser.storage.sync.get(defaultOptions).then(options => browser.downloads.download({
-    url: url,
-    filename: generateValidFileName(title) + ".md",
-    saveAs: options.saveAs
-  })).then((id) => {
+  try {
+    // get the options (for save as)
+    const options = await getOptions();
+    // start the download
+    const id = await browser.downloads.download({
+      url: url,
+      filename: generateValidFileName(title) + ".md",
+      saveAs: options.saveAs
+    });
+    // add a listener for the download completion
     browser.downloads.onChanged.addListener((delta) => {
-      //release the url for the blob
       if (delta.state && delta.state.current == "complete") {
+        //release the url for the blob
         if (delta.id === id) {
           window.URL.revokeObjectURL(url);
         }
       }
     });
-  }).catch((err) => {
+  }
+  catch (err) {
     console.error("Download failed" + err);
-  });
+  }
 }
 
 //function that handles messages from the injected script into the site
-function notify(message) {
+async function notify(message) {
   // message for initial clipping of the dom
   if (message.type == "clip") {
+    // get the article info from the passed in dom
+    const article = await getArticleFromDom(message.dom);
 
-    // parse the dom
-    var parser = new DOMParser();
-    var dom = parser.parseFromString(message.dom, "text/html");
-    if (dom.documentElement.nodeName == "parsererror") {
-      console.error("error while parsing");
-    }
-
-    // make markdown document from the dom
-    var article = new Readability(dom).parse();
-
+    // if selection info was passed in (and we're to clip the selection)
+    // replace the article content
     if (message.selection && message.clipSelection) {
       article.content = message.selection;
     }
 
-    convertArticleToMarkdown(article, dom).then(markdown => {
-      // apply the template to the title
-      browser.storage.sync.get(defaultOptions).then(options => {
-        article.title = textReplace(options.title, article, dom);
-        browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article });
-      }).catch(err => {
-        article.title = textReplace(defaultOptions.title, article, dom);
-        browser.runtime.sendMessage({
-          type: "display.md",
-          markdown: markdown,
-          article: article
-        });
-      })
-    });
+    // convert the article to markdown
+    const markdown = await convertArticleToMarkdown(article);
+    // format the title
+    article.title = await formatTitle(article);
+    // display the data in the popup
+    await browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article });
   }
   // message for triggering download
   else if (message.type == "download") {
@@ -149,15 +146,31 @@ function notify(message) {
   }
 }
 
-browser.storage.sync.get(defaultOptions)
-  .then(options => createMenus(options))
-  .catch(error => {
-    console.error(error);
-    createMenus(defaultOptions);
-  });
+// create the context menus
+async function createMenus() {
+  const options = await getOptions();
 
-function createMenus(options) {
   browser.contextMenus.removeAll();
+
+  // download actions
+  browser.contextMenus.create({
+    id: "download-markdown-selection",
+    title: "Download Selection As Markdown",
+    contexts: ["selection"]
+  }, () => {});
+  browser.contextMenus.create({
+    id: "download-markdown-all",
+    title: "Download All As Markdown",
+    contexts: ["all"]
+  }, () => {});
+
+  browser.contextMenus.create({
+    id: "separator-1",
+    type: "separator",
+    contexts: ["all"]
+  }, () => {});
+
+  // copy to clipboard actions
   browser.contextMenus.create({
     id: "copy-markdown-selection",
     title: "Copy Selection As Markdown",
@@ -177,12 +190,15 @@ function createMenus(options) {
     id: "copy-markdown-all",
     title: "Copy All As Markdown",
     contexts: ["all"]
-  }, () => {});
+  }, () => { });
+  
   browser.contextMenus.create({
-    id: "separator-1",
+    id: "separator-2",
     type: "separator",
     contexts: ["all"]
-  }, () => {});
+  }, () => { });
+  
+  // options
   browser.contextMenus.create({
     id: "toggle-includeTemplate",
     type: "checkbox",
@@ -192,90 +208,130 @@ function createMenus(options) {
   }, () => { });
 }
 
-
-
-
+// click handler for the context menus
 browser.contextMenus.onClicked.addListener(function (info, tab) {
+  // one of the copy to clipboard commands
   if (info.menuItemId.startsWith("copy-markdown")) {
-    copyMarkdown(info, tab);
+    copyMarkdownFromContext(info, tab);
   }
+  // one of the download commands
+  else if (info.menuItemId.startsWith("download-markdown")) {
+    downloadMarkdownFromContext(info, tab);
+  }
+  // a settings toggle command
   else if (info.menuItemId.startsWith("toggle-")) {
     toggleSetting(info.menuItemId.split('-')[1]);
   }
 });
 
-function toggleSetting(setting, options = null) {
+// this function toggles the specified option
+async function toggleSetting(setting, options = null) {
+  // if there's no options object passed in, we need to go get one
   if (options == null) {
-    browser.storage.sync.get(defaultOptions)
-      .then(options => toggleSetting(setting, options))
-      .catch(error => {
-        console.error(error);
-        toggleSetting(setting, defaultOptions);
-      });
+      // get the options from storage and toggle the setting
+      await toggleSetting(setting, await getOptions());
   }
   else {
+    // toggle the option and save back to storage
     options[setting] = !options[setting];
-    browser.storage.sync.set(options);
+    await browser.storage.sync.set(options);
   }
 }
 
-function copyMarkdown(info, tab) {
+// this function ensures the content script is loaded (and loads it if it isn't)
+async function ensureScripts(tabId) {
+  const results = await browser.tabs.executeScript(tabId, { code: "typeof getSelectionAndDom === 'function';" })
+  // The content script's last expression will be true if the function
+  // has been defined. If this is not the case, then we need to run
+  // pageScraper.js to define function getSelectionAndDom.
+  if (!results || results[0] !== true) {
+    await browser.tabs.executeScript(tabId, {file: "/contentScript/contentScript.js"});
+  }
+}
 
-  browser.tabs.executeScript(tab.id, {
-    code: "typeof getHTMLOfSelection === 'function';",
-  }).then((results) => {
-    // The content script's last expression will be true if the function
-    // has been defined. If this is not the case, then we need to run
-    // pageScraper.js to define function getHTMLOfSelection.
-    if (!results || results[0] !== true) {
-      return browser.tabs.executeScript(tab.id, {
-        file: "/contentScript/contentScript.js",
-      });
+// get Readability article info from the dom passed in
+async function getArticleFromDom(domString) {
+  // parse the dom
+  const parser = new DOMParser();
+  const dom = parser.parseFromString(domString, "text/html");
+  if (dom.documentElement.nodeName == "parsererror") {
+    console.error("error while parsing");
+  }
+
+  // simplify the dom into an article
+  const article = new Readability(dom).parse();
+  // get the base uri from the dom and attach it as important article info
+  article.baseURI = dom.baseURI;
+
+  // return the article
+  return article;
+}
+
+// get Readability article info from the content of the tab id passed in
+// `selection` is a bool indicating whether we should just get the selected text
+async function getArticleFromContent(tabId, selection = false) {
+  // run the content script function to get the details
+  const results = await browser.tabs.executeScript(tabId, { code: "getSelectionAndDom()" });
+
+  // make sure we actually got a valid result
+  if (results && results[0] && results[0].dom) {
+    const article = await getArticleFromDom(results[0].dom, selection);
+
+    // if we're to grab the selection, and we've selected something,
+    // replace the article content with the selection
+    if (selection && results[0].selection) {
+      article.content = results[0].selection;
     }
-  }).then(() => {
+
+    //return the article
+    return article;
+  }
+  else return null;
+}
+
+// function to apply the title template
+async function formatTitle(article) {
+  try {
+    const options = await getOptions();
+    return textReplace(options.title, article);
+  }
+  catch (err) {
+    return textReplace(defaultOptions.title, article);
+  }
+}
+
+// function to download markdown, triggered by context menu
+async function downloadMarkdownFromContext(info, tab) {
+  await ensureScripts(tab.id);
+  const article = await getArticleFromContent(tab.id, info.menuItemId == "download-markdown-selection");
+  const title = await formatTitle(article);
+  const markdown = await convertArticleToMarkdown(article);
+  await downloadMarkdown(markdown, title); 
+
+}
+
+// function to copy markdown to the clipboard, triggered by context menu
+async function copyMarkdownFromContext(info, tab) {
+  try{
+    await ensureScripts(tab.id);
     if (info.menuItemId == "copy-markdown-link") {
-      return browser.storage.sync.get({
-        linkStyle: defaultOptions.linkStyle
-      }).then(options => {
-        var turndownService = new TurndownService(options);
-        var markdown = turndownService.turndown(`<a href="${info.linkUrl}">${info.linkText}</a>`)
-        browser.tabs.executeScript(tab.id, {
-          code: `copyToClipboard(${JSON.stringify(markdown)})`,
-        });
-      });
-    } else if (info.menuItemId == "copy-markdown-image") {
-      return browser.tabs.executeScript(tab.id, {
-        code: `copyToClipboard("![](${info.srcUrl})")`,
-      });
-    } else {
-
-      return browser.tabs.executeScript(tab.id, {
-        code: "getSelectionAndDom()",
-      }).then((results) => {
-        if (results && results[0] && results[0].dom) {
-          // parse the dom
-          var parser = new DOMParser();
-          var dom = parser.parseFromString(results[0].dom, "text/html");
-          if (dom.documentElement.nodeName == "parsererror") {
-            console.error("error while parsing");
-          }
-
-          // make markdown document from the dom
-          var article = new Readability(dom).parse();
-          if (info.menuItemId == "copy-markdown-selection" && results[0].selection) {
-            article.content = results[0].selection;
-          }
-          return convertArticleToMarkdown(article, dom);
-        }
-      }).then(markdown => {
-        return browser.tabs.executeScript(tab.id, {
-          code: `copyToClipboard(${JSON.stringify(markdown)})`,
-        });
-      });
+      const options = await getOptions();
+      options.frontmatter = options.backmatter = '';
+      const markdown = turndown(`<a href="${info.linkUrl}">${info.linkText}</a>`, options);
+      await browser.tabs.executeScript(tab.id, {code: `copyToClipboard(${JSON.stringify(markdown)})`});
     }
-  }).catch((error) => {
+    else if (info.menuItemId == "copy-markdown-image") {
+      await browser.tabs.executeScript(tab.id, {code: `copyToClipboard("![](${info.srcUrl})")`});
+    }
+    else {
+      const article = await getArticleFromContent(tab.id, info.menuItemId == "copy-markdown-selection");
+      const markdown = await convertArticleToMarkdown(article);
+      await browser.tabs.executeScript(tab.id, {code: `copyToClipboard(${JSON.stringify(markdown)})`});
+    }
+  }
+  catch (error) {
     // This could happen if the extension is not allowed to run code in
     // the page, for example if the tab is a privileged page.
     console.error("Failed to copy text: " + error);
-  });
+  };
 }
