@@ -21,10 +21,20 @@ browser.tabs.query({ currentWindow: true, active: true })
         file: "/browser-polyfill.min.js"
     }).then(() => {
         return browser.tabs.executeScript(id, {
-            file: "/contentScript/pageScraper.js"
+            file: "/contentScript/contentScript.js"
         });
     }).then( () => {
         console.log("Successfully injected");
+        return browser.tabs.executeScript(id, {
+            code: "getHTMLOfDocument()"
+        });
+    }).then((result) => {
+        if (result && result[0]) {
+            browser.runtime.sendMessage({
+                type: "clip",
+                dom: result[0]
+            });
+        }
     }).catch( (error) => {
         console.error(error);
     });

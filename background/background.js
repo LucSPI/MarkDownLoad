@@ -13,21 +13,23 @@ const defaultOptions = {
   linkStyle: "inlined",
   linkReferenceStyle: "full",
   frontmatter: "{baseURI}\n\n> {excerpt}\n\n# {title}",
-  backmatter: ""
+  backmatter: "",
+  templateInClipboard: false
 }
 
 // convert the article content to markdown using Turndown
 function convertArticleToMarkdownForReal(content, options) {
   var turndownService = new TurndownService(options);
-  var markdown = options.frontmatter + '\n' + turndownService.turndown(content)
-    + '\n' + options.backmatter;
+  var markdown = options.frontmatter + turndownService.turndown(content)
+    + options.backmatter;
   return markdown;
 }
 
 function textReplace(string, article, dom) {
   for (const key in article) {
     if (article.hasOwnProperty(key) && key != "content") {
-      string = string.split('{' + key + '}').join(article[key]);
+      const s = article[key] || '';
+      string = string.split('{' + key + '}').join(s);
     }
   }
 
@@ -48,13 +50,13 @@ function textReplace(string, article, dom) {
   return string;
 }
 
-function convertArticleToMarkdown(article, dom) {
+function convertArticleToMarkdown(article, dom, forClipboard = false) {
 
   const optionsLoaded = options => {
     let testOptions = {
       ...options,
-      frontmatter: textReplace(options.frontmatter, article, dom),
-      backmatter: textReplace(options.backmatter, article, dom),
+      frontmatter: forClipboard && !options.templateInClipboard ? '' : (textReplace(options.frontmatter, article, dom) + '\n'),
+      backmatter: forClipboard && !options.templateInClipboard ? '' : ('\n' + textReplace(options.backmatter, article, dom)),
     }
     return convertArticleToMarkdownForReal(article.content, testOptions);
   }
@@ -63,8 +65,8 @@ function convertArticleToMarkdown(article, dom) {
     console.log(error);
     return convertArticleToMarkdownForReal(article.content, {
       ...defaultOptions,
-      frontmatter: textReplace(defaultOptions.frontmatter, article, dom),
-      backmatter: textReplace(defaultOptions.backmatter, article, dom),
+      frontmatter: forClipboard && !defaultOptions.templateInClipboard ? '' : (textReplace(defaultOptions.frontmatter, article, dom) + '\n'),
+      backmatter: forClipboard && !defaultOptions.templateInClipboard ? '' : ('\n' + textReplace(defaultOptions.backmatter, article, dom)),
     });
   }
 
@@ -127,4 +129,140 @@ function notify(message) {
   else if (message.type == "download") {
     downloadMarkdown(message.markdown, message.title);
   }
+}
+
+browser.storage.sync.get(defaultOptions)
+  .then(options => createMenus(options))
+  .catch(error => {
+    console.log(error);
+    createMenus(defaultOptions);
+  });
+
+function createMenus(options) {
+  browser.contextMenus.removeAll();
+  browser.contextMenus.create({
+    id: "copy-markdown-selection",
+    title: "Copy Selection As Markdown",
+    contexts: ["selection"]
+  }, () => { });
+  browser.contextMenus.create({
+    id: "copy-markdown-link",
+    title: "Copy Link As Markdown",
+    contexts: ["link"]
+  }, () => { });
+  browser.contextMenus.create({
+    id: "copy-markdown-image",
+    title: "Copy Image As Markdown",
+    contexts: ["image"]
+  }, () => {});
+  browser.contextMenus.create({
+    id: "copy-markdown-all",
+    title: "Copy All As Markdown",
+    contexts: ["all"]
+  }, () => {});
+  browser.contextMenus.create({
+    id: "separator-1",
+    type: "separator",
+    contexts: ["all"]
+  }, () => {});
+  browser.contextMenus.create({
+    id: "toggle-templateInClipboard",
+    type: "checkbox",
+    title: "Include templates in Copy",
+    contexts: ["all"],
+    checked: options.templateInClipboard
+  }, () => { });
+}
+
+
+
+
+browser.contextMenus.onClicked.addListener(function (info, tab) {
+  if (info.menuItemId.startsWith("copy-markdown")) {
+    copyMarkdown(info, tab);
+  }
+  else if (info.menuItemId.startsWith("toggle-")) {
+    toggleSetting(info.menuItemId.split('-')[1]);
+  }
+});
+
+function toggleSetting(setting, options = null) {
+  if (options == null) {
+    browser.storage.sync.get(defaultOptions)
+      .then(options => toggleSetting(setting, options))
+      .catch(error => {
+        console.log(error);
+        toggleSetting(setting, defaultOptions);
+      });
+  }
+  else {
+    options[setting] = !options[setting];
+    browser.storage.sync.set(options);
+  }
+}
+
+function copyMarkdown(info, tab) {
+
+  browser.tabs.executeScript(tab.id, {
+    code: "typeof getHTMLOfSelection === 'function';",
+  }).then((results) => {
+    console.log('function?', results)
+    // The content script's last expression will be true if the function
+    // has been defined. If this is not the case, then we need to run
+    // pageScraper.js to define function getHTMLOfSelection.
+    if (!results || results[0] !== true) {
+      return browser.tabs.executeScript(tab.id, {
+        file: "/contentScript/contentScript.js",
+      });
+    }
+  }).then(() => {
+    console.log('executed');
+
+    if (info.menuItemId == "copy-markdown-link") {
+      return browser.storage.sync.get({
+        linkStyle: defaultOptions.linkStyle
+      }).then(options => {
+        console.log(options);
+        var turndownService = new TurndownService(options);
+        var markdown = turndownService.turndown(`<a href="${info.linkUrl}">${info.linkText}</a>`)
+        browser.tabs.executeScript(tab.id, {
+          code: `copyToClipboard(${JSON.stringify(markdown)})`,
+        });
+      });
+    } else if (info.menuItemId == "copy-markdown-image") {
+      return browser.tabs.executeScript(tab.id, {
+        code: `copyToClipboard("![](${info.srcUrl})")`,
+      });
+    } else {
+
+      return browser.tabs.executeScript(tab.id, {
+        code: "getSelectionAndDom()",
+      }).then((results) => {
+        if (results && results[0] && results[0].dom) {
+          // parse the dom
+          var parser = new DOMParser();
+          var dom = parser.parseFromString(results[0].dom, "text/html");
+          if (dom.documentElement.nodeName == "parsererror") {
+            console.error("error while parsing");
+          }
+
+          // make markdown document from the dom
+          var article = new Readability(dom).parse();
+          if (info.menuItemId == "copy-markdown-selection" && results[0].selection) {
+            article.content = results[0].selection;
+          }
+          console.log(article);
+          return convertArticleToMarkdown(article, dom, true);
+        }
+      }).then(markdown => {
+        return browser.tabs.executeScript(tab.id, {
+          code: `copyToClipboard(${JSON.stringify(markdown)})`,
+        });
+      });
+    }
+  }).catch((error) => {
+    // This could happen if the extension is not allowed to run code in
+    // the page, for example if the tab is a privileged page.
+    console.error("Failed to copy text: " + error);
+  });
 }

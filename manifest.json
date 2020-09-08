@@ -16,11 +16,13 @@
     "activeTab",
     "tabs",
     "downloads",
-    "storage"
+    "storage",
+    "contextMenus",
+    "clipboardWrite"
   ],
   "browser_action": {
     "default_title": "MarkDownload",
-    "default_popup": "popup/clipSite.html",
+    "default_popup": "popup/popup.html",
     "default_icon": {
       "16": "icons/favicon-16x16.png",
       "32": "icons/favicon-32x32.png",
