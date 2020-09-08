@@ -9,7 +9,7 @@ const defaultOptions = {
     strongDelimiter: "**",
     linkStyle: "inlined",
     linkReferenceStyle: "full",
-    templateInClipboard: false,
+    includeTemplate: false,
     frontmatter: "{baseURI}\n\n> {excerpt}\n\n# {title}",
     backmatter: ""
 }
@@ -21,7 +21,7 @@ const saveOptions = e => {
     const options = {
         frontmatter: document.getElementById("frontmatter").innerText,
         backmatter: document.getElementById("backmatter").innerText,
-        templateInClipboard: document.getElementById("templateInClipboard").checked,
+        includeTemplate: document.getElementById("includeTemplate").checked,
 
         headingStyle: getCheckedValue(document.querySelectorAll("input[name='headingStyle']")),
         hr: getCheckedValue(document.querySelectorAll("input[name='hr']")),
@@ -55,7 +55,7 @@ const restoreOptions = () => {
     const setCurrentChoice = result => {
         document.getElementById("frontmatter").innerText = result.frontmatter;
         document.getElementById("backmatter").innerText = result.backmatter;
-        document.getElementById("templateInClipboard").checked = result.templateInClipboard;
+        document.getElementById("includeTemplate").checked = result.includeTemplate;
 
         setCheckedValue(document.querySelectorAll("input[name='headingStyle']"), result.headingStyle);
         setCheckedValue(document.querySelectorAll("input[name='hr']"), result.hr);
@@ -69,7 +69,7 @@ const restoreOptions = () => {
     }
 
     const onError = error => {
-        console.log(error);
+        console.error(error);
     }
 
     browser.storage.sync.get(defaultOptions).then(setCurrentChoice, onError);

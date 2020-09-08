@@ -4,79 +4,20 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <style>
-      *{margin:0;padding:0;}
-      body {
-        width:350px;
-        height:500px;
-        border-radius: 0.5em;
-        overflow: hidden;
-      }
-      @keyframes spinner {
-        to {transform: rotate(360deg);}
-      }      
-      #spinner:before {
-        content: '';
-        box-sizing: border-box;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 20px;
-        height: 20px;
-        margin-top: -10px;
-        margin-left: -10px;
-        border-radius: 50%;
-        border-top: 2px solid #07d;
-        border-right: 2px solid transparent;
-        animation: spinner .6s linear infinite;
-      }
-      textarea#md {
-        height:calc(100% - 3em);
-        width:calc(100% - 1em);
-        border:none;
-        padding:0.5em;
-      }
-      input#title {
-        width: calc(100% - 1em);
-        padding: 0.5em;
-      }
-      #container {
-        width: 100%;
-        height: 100%;
-        display:none;
-        flex-direction: column;
-      }
-      a#download {
-        display:block;
-        width:100%;
-        height:1em;
-        padding: 1em 0;
-        background-color: #222288;
-        color: #ffffff;
-        text-align: center;
-        text-decoration: none;
-        line-height: 1em;
-      }
-      #downloadSelection {
-        width:100%;
-        height:1em;
-        padding: 1em 0;
-        background-color: black;
-        color: #ffffff;
-        text-align: center;
-        text-decoration: none;
-        line-height: 1em;
-        display: none;
-      }
-    </style>
+    <link rel="stylesheet" href="popup.css">
   </head>
 
 <body>
   <div id="container">
+    <div class="row" id="clipOption">
+      <a href="#" class="button" id="selected"><i class="check"></i>Selected Text</a>
+      <a href="#" class="button" id="document"><i class="check"></i>Entire Document</a>
+    </div>
+    <a href="#" class="button" id="includeTemplate"><i class="check"></i>Include front/back template</a>
     <input type="text" id="title"></input>
     <textarea id="md"></textarea>
-    <a href="#" id="download">Download</a>
-    <a href="#" id="downloadSelection">Download selected</a>
+    <a href="#" class="button" id="download">Download</a>
+    <a href="#" class="button" id="downloadSelection">Download selected</a>
   </div>
   <div id="spinner"></div>
   <script type="application/javascript" src="../browser-polyfill.min.js"></script>

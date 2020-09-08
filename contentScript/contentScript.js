@@ -67,7 +67,6 @@ function copyToClipboard(text) {
         // Overwrite the clipboard content.
         event.preventDefault();
         event.clipboardData.setData("text/plain", text);
-        console.log(text);
         // event.clipboardData.setData("text/html", html);
     }
     document.addEventListener("copy", oncopy, true);

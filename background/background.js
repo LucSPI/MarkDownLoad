@@ -14,7 +14,7 @@ const defaultOptions = {
   linkReferenceStyle: "full",
   frontmatter: "{baseURI}\n\n> {excerpt}\n\n# {title}",
   backmatter: "",
-  templateInClipboard: false
+  includeTemplate: false
 }
 
 // convert the article content to markdown using Turndown
@@ -50,23 +50,23 @@ function textReplace(string, article, dom) {
   return string;
 }
 
-function convertArticleToMarkdown(article, dom, forClipboard = false) {
+function convertArticleToMarkdown(article, dom) {
 
   const optionsLoaded = options => {
     let testOptions = {
       ...options,
-      frontmatter: forClipboard && !options.templateInClipboard ? '' : (textReplace(options.frontmatter, article, dom) + '\n'),
-      backmatter: forClipboard && !options.templateInClipboard ? '' : ('\n' + textReplace(options.backmatter, article, dom)),
+      frontmatter: !options.includeTemplate ? '' : (textReplace(options.frontmatter, article, dom) + '\n'),
+      backmatter: !options.includeTemplate ? '' : ('\n' + textReplace(options.backmatter, article, dom)),
     }
     return convertArticleToMarkdownForReal(article.content, testOptions);
   }
 
   const onError = error => {
-    console.log(error);
+    console.error(error);
     return convertArticleToMarkdownForReal(article.content, {
       ...defaultOptions,
-      frontmatter: forClipboard && !defaultOptions.templateInClipboard ? '' : (textReplace(defaultOptions.frontmatter, article, dom) + '\n'),
-      backmatter: forClipboard && !defaultOptions.templateInClipboard ? '' : ('\n' + textReplace(defaultOptions.backmatter, article, dom)),
+      frontmatter: !defaultOptions.includeTemplate ? '' : (textReplace(defaultOptions.frontmatter, article, dom) + '\n'),
+      backmatter: !defaultOptions.includeTemplate ? '' : ('\n' + textReplace(defaultOptions.backmatter, article, dom)),
     });
   }
 
@@ -120,6 +120,11 @@ function notify(message) {
 
     // make markdown document from the dom
     var article = new Readability(dom).parse();
+
+    if (message.selection && message.clipSelection) {
+      article.content = message.selection;
+    }
+
     convertArticleToMarkdown(article, dom).then(markdown => 
       // send a message to display the markdown
       browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article })
@@ -134,7 +139,7 @@ function notify(message) {
 browser.storage.sync.get(defaultOptions)
   .then(options => createMenus(options))
   .catch(error => {
-    console.log(error);
+    console.error(error);
     createMenus(defaultOptions);
   });
 
@@ -166,11 +171,11 @@ function createMenus(options) {
     contexts: ["all"]
   }, () => {});
   browser.contextMenus.create({
-    id: "toggle-templateInClipboard",
+    id: "toggle-includeTemplate",
     type: "checkbox",
     title: "Include templates in Copy",
     contexts: ["all"],
-    checked: options.templateInClipboard
+    checked: options.includeTemplate
   }, () => { });
 }
 
@@ -191,7 +196,7 @@ function toggleSetting(setting, options = null) {
     browser.storage.sync.get(defaultOptions)
       .then(options => toggleSetting(setting, options))
       .catch(error => {
-        console.log(error);
+        console.error(error);
         toggleSetting(setting, defaultOptions);
       });
   }
@@ -206,7 +211,6 @@ function copyMarkdown(info, tab) {
   browser.tabs.executeScript(tab.id, {
     code: "typeof getHTMLOfSelection === 'function';",
   }).then((results) => {
-    console.log('function?', results)
     // The content script's last expression will be true if the function
     // has been defined. If this is not the case, then we need to run
     // pageScraper.js to define function getHTMLOfSelection.
@@ -216,13 +220,10 @@ function copyMarkdown(info, tab) {
       });
     }
   }).then(() => {
-    console.log('executed');
-
     if (info.menuItemId == "copy-markdown-link") {
       return browser.storage.sync.get({
         linkStyle: defaultOptions.linkStyle
       }).then(options => {
-        console.log(options);
         var turndownService = new TurndownService(options);
         var markdown = turndownService.turndown(`<a href="${info.linkUrl}">${info.linkText}</a>`)
         browser.tabs.executeScript(tab.id, {
@@ -251,8 +252,7 @@ function copyMarkdown(info, tab) {
           if (info.menuItemId == "copy-markdown-selection" && results[0].selection) {
             article.content = results[0].selection;
           }
-          console.log(article);
-          return convertArticleToMarkdown(article, dom, true);
+          return convertArticleToMarkdown(article, dom);
         }
       }).then(markdown => {
         return browser.tabs.executeScript(tab.id, {
