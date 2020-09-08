@@ -12,7 +12,8 @@ const defaultOptions = {
     includeTemplate: false,
     frontmatter: "{baseURI}\n\n> {excerpt}\n\n# {title}",
     backmatter: "",
-    title: "{title}"
+    title: "{title}",
+    saveAs: false,
 }
 
 
@@ -24,6 +25,7 @@ const saveOptions = e => {
         backmatter: document.getElementById("backmatter").innerText,
         title: document.getElementById("title").value,
         includeTemplate: document.getElementById("includeTemplate").checked,
+        saveAs: document.getElementById("saveAs").checked,
 
         headingStyle: getCheckedValue(document.querySelectorAll("input[name='headingStyle']")),
         hr: getCheckedValue(document.querySelectorAll("input[name='hr']")),
@@ -59,6 +61,7 @@ const restoreOptions = () => {
         document.getElementById("backmatter").innerText = result.backmatter;
         document.getElementById("title").value = result.title;
         document.getElementById("includeTemplate").checked = result.includeTemplate;
+        document.getElementById("saveAs").checked = result.saveAs;
 
         setCheckedValue(document.querySelectorAll("input[name='headingStyle']"), result.headingStyle);
         setCheckedValue(document.querySelectorAll("input[name='hr']"), result.hr);

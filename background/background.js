@@ -15,7 +15,8 @@ const defaultOptions = {
   frontmatter: "{baseURI}\n\n> {excerpt}\n\n# {title}",
   backmatter: "",
   title: "{title}",
-  includeTemplate: false
+  includeTemplate: false,
+  saveAs: false
 }
 
 // convert the article content to markdown using Turndown
@@ -90,11 +91,12 @@ function downloadMarkdown(markdown, title) {
   });
   var url = URL.createObjectURL(blob);
 
-  browser.downloads.download({
+  browser.storage.sync.get(defaultOptions).then(options => browser.downloads.download({
     url: url,
-    filename: generateValidFileName(title) + ".md"
-  }).then((id) => {
-    browser.downloads.onChanged.addListener((delta ) => {
+    filename: generateValidFileName(title) + ".md",
+    saveAs: options.saveAs
+  })).then((id) => {
+    browser.downloads.onChanged.addListener((delta) => {
       //release the url for the blob
       if (delta.state && delta.state.current == "complete") {
         if (delta.id === id) {
@@ -103,7 +105,7 @@ function downloadMarkdown(markdown, title) {
       }
     });
   }).catch((err) => {
-    console.error("Download failed" + err)
+    console.error("Download failed" + err);
   });
 }
 
