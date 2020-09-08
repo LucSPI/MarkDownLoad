@@ -11,7 +11,8 @@ const defaultOptions = {
     linkReferenceStyle: "full",
     includeTemplate: false,
     frontmatter: "{baseURI}\n\n> {excerpt}\n\n# {title}",
-    backmatter: ""
+    backmatter: "",
+    title: "{title}"
 }
 
 
@@ -21,6 +22,7 @@ const saveOptions = e => {
     const options = {
         frontmatter: document.getElementById("frontmatter").innerText,
         backmatter: document.getElementById("backmatter").innerText,
+        title: document.getElementById("title").value,
         includeTemplate: document.getElementById("includeTemplate").checked,
 
         headingStyle: getCheckedValue(document.querySelectorAll("input[name='headingStyle']")),
@@ -55,6 +57,7 @@ const restoreOptions = () => {
     const setCurrentChoice = result => {
         document.getElementById("frontmatter").innerText = result.frontmatter;
         document.getElementById("backmatter").innerText = result.backmatter;
+        document.getElementById("title").value = result.title;
         document.getElementById("includeTemplate").checked = result.includeTemplate;
 
         setCheckedValue(document.querySelectorAll("input[name='headingStyle']"), result.headingStyle);

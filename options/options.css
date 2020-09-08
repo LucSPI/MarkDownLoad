@@ -16,6 +16,16 @@ code {
     display: inline-block;
 }
 
+#title {
+    width: calc(100% - 16px);
+    display: block;
+    border: 1px solid #ccc;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 2px 6px;
+    font-family: monospace;
+}
+
 .textarea {
     width: calc(100% - 16px);
     display: block;

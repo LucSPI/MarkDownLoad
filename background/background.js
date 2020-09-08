@@ -14,6 +14,7 @@ const defaultOptions = {
   linkReferenceStyle: "full",
   frontmatter: "{baseURI}\n\n> {excerpt}\n\n# {title}",
   backmatter: "",
+  title: "{title}",
   includeTemplate: false
 }
 
@@ -125,10 +126,20 @@ function notify(message) {
       article.content = message.selection;
     }
 
-    convertArticleToMarkdown(article, dom).then(markdown => 
-      // send a message to display the markdown
-      browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article })
-    );
+    convertArticleToMarkdown(article, dom).then(markdown => {
+      // apply the template to the title
+      browser.storage.sync.get(defaultOptions).then(options => {
+        article.title = textReplace(options.title, article, dom);
+        browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article });
+      }).catch(err => {
+        article.title = textReplace(defaultOptions.title, article, dom);
+        browser.runtime.sendMessage({
+          type: "display.md",
+          markdown: markdown,
+          article: article
+        });
+      })
+    });
   }
   // message for triggering download
   else if (message.type == "download") {

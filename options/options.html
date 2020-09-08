@@ -9,7 +9,7 @@
 
 <body>
     <h2>Custom text</h2>
-    <small>For the front- and back-matter custom text, you can use the following text replacement values.
+    <small>For the title, as well as the front- and back-matter custom text, you can use the following text replacement values.
         Please note that not all websites will provide all values
         <ul>
             <li><code>{title}</code> - Article Title</li>
@@ -21,6 +21,10 @@
             <li><code>{date:FORMAT}</code> - The current date and time. Check the <a href="https://momentjs.com/docs/#/displaying/format/" target="_blank" rel="noopener noreferrer">format reference</a> </li>
         </ul>
     </small>
+
+    <h3>Title template</h3>
+    <label for="title">Template for title/filename</label>
+    <input type="text" id="title" name="title" role="textbox" />
 
     <input name="includeTemplate" id="includeTemplate" type="checkbox" />
     <label for="includeTemplate">Append front/back template to clipped text</label>
