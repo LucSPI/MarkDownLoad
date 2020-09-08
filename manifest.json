@@ -45,6 +45,13 @@
     "chrome_style": false,
     "open_in_tab": false
   },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+M"
+      }
+    }
+  },
   "browser_specific_settings": {
     "gecko": {
       "id": "{1c5e4c6f-5530-49a3-b216-31ce7d744db0}"
