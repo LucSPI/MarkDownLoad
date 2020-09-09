@@ -39,7 +39,12 @@ const toggleClipSelection = options => {
 const toggleIncludeTemplate = options => {
     options.includeTemplate = !options.includeTemplate;
     document.querySelector("#includeTemplate > i").classList.toggle("checked");
-    browser.storage.sync.set(options).then(() => clipSite()).catch((error) => {
+    browser.storage.sync.set(options).then(() => {
+        browser.contextMenus.update("toggle-includeTemplate", {
+            checked: options.includeTemplate
+        });
+        return clipSite()
+    }).catch((error) => {
         console.error(error);
     });
 }

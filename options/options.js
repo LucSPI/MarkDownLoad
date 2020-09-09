@@ -40,6 +40,9 @@ const saveOptions = e => {
 
     browser.storage.sync.set(options)
         .then(() => {
+            browser.contextMenus.update("toggle-includeTemplate", {
+                checked: options.includeTemplate
+            });
             document.querySelectorAll(".status").forEach(statusEl => {
                 statusEl.textContent = "Options saved.";
                 statusEl.classList.remove('error');

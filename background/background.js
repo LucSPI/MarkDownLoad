@@ -152,6 +152,33 @@ async function createMenus() {
 
   browser.contextMenus.removeAll();
 
+  // tab menu (chrome does not support this)
+  try {
+    browser.contextMenus.create({
+      id: "download-markdown-tab",
+      title: "Download Tab as Markdown",
+      contexts: ["tab"]
+    }, () => {});
+
+    browser.contextMenus.create({
+      id: "download-markdown-alltabs",
+      title: "Download All Tabs as Markdown",
+      contexts: ["tab"]
+    }, () => {});
+  } catch {
+    // add the download all tabs option to the page context menu instead
+    browser.contextMenus.create({
+      id: "download-markdown-alltabs",
+      title: "Download All Tabs as Markdown",
+      contexts: ["all"]
+    }, () => { });
+    browser.contextMenus.create({
+      id: "separator-0",
+      type: "separator",
+      contexts: ["all"]
+    }, () => {});
+  }
+
   // download actions
   browser.contextMenus.create({
     id: "download-markdown-selection",
@@ -160,7 +187,7 @@ async function createMenus() {
   }, () => {});
   browser.contextMenus.create({
     id: "download-markdown-all",
-    title: "Download All As Markdown",
+    title: "Download Tab As Markdown",
     contexts: ["all"]
   }, () => {});
 
@@ -188,7 +215,7 @@ async function createMenus() {
   }, () => {});
   browser.contextMenus.create({
     id: "copy-markdown-all",
-    title: "Copy All As Markdown",
+    title: "Copy Tab As Markdown",
     contexts: ["all"]
   }, () => { });
   
@@ -202,7 +229,7 @@ async function createMenus() {
   browser.contextMenus.create({
     id: "toggle-includeTemplate",
     type: "checkbox",
-    title: "Include templates in Copy",
+    title: "Include front/back template",
     contexts: ["all"],
     checked: options.includeTemplate
   }, () => { });
@@ -213,6 +240,9 @@ browser.contextMenus.onClicked.addListener(function (info, tab) {
   // one of the copy to clipboard commands
   if (info.menuItemId.startsWith("copy-markdown")) {
     copyMarkdownFromContext(info, tab);
+  }
+  else if (info.menuItemId == "download-markdown-alltabs") {
+    downloadMarkdownForAllTabs(info);
   }
   // one of the download commands
   else if (info.menuItemId.startsWith("download-markdown")) {
@@ -334,4 +364,13 @@ async function copyMarkdownFromContext(info, tab) {
     // the page, for example if the tab is a privileged page.
     console.error("Failed to copy text: " + error);
   };
+}
+
+async function downloadMarkdownForAllTabs(info) {
+  const tabs = await browser.tabs.query({
+    currentWindow: true
+  });
+  tabs.forEach(tab => {
+    downloadMarkdownFromContext(info, tab);
+  });
 }

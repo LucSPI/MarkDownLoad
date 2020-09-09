@@ -13,6 +13,7 @@
     "512": "icons/favicon-512x512.png"
   },
   "permissions": [
+    "<all_urls>",
     "activeTab",
     "tabs",
     "downloads",
