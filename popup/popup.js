@@ -43,6 +43,11 @@ const toggleIncludeTemplate = options => {
         browser.contextMenus.update("toggle-includeTemplate", {
             checked: options.includeTemplate
         });
+        try {
+            browser.contextMenus.update("tabtoggle-includeTemplate", {
+                checked: options.includeTemplate
+            });
+        } catch { }
         return clipSite()
     }).catch((error) => {
         console.error(error);

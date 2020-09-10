@@ -43,6 +43,11 @@ const saveOptions = e => {
             browser.contextMenus.update("toggle-includeTemplate", {
                 checked: options.includeTemplate
             });
+            try {
+                browser.contextMenus.update("tabtoggle-includeTemplate", {
+                    checked: options.includeTemplate
+                });
+            } catch { }
             document.querySelectorAll(".status").forEach(statusEl => {
                 statusEl.textContent = "Options saved.";
                 statusEl.classList.remove('error');

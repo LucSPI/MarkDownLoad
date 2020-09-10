@@ -165,6 +165,20 @@ async function createMenus() {
       title: "Download All Tabs as Markdown",
       contexts: ["tab"]
     }, () => {});
+
+    browser.contextMenus.create({
+      id: "separator-0",
+      type: "separator",
+      contexts: ["tab"]
+    }, () => { });
+
+    browser.contextMenus.create({
+      id: "tabtoggle-includeTemplate",
+      type: "checkbox",
+      title: "Include front/back template",
+      contexts: ["tab"],
+      checked: options.includeTemplate
+    }, () => { });
   } catch {
     // add the download all tabs option to the page context menu instead
     browser.contextMenus.create({
@@ -249,7 +263,7 @@ browser.contextMenus.onClicked.addListener(function (info, tab) {
     downloadMarkdownFromContext(info, tab);
   }
   // a settings toggle command
-  else if (info.menuItemId.startsWith("toggle-")) {
+  else if (info.menuItemId.startsWith("toggle-") || info.menuItemId.startsWith("tabtoggle-")) {
     toggleSetting(info.menuItemId.split('-')[1]);
   }
 });
@@ -265,6 +279,16 @@ async function toggleSetting(setting, options = null) {
     // toggle the option and save back to storage
     options[setting] = !options[setting];
     await browser.storage.sync.set(options);
+    if (setting == "includeTemplate") {
+      browser.contextMenus.update("toggle-includeTemplate", {
+        checked: options.includeTemplate
+      });
+      try {
+        browser.contextMenus.update("tabtoggle-includeTemplate", {
+          checked: options.includeTemplate
+        });
+      } catch { }
+    }
   }
 }
 
