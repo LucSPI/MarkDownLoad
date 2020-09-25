@@ -1,0 +1,552 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F81B63DB251DADBD002ED8C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81B63DA251DADBD002ED8C8 /* AppDelegate.swift */; };
+		F81B63DE251DADBD002ED8C8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F81B63DC251DADBD002ED8C8 /* Main.storyboard */; };
+		F81B63E0251DADBD002ED8C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81B63DF251DADBD002ED8C8 /* ViewController.swift */; };
+		F81B63E2251DADBF002ED8C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F81B63E1251DADBF002ED8C8 /* Assets.xcassets */; };
+		F81B63E9251DADC0002ED8C8 /* MarkDownload - Markdown Web Clipper Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F81B63E8251DADC0002ED8C8 /* MarkDownload - Markdown Web Clipper Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F81B63EE251DADC0002ED8C8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F81B63ED251DADC0002ED8C8 /* Cocoa.framework */; };
+		F81B63F1251DADC0002ED8C8 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81B63F0251DADC0002ED8C8 /* SafariWebExtensionHandler.swift */; };
+		F81B640A251DADC0002ED8C8 /* background in Resources */ = {isa = PBXBuildFile; fileRef = F81B63FE251DADC0002ED8C8 /* background */; };
+		F81B640B251DADC0002ED8C8 /* xcode in Resources */ = {isa = PBXBuildFile; fileRef = F81B63FF251DADC0002ED8C8 /* xcode */; };
+		F81B640C251DADC0002ED8C8 /* options in Resources */ = {isa = PBXBuildFile; fileRef = F81B6400251DADC0002ED8C8 /* options */; };
+		F81B640D251DADC0002ED8C8 /* popup in Resources */ = {isa = PBXBuildFile; fileRef = F81B6401251DADC0002ED8C8 /* popup */; };
+		F81B640E251DADC0002ED8C8 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F81B6402251DADC0002ED8C8 /* LICENSE */; };
+		F81B640F251DADC0002ED8C8 /* browser-polyfill.min.js in Resources */ = {isa = PBXBuildFile; fileRef = F81B6403251DADC0002ED8C8 /* browser-polyfill.min.js */; };
+		F81B6410251DADC0002ED8C8 /* PRIVACY.md in Resources */ = {isa = PBXBuildFile; fileRef = F81B6404251DADC0002ED8C8 /* PRIVACY.md */; };
+		F81B6411251DADC0002ED8C8 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F81B6405251DADC0002ED8C8 /* README.md */; };
+		F81B6412251DADC0002ED8C8 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = F81B6406251DADC0002ED8C8 /* icons */; };
+		F81B6413251DADC0002ED8C8 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = F81B6407251DADC0002ED8C8 /* manifest.json */; };
+		F81B6414251DADC0002ED8C8 /* contentScript in Resources */ = {isa = PBXBuildFile; fileRef = F81B6408251DADC0002ED8C8 /* contentScript */; };
+		F81B6415251DADC0002ED8C8 /* media in Resources */ = {isa = PBXBuildFile; fileRef = F81B6409251DADC0002ED8C8 /* media */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F81B63EA251DADC0002ED8C8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F81B63CE251DADBC002ED8C8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F81B63E7251DADC0002ED8C8;
+			remoteInfo = "MarkDownload - Markdown Web Clipper Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F81B63F9251DADC0002ED8C8 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F81B63E9251DADC0002ED8C8 /* MarkDownload - Markdown Web Clipper Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F81B63D6251DADBC002ED8C8 /* MarkDownload - Markdown Web Clipper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MarkDownload - Markdown Web Clipper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F81B63D9251DADBD002ED8C8 /* MarkDownload___Markdown_Web_Clipper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MarkDownload___Markdown_Web_Clipper.entitlements"; sourceTree = "<group>"; };
+		F81B63DA251DADBD002ED8C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F81B63DD251DADBD002ED8C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F81B63DF251DADBD002ED8C8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F81B63E1251DADBF002ED8C8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F81B63E3251DADBF002ED8C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F81B63E8251DADC0002ED8C8 /* MarkDownload - Markdown Web Clipper Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "MarkDownload - Markdown Web Clipper Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F81B63ED251DADC0002ED8C8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		F81B63F0251DADC0002ED8C8 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		F81B63F2251DADC0002ED8C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F81B63F3251DADC0002ED8C8 /* MarkDownload___Markdown_Web_Clipper_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MarkDownload___Markdown_Web_Clipper_Extension.entitlements"; sourceTree = "<group>"; };
+		F81B63FE251DADC0002ED8C8 /* background */ = {isa = PBXFileReference; lastKnownFileType = folder; name = background; path = ../../../background; sourceTree = "<group>"; };
+		F81B63FF251DADC0002ED8C8 /* xcode */ = {isa = PBXFileReference; lastKnownFileType = folder; name = xcode; path = ../..; sourceTree = "<group>"; };
+		F81B6400251DADC0002ED8C8 /* options */ = {isa = PBXFileReference; lastKnownFileType = folder; name = options; path = ../../../options; sourceTree = "<group>"; };
+		F81B6401251DADC0002ED8C8 /* popup */ = {isa = PBXFileReference; lastKnownFileType = folder; name = popup; path = ../../../popup; sourceTree = "<group>"; };
+		F81B6402251DADC0002ED8C8 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE; path = ../../../LICENSE; sourceTree = "<group>"; };
+		F81B6403251DADC0002ED8C8 /* browser-polyfill.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "browser-polyfill.min.js"; path = "../../../browser-polyfill.min.js"; sourceTree = "<group>"; };
+		F81B6404251DADC0002ED8C8 /* PRIVACY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = PRIVACY.md; path = ../../../PRIVACY.md; sourceTree = "<group>"; };
+		F81B6405251DADC0002ED8C8 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../../README.md; sourceTree = "<group>"; };
+		F81B6406251DADC0002ED8C8 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../icons; sourceTree = "<group>"; };
+		F81B6407251DADC0002ED8C8 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../manifest.json; sourceTree = "<group>"; };
+		F81B6408251DADC0002ED8C8 /* contentScript */ = {isa = PBXFileReference; lastKnownFileType = folder; name = contentScript; path = ../../../contentScript; sourceTree = "<group>"; };
+		F81B6409251DADC0002ED8C8 /* media */ = {isa = PBXFileReference; lastKnownFileType = folder; name = media; path = ../../../media; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F81B63D3251DADBC002ED8C8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F81B63E5251DADC0002ED8C8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F81B63EE251DADC0002ED8C8 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F81B63CD251DADBC002ED8C8 = {
+			isa = PBXGroup;
+			children = (
+				F81B63D8251DADBC002ED8C8 /* MarkDownload - Markdown Web Clipper */,
+				F81B63EF251DADC0002ED8C8 /* MarkDownload - Markdown Web Clipper Extension */,
+				F81B63EC251DADC0002ED8C8 /* Frameworks */,
+				F81B63D7251DADBC002ED8C8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F81B63D7251DADBC002ED8C8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F81B63D6251DADBC002ED8C8 /* MarkDownload - Markdown Web Clipper.app */,
+				F81B63E8251DADC0002ED8C8 /* MarkDownload - Markdown Web Clipper Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F81B63D8251DADBC002ED8C8 /* MarkDownload - Markdown Web Clipper */ = {
+			isa = PBXGroup;
+			children = (
+				F81B63D9251DADBD002ED8C8 /* MarkDownload___Markdown_Web_Clipper.entitlements */,
+				F81B63DA251DADBD002ED8C8 /* AppDelegate.swift */,
+				F81B63DC251DADBD002ED8C8 /* Main.storyboard */,
+				F81B63DF251DADBD002ED8C8 /* ViewController.swift */,
+				F81B63E1251DADBF002ED8C8 /* Assets.xcassets */,
+				F81B63E3251DADBF002ED8C8 /* Info.plist */,
+			);
+			path = "MarkDownload - Markdown Web Clipper";
+			sourceTree = "<group>";
+		};
+		F81B63EC251DADC0002ED8C8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F81B63ED251DADC0002ED8C8 /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F81B63EF251DADC0002ED8C8 /* MarkDownload - Markdown Web Clipper Extension */ = {
+			isa = PBXGroup;
+			children = (
+				F81B63FD251DADC0002ED8C8 /* Resources */,
+				F81B63F0251DADC0002ED8C8 /* SafariWebExtensionHandler.swift */,
+				F81B63F2251DADC0002ED8C8 /* Info.plist */,
+				F81B63F3251DADC0002ED8C8 /* MarkDownload___Markdown_Web_Clipper_Extension.entitlements */,
+			);
+			path = "MarkDownload - Markdown Web Clipper Extension";
+			sourceTree = "<group>";
+		};
+		F81B63FD251DADC0002ED8C8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F81B63FE251DADC0002ED8C8 /* background */,
+				F81B63FF251DADC0002ED8C8 /* xcode */,
+				F81B6400251DADC0002ED8C8 /* options */,
+				F81B6401251DADC0002ED8C8 /* popup */,
+				F81B6402251DADC0002ED8C8 /* LICENSE */,
+				F81B6403251DADC0002ED8C8 /* browser-polyfill.min.js */,
+				F81B6404251DADC0002ED8C8 /* PRIVACY.md */,
+				F81B6405251DADC0002ED8C8 /* README.md */,
+				F81B6406251DADC0002ED8C8 /* icons */,
+				F81B6407251DADC0002ED8C8 /* manifest.json */,
+				F81B6408251DADC0002ED8C8 /* contentScript */,
+				F81B6409251DADC0002ED8C8 /* media */,
+			);
+			name = Resources;
+			path = "MarkDownload - Markdown Web Clipper Extension";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F81B63D5251DADBC002ED8C8 /* MarkDownload - Markdown Web Clipper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F81B63FA251DADC0002ED8C8 /* Build configuration list for PBXNativeTarget "MarkDownload - Markdown Web Clipper" */;
+			buildPhases = (
+				F81B63D2251DADBC002ED8C8 /* Sources */,
+				F81B63D3251DADBC002ED8C8 /* Frameworks */,
+				F81B63D4251DADBC002ED8C8 /* Resources */,
+				F81B63F9251DADC0002ED8C8 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F81B63EB251DADC0002ED8C8 /* PBXTargetDependency */,
+			);
+			name = "MarkDownload - Markdown Web Clipper";
+			productName = "MarkDownload - Markdown Web Clipper";
+			productReference = F81B63D6251DADBC002ED8C8 /* MarkDownload - Markdown Web Clipper.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F81B63E7251DADC0002ED8C8 /* MarkDownload - Markdown Web Clipper Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F81B63F6251DADC0002ED8C8 /* Build configuration list for PBXNativeTarget "MarkDownload - Markdown Web Clipper Extension" */;
+			buildPhases = (
+				F81B63E4251DADC0002ED8C8 /* Sources */,
+				F81B63E5251DADC0002ED8C8 /* Frameworks */,
+				F81B63E6251DADC0002ED8C8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MarkDownload - Markdown Web Clipper Extension";
+			productName = "MarkDownload - Markdown Web Clipper Extension";
+			productReference = F81B63E8251DADC0002ED8C8 /* MarkDownload - Markdown Web Clipper Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F81B63CE251DADBC002ED8C8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1200;
+				LastUpgradeCheck = 1200;
+				TargetAttributes = {
+					F81B63D5251DADBC002ED8C8 = {
+						CreatedOnToolsVersion = 12.0;
+					};
+					F81B63E7251DADC0002ED8C8 = {
+						CreatedOnToolsVersion = 12.0;
+					};
+				};
+			};
+			buildConfigurationList = F81B63D1251DADBC002ED8C8 /* Build configuration list for PBXProject "MarkDownload - Markdown Web Clipper" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F81B63CD251DADBC002ED8C8;
+			productRefGroup = F81B63D7251DADBC002ED8C8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F81B63D5251DADBC002ED8C8 /* MarkDownload - Markdown Web Clipper */,
+				F81B63E7251DADC0002ED8C8 /* MarkDownload - Markdown Web Clipper Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F81B63D4251DADBC002ED8C8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F81B63E2251DADBF002ED8C8 /* Assets.xcassets in Resources */,
+				F81B63DE251DADBD002ED8C8 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F81B63E6251DADC0002ED8C8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F81B640C251DADC0002ED8C8 /* options in Resources */,
+				F81B640D251DADC0002ED8C8 /* popup in Resources */,
+				F81B6413251DADC0002ED8C8 /* manifest.json in Resources */,
+				F81B640F251DADC0002ED8C8 /* browser-polyfill.min.js in Resources */,
+				F81B6412251DADC0002ED8C8 /* icons in Resources */,
+				F81B640B251DADC0002ED8C8 /* xcode in Resources */,
+				F81B6414251DADC0002ED8C8 /* contentScript in Resources */,
+				F81B640A251DADC0002ED8C8 /* background in Resources */,
+				F81B6410251DADC0002ED8C8 /* PRIVACY.md in Resources */,
+				F81B6415251DADC0002ED8C8 /* media in Resources */,
+				F81B6411251DADC0002ED8C8 /* README.md in Resources */,
+				F81B640E251DADC0002ED8C8 /* LICENSE in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F81B63D2251DADBC002ED8C8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F81B63E0251DADBD002ED8C8 /* ViewController.swift in Sources */,
+				F81B63DB251DADBD002ED8C8 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F81B63E4251DADC0002ED8C8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F81B63F1251DADC0002ED8C8 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F81B63EB251DADC0002ED8C8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F81B63E7251DADC0002ED8C8 /* MarkDownload - Markdown Web Clipper Extension */;
+			targetProxy = F81B63EA251DADC0002ED8C8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F81B63DC251DADBD002ED8C8 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F81B63DD251DADBD002ED8C8 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F81B63F4251DADC0002ED8C8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F81B63F5251DADC0002ED8C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		F81B63F7251DADC0002ED8C8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "MarkDownload - Markdown Web Clipper Extension/MarkDownload___Markdown_Web_Clipper_Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HA7UGB559W;
+				INFOPLIST_FILE = "MarkDownload - Markdown Web Clipper Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "au.death.MarkDownload---Markdown-Web-Clipper-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F81B63F8251DADC0002ED8C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "MarkDownload - Markdown Web Clipper Extension/MarkDownload___Markdown_Web_Clipper_Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HA7UGB559W;
+				INFOPLIST_FILE = "MarkDownload - Markdown Web Clipper Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "au.death.MarkDownload---Markdown-Web-Clipper-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		F81B63FB251DADC0002ED8C8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "MarkDownload - Markdown Web Clipper/MarkDownload___Markdown_Web_Clipper.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = HA7UGB559W;
+				INFOPLIST_FILE = "MarkDownload - Markdown Web Clipper/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "au.death.MarkDownload---Markdown-Web-Clipper";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F81B63FC251DADC0002ED8C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "MarkDownload - Markdown Web Clipper/MarkDownload___Markdown_Web_Clipper.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = HA7UGB559W;
+				INFOPLIST_FILE = "MarkDownload - Markdown Web Clipper/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_BUNDLE_IDENTIFIER = "au.death.MarkDownload---Markdown-Web-Clipper";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F81B63D1251DADBC002ED8C8 /* Build configuration list for PBXProject "MarkDownload - Markdown Web Clipper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F81B63F4251DADC0002ED8C8 /* Debug */,
+				F81B63F5251DADC0002ED8C8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F81B63F6251DADC0002ED8C8 /* Build configuration list for PBXNativeTarget "MarkDownload - Markdown Web Clipper Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F81B63F7251DADC0002ED8C8 /* Debug */,
+				F81B63F8251DADC0002ED8C8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F81B63FA251DADC0002ED8C8 /* Build configuration list for PBXNativeTarget "MarkDownload - Markdown Web Clipper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F81B63FB251DADC0002ED8C8 /* Debug */,
+				F81B63FC251DADC0002ED8C8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F81B63CE251DADBC002ED8C8 /* Project object */;
+}

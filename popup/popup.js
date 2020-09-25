@@ -135,13 +135,19 @@ browser.runtime.onMessage.addListener(notify);
 function sendDownloadMessage(text) {
     if (text != null) {
 
-        var message = {
-            type: "download",
-            markdown: text,
-            title: document.getElementById("title").value
-        };
-
-        browser.runtime.sendMessage(message);
+        browser.tabs.query({
+            currentWindow: true,
+            active: true
+        }).then(tabs => {
+            var message = {
+                type: "download",
+                markdown: text,
+                title: document.getElementById("title").value,
+                tab: tabs[0]
+            };
+    
+            browser.runtime.sendMessage(message);
+        });
     }
 }
 

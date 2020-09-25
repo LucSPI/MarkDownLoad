@@ -74,3 +74,13 @@ function copyToClipboard(text) {
     // Requires the clipboardWrite permission, or a user gesture:
     document.execCommand("copy");
 }
+
+function downloadMarkdown(filename, text) {
+    console.log("downloadMarkdown", filename, text);
+    //name=${filename};
+    let datauri = `data:text/markdown;base64,${text}`;
+    var link = document.createElement('a');
+    link.download = filename;
+    link.href = datauri;
+    link.click();
+}

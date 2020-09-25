@@ -90,34 +90,60 @@ function generateValidFileName(title) {
 }
 
 // function to actually download the markdown file
-async function downloadMarkdown(markdown, title) {
+async function downloadMarkdown(markdown, title, tabId) {
+  const filename = generateValidFileName(title) + ".md";
+  if(browser.downloads) {
   // create the object url with markdown data as a blob
   const url = URL.createObjectURL(new Blob([markdown], {
     type: "text/markdown;charset=utf-8"
   }));
-
-  try {
-    // get the options (for save as)
-    const options = await getOptions();
-    // start the download
-    const id = await browser.downloads.download({
-      url: url,
-      filename: generateValidFileName(title) + ".md",
-      saveAs: options.saveAs
-    });
-    // add a listener for the download completion
-    browser.downloads.onChanged.addListener((delta) => {
-      if (delta.state && delta.state.current == "complete") {
-        //release the url for the blob
-        if (delta.id === id) {
-          window.URL.revokeObjectURL(url);
+    try {
+      // get the options (for save as)
+      const options = await getOptions();
+      // start the download
+      const id = await browser.downloads.download({
+        url: url,
+        filename: generateValidFileName(title) + ".md",
+        saveAs: options.saveAs
+      });
+      // add a listener for the download completion
+      browser.downloads.onChanged.addListener((delta) => {
+        if (delta.state && delta.state.current == "complete") {
+          //release the url for the blob
+          if (delta.id === id) {
+            window.URL.revokeObjectURL(url);
+          }
         }
-      }
-    });
+      });
+    }
+    catch (err) {
+      console.error("Download failed" + err);
+    }
   }
-  catch (err) {
-    console.error("Download failed" + err);
+  else {
+
+    try{
+      await ensureScripts(tabId);
+      const code = `downloadMarkdown("${filename}","${base64EncodeUnicode(markdown)}");`
+      console.log("code",code);
+      await browser.tabs.executeScript(tabId, {code: code});
+    }
+    catch (error) {
+      // This could happen if the extension is not allowed to run code in
+      // the page, for example if the tab is a privileged page.
+      console.error("Failed to execute script: " + error);
+    };
   }
+}
+
+function base64EncodeUnicode(str) {
+  // Firstly, escape the string using encodeURIComponent to get the UTF-8 encoding of the characters, 
+  // Secondly, we convert the percent encodings into raw bytes, and add it to btoa() function.
+  const utf8Bytes = encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (match, p1) {
+    return String.fromCharCode('0x' + p1);
+  });
+
+  return btoa(utf8Bytes);
 }
 
 //function that handles messages from the injected script into the site
@@ -142,7 +168,7 @@ async function notify(message) {
   }
   // message for triggering download
   else if (message.type == "download") {
-    downloadMarkdown(message.markdown, message.title);
+    downloadMarkdown(message.markdown, message.title, message.tab.id);
   }
 }
 
@@ -180,18 +206,19 @@ async function createMenus() {
       checked: options.includeTemplate
     }, () => { });
   } catch {
-    // add the download all tabs option to the page context menu instead
-    browser.contextMenus.create({
-      id: "download-markdown-alltabs",
-      title: "Download All Tabs as Markdown",
-      contexts: ["all"]
-    }, () => { });
-    browser.contextMenus.create({
-      id: "separator-0",
-      type: "separator",
-      contexts: ["all"]
-    }, () => {});
+
   }
+  // add the download all tabs option to the page context menu as well
+  browser.contextMenus.create({
+    id: "download-markdown-alltabs",
+    title: "Download All Tabs as Markdown",
+    contexts: ["all"]
+  }, () => { });
+  browser.contextMenus.create({
+    id: "separator-0",
+    type: "separator",
+    contexts: ["all"]
+  }, () => {});
 
   // download actions
   browser.contextMenus.create({
@@ -360,7 +387,7 @@ async function downloadMarkdownFromContext(info, tab) {
   const article = await getArticleFromContent(tab.id, info.menuItemId == "download-markdown-selection");
   const title = await formatTitle(article);
   const markdown = await convertArticleToMarkdown(article);
-  await downloadMarkdown(markdown, title); 
+  await downloadMarkdown(markdown, title, tab.id); 
 
 }
 
