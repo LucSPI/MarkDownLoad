@@ -234,6 +234,12 @@ async function createMenus() {
     }, () => {});
 
     browser.contextMenus.create({
+      id: "copy-tab-as-markdown-link-tab",
+      title: "Copy Tab URL as Markdown Link",
+      contexts: ["tab"]
+    }, () => {});
+
+    browser.contextMenus.create({
       id: "tab-separator-1",
       type: "separator",
       contexts: ["tab"]
@@ -300,6 +306,11 @@ async function createMenus() {
     title: "Copy Tab As Markdown",
     contexts: ["all"]
   }, () => { });
+  browser.contextMenus.create({
+    id: "copy-tab-as-markdown-link",
+    title: "Copy Tab URL as Markdown Link",
+    contexts: ["all"]
+  }, () => {});
   
   browser.contextMenus.create({
     id: "separator-2",
@@ -329,6 +340,10 @@ browser.contextMenus.onClicked.addListener(function (info, tab) {
   // one of the download commands
   else if (info.menuItemId.startsWith("download-markdown")) {
     downloadMarkdownFromContext(info, tab);
+  }
+  // copy tab as markdown link
+  else if (info.menuItemId.startsWith("copy-tab-as-markdown-link")) {
+    copyTabAsMarkdownLink(tab);
   }
   // a settings toggle command
   else if (info.menuItemId.startsWith("toggle-") || info.menuItemId.startsWith("tabtoggle-")) {
@@ -432,6 +447,21 @@ async function downloadMarkdownFromContext(info, tab) {
   const { markdown, imageList } = await convertArticleToMarkdown(article);
   await downloadMarkdown(markdown, title, tab.id, imageList); 
 
+}
+
+// function to copy a tab url as a markdown link
+async function copyTabAsMarkdownLink(tab) {
+  try {
+    await ensureScripts(tab.id);
+    const article = await getArticleFromContent(tab.id);
+    const title = await formatTitle(article);
+    await browser.tabs.executeScript(tab.id, {code: `copyToClipboard("[${title}](${article.baseURI})")`});
+  }
+  catch (error) {
+    // This could happen if the extension is not allowed to run code in
+    // the page, for example if the tab is a privileged page.
+    console.error("Failed to copy as markdown link: " + error);
+  };
 }
 
 // function to copy markdown to the clipboard, triggered by context menu
