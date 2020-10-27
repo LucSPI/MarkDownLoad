@@ -144,7 +144,7 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
       // start the download
       const id = await browser.downloads.download({
         url: url,
-        filename: generateValidFileName(title, options.disallowedChars) + ".md",
+        filename: title + ".md",
         saveAs: options.saveAs
       });
       // add a listener for the download completion
