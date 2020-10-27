@@ -439,15 +439,17 @@ async function getArticleFromContent(tabId, selection = false) {
 
 // function to apply the title template
 async function formatTitle(article) {
+  let options = defaultOptions;
   try {
-    const options = await getOptions();
-    const title = generateValidFileName(textReplace(options.title, article), options.disallowedChars);
-    console.log("TITLE", title)
-    return title;
+    options = await getOptions();
   }
   catch (err) {
-    return generateValidFileName(textReplace(defaultOptions.title, article), defaultOptions.disallowedChars);
+    options = defaultOptions
   }
+  
+  let title = textReplace(options.title, article)
+  title = title.split('/').map(s=>generateValidFileName(s, options.disallowedChars)).join('/');
+  return title;
 }
 
 // function to download markdown, triggered by context menu
