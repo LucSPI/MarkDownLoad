@@ -15,7 +15,8 @@ const defaultOptions = {
   includeTemplate: false,
   saveAs: false,
   downloadImages: false,
-  imagePrefix: '{title}/'
+  imagePrefix: '{title}/',
+  disallowedChars: '[]#^'
 }
 
 // add notification listener for foreground page messages
@@ -73,7 +74,7 @@ function textReplace(string, article) {
     matches.forEach(match => {
       const format = match.substring(6, match.length - 1);
       const dateString = moment(now).format(format);
-      string = string.replace(match, dateString);
+      string = string.replaceAll(match, dateString);
     });
   }
 
@@ -108,17 +109,24 @@ async function convertArticleToMarkdown(article, downloadImages = null) {
   }
 
   options.imagePrefix = textReplace(options.imagePrefix, article)
-    .split('/').map(s=>generateValidFileName(s)).join('/');
+    .split('/').map(s=>generateValidFileName(s, options.disallowedChars)).join('/');
 
   return turndown(article.content, options);
 }
 
 // function to turn the title into a valid file name
-function generateValidFileName(title) {
+function generateValidFileName(title, disallowedChars = null) {
   // remove < > : " / \ | ? * 
-  // and non-breaking spaces (thanks @Licat)
   var illegalRe = /[\/\?<>\\:\*\|":]/g;
-  var name = title.replace(illegalRe, "").replace('\u00A0', ' ');
+  // and non-breaking spaces (thanks @Licat)
+  var name = title.replaceAll(illegalRe, "").replaceAll('\u00A0', ' ');
+
+  if (disallowedChars) {
+    for (let c of disallowedChars) {
+      name = name.replaceAll(c, '');
+    }
+  }
+
   return name;
 }
 
@@ -136,7 +144,7 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
       // start the download
       const id = await browser.downloads.download({
         url: url,
-        filename: generateValidFileName(title) + ".md",
+        filename: generateValidFileName(title, options.disallowedChars) + ".md",
         saveAs: options.saveAs
       });
       // add a listener for the download completion
@@ -162,9 +170,10 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
   }
   else {
 
-    try{
+    try {
+      const options = await getOptions();
       await ensureScripts(tabId);
-      const filename = generateValidFileName(title) + ".md";
+      const filename = generateValidFileName(title, options.disallowedChars) + ".md";
       const code = `downloadMarkdown("${filename}","${base64EncodeUnicode(markdown)}");`
       console.log("code",code);
       await browser.tabs.executeScript(tabId, {code: code});
@@ -432,10 +441,12 @@ async function getArticleFromContent(tabId, selection = false) {
 async function formatTitle(article) {
   try {
     const options = await getOptions();
-    return textReplace(options.title, article);
+    const title = generateValidFileName(textReplace(options.title, article), options.disallowedChars);
+    console.log("TITLE", title)
+    return title;
   }
   catch (err) {
-    return textReplace(defaultOptions.title, article);
+    return generateValidFileName(textReplace(defaultOptions.title, article), defaultOptions.disallowedChars);
   }
 }
 

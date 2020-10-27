@@ -15,7 +15,8 @@ const defaultOptions = {
     title: "{title}",
     saveAs: false,
     downloadImages: false,
-    imagePrefix: '{title}/'
+    imagePrefix: '{title}/',
+    disallowedChars: '[]#^'
 }
 
 
@@ -26,6 +27,7 @@ const saveOptions = e => {
         frontmatter: document.getElementById("frontmatter").innerText,
         backmatter: document.getElementById("backmatter").innerText,
         title: document.getElementById("title").value,
+        disallowedChars: document.getElementById("disallowedChars").value,
         includeTemplate: document.getElementById("includeTemplate").checked,
         saveAs: document.getElementById("saveAs").checked,
         downloadImages: document.getElementById("downloadImages").checked,
@@ -72,6 +74,7 @@ const restoreOptions = () => {
         document.getElementById("frontmatter").innerText = result.frontmatter;
         document.getElementById("backmatter").innerText = result.backmatter;
         document.getElementById("title").value = result.title;
+        document.getElementById("disallowedChars").value = result.disallowedChars;
         document.getElementById("includeTemplate").checked = result.includeTemplate;
         document.getElementById("saveAs").checked = result.saveAs;
         document.getElementById("downloadImages").checked = result.downloadImages;
