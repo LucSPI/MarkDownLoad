@@ -11,7 +11,7 @@ You can also download all tabs in a window as Markdown files
 
 It uses the following libraries:
 - [Readability.js](https://github.com/mozilla/readability) by Mozilla in version from commit [52ab9b5c8916c306a47b2119270dcdabebf9d203](https://github.com/mozilla/readability/commit/52ab9b5c8916c306a47b2119270dcdabebf9d203#diff-06d8d22df421dacde90a2268083424ab). This library is also used for the Firefox Reader View and it simplifies the page so that only the important parts are clipped. (Licensed under Apache License Version 2.0)
-- [Turndown](https://github.com/domchristie/turndown) by Dom Christie in version 6.0.0 is used to convert the simplified HTML (from Readability.js) into markdown. (Licensed under MIT License)
+- [Turndown](https://github.com/domchristie/turndown) by Dom Christie in version 7.0.1 is used to convert the simplified HTML (from Readability.js) into markdown. (Licensed under MIT License)
 - [Moment.js](https://momentjs.com) version 2.27.0 used to format dates in template variables
 
 # Permissions
