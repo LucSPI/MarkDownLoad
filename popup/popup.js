@@ -157,6 +157,7 @@ function sendDownloadMessage(text) {
 function download(e) {
     e.preventDefault();
     sendDownloadMessage(document.getElementById("md").value);
+    window.close();
 }
 
 // event handler for download selected button
@@ -197,6 +198,8 @@ function notify(message) {
         // show the hidden elements
         document.getElementById("container").style.display = 'flex';
         document.getElementById("spinner").style.display = 'none';
+         // focus the download button
+        document.getElementById("download").focus();
     }
 }
 
