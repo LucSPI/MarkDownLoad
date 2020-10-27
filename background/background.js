@@ -13,7 +13,9 @@ const defaultOptions = {
   backmatter: "",
   title: "{title}",
   includeTemplate: false,
-  saveAs: false
+  saveAs: false,
+  downloadImages: false,
+  imagePrefix: '{title}/'
 }
 
 // add notification listener for foreground page messages
@@ -24,9 +26,32 @@ createMenus();
 // function to convert the article content to markdown using Turndown
 function turndown(content, options) {
   var turndownService = new TurndownService(options);
-  var markdown = options.frontmatter + turndownService.turndown(content)
-    + options.backmatter;
-  return markdown;
+
+  let imageList = {};
+  if (options.downloadImages) {
+    turndownService.addRule('images', {
+      filter: function (node, tdopts) {
+        if (node.nodeName == 'IMG' && node.getAttribute('src')) {
+          const src = node.getAttribute('src');
+          const imageFilename = getImageFilename(src, options);
+          imageList[src] = imageFilename;
+          node.setAttribute('src', imageFilename.split('/').map(s=>encodeURI(s)).join('/'));
+        }
+        return false;
+      }
+    });
+  }
+  console.log(content);
+  let markdown = options.frontmatter + turndownService.turndown(content)
+      + options.backmatter;
+  return { markdown: markdown, imageList: imageList };
+}
+
+function getImageFilename(src, options) {
+  const slashPos = src.lastIndexOf('/');
+  const queryPos = src.indexOf('?');
+  const filename = src.substring(slashPos+1, queryPos > 0 ? queryPos : src.length);
+  return (options.imagePrefix || '') + filename;
 }
 
 // function to replace placeholder strings with article info
@@ -65,8 +90,11 @@ async function getOptions() {
 }
 
 // function to convert an article info object into markdown
-async function convertArticleToMarkdown(article) {
+async function convertArticleToMarkdown(article, downloadImages = null) {
   const options = await getOptions();
+  if (downloadImages != null) {
+    options.downloadImages = downloadImages;
+  }
 
   // substitute front and backmatter templates if necessary
   if (options.includeTemplate) {
@@ -76,6 +104,9 @@ async function convertArticleToMarkdown(article) {
   else {
     options.frontmatter = options.backmatter = '';
   }
+
+  options.imagePrefix = textReplace(options.imagePrefix, article)
+    .split('/').map(s=>generateValidFileName(s)).join('/');
 
   return turndown(article.content, options);
 }
@@ -90,13 +121,13 @@ function generateValidFileName(title) {
 }
 
 // function to actually download the markdown file
-async function downloadMarkdown(markdown, title, tabId) {
-  const filename = generateValidFileName(title) + ".md";
-  if(browser.downloads) {
-  // create the object url with markdown data as a blob
-  const url = URL.createObjectURL(new Blob([markdown], {
-    type: "text/markdown;charset=utf-8"
-  }));
+async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
+  if (browser.downloads) {
+    // create the object url with markdown data as a blob
+    const url = URL.createObjectURL(new Blob([markdown], {
+      type: "text/markdown;charset=utf-8"
+    }));
+  
     try {
       // get the options (for save as)
       const options = await getOptions();
@@ -109,9 +140,17 @@ async function downloadMarkdown(markdown, title, tabId) {
       // add a listener for the download completion
       browser.downloads.onChanged.addListener((delta) => {
         if (delta.state && delta.state.current == "complete") {
-          //release the url for the blob
           if (delta.id === id) {
+            //release the url for the blob
             window.URL.revokeObjectURL(url);
+            Object.entries(imageList).forEach(([src, filename]) => {
+              console.log("download file", src, filename);
+              browser.downloads.download({
+                url: src,
+                filename: filename,
+                saveAs: false
+              })
+            })
           }
         }
       });
@@ -124,6 +163,7 @@ async function downloadMarkdown(markdown, title, tabId) {
 
     try{
       await ensureScripts(tabId);
+      const filename = generateValidFileName(title) + ".md";
       const code = `downloadMarkdown("${filename}","${base64EncodeUnicode(markdown)}");`
       console.log("code",code);
       await browser.tabs.executeScript(tabId, {code: code});
@@ -160,15 +200,17 @@ async function notify(message) {
     }
 
     // convert the article to markdown
-    const markdown = await convertArticleToMarkdown(article);
+    const { markdown, imageList } = await convertArticleToMarkdown(article);
+    console.log('markdown', markdown)
+    console.log('imageList', imageList);
     // format the title
     article.title = await formatTitle(article);
     // display the data in the popup
-    await browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article });
+    await browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article, imageList: imageList });
   }
   // message for triggering download
   else if (message.type == "download") {
-    downloadMarkdown(message.markdown, message.title, message.tab.id);
+    downloadMarkdown(message.markdown, message.title, message.tab.id, message.imageList);
   }
 }
 
@@ -181,25 +223,25 @@ async function createMenus() {
   // tab menu (chrome does not support this)
   try {
     browser.contextMenus.create({
-      id: "download-markdown-tab",
+      id: "tab-download-markdown-tab",
       title: "Download Tab as Markdown",
       contexts: ["tab"]
     }, () => {});
 
     browser.contextMenus.create({
-      id: "download-markdown-alltabs",
+      id: "tab-download-markdown-alltabs",
       title: "Download All Tabs as Markdown",
       contexts: ["tab"]
     }, () => {});
 
     browser.contextMenus.create({
-      id: "separator-0",
+      id: "tab-separator-1",
       type: "separator",
       contexts: ["tab"]
     }, () => { });
 
     browser.contextMenus.create({
-      id: "tabtoggle-includeTemplate",
+      id: "tab-tabtoggle-includeTemplate",
       type: "checkbox",
       title: "Include front/back template",
       contexts: ["tab"],
@@ -386,8 +428,8 @@ async function downloadMarkdownFromContext(info, tab) {
   await ensureScripts(tab.id);
   const article = await getArticleFromContent(tab.id, info.menuItemId == "download-markdown-selection");
   const title = await formatTitle(article);
-  const markdown = await convertArticleToMarkdown(article);
-  await downloadMarkdown(markdown, title, tab.id); 
+  const { markdown, imageList } = await convertArticleToMarkdown(article);
+  await downloadMarkdown(markdown, title, tab.id, imageList); 
 
 }
 
@@ -398,7 +440,7 @@ async function copyMarkdownFromContext(info, tab) {
     if (info.menuItemId == "copy-markdown-link") {
       const options = await getOptions();
       options.frontmatter = options.backmatter = '';
-      const markdown = turndown(`<a href="${info.linkUrl}">${info.linkText}</a>`, options);
+      const { markdown } = turndown(`<a href="${info.linkUrl}">${info.linkText}</a>`, { ...options, downloadImages: false });
       await browser.tabs.executeScript(tab.id, {code: `copyToClipboard(${JSON.stringify(markdown)})`});
     }
     else if (info.menuItemId == "copy-markdown-image") {
@@ -406,7 +448,7 @@ async function copyMarkdownFromContext(info, tab) {
     }
     else {
       const article = await getArticleFromContent(tab.id, info.menuItemId == "copy-markdown-selection");
-      const markdown = await convertArticleToMarkdown(article);
+      const { markdown } = await convertArticleToMarkdown(article, downloadImages = false);
       await browser.tabs.executeScript(tab.id, {code: `copyToClipboard(${JSON.stringify(markdown)})`});
     }
   }

@@ -1,6 +1,7 @@
 
 // default variables
 var selectedText = null;
+var imageList = null;
 
 // set up event handlers
 document.getElementById("md").addEventListener("select", select);
@@ -143,7 +144,8 @@ function sendDownloadMessage(text) {
                 type: "download",
                 markdown: text,
                 title: document.getElementById("title").value,
-                tab: tabs[0]
+                tab: tabs[0],
+                imageList: imageList
             };
     
             browser.runtime.sendMessage(message);
@@ -190,6 +192,7 @@ function notify(message) {
         // set the values from the message
         document.getElementById("md").value = message.markdown;
         document.getElementById("title").value = message.article.title;
+        imageList = message.imageList;
         
         // show the hidden elements
         document.getElementById("container").style.display = 'flex';

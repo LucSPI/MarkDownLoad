@@ -132,6 +132,16 @@ const helloWorld = () => {
 
     <input name="saveAs" id="saveAs" type="checkbox" />
     <label for="saveAs">Always show Save As dialog (regardless of browser setting)</label>
+
+    <hr />
+
+    <input name="downloadImages" id="downloadImages" type="checkbox" />
+    <label for="downloadImages">Download images alongside markdown files</label>
+
+    <br />
+
+    <label for="imagePrefix">Image filename prefix template: </label>
+    <input type="text" id="imagePrefix" name="imagePrefix" role="textbox" />
     
     <div class="status"></div>
     <button class="save">Save</button>

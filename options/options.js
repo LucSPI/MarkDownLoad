@@ -14,6 +14,8 @@ const defaultOptions = {
     backmatter: "",
     title: "{title}",
     saveAs: false,
+    downloadImages: false,
+    imagePrefix: '{title}/'
 }
 
 
@@ -26,6 +28,8 @@ const saveOptions = e => {
         title: document.getElementById("title").value,
         includeTemplate: document.getElementById("includeTemplate").checked,
         saveAs: document.getElementById("saveAs").checked,
+        downloadImages: document.getElementById("downloadImages").checked,
+        imagePrefix: document.getElementById("imagePrefix").value,
 
         headingStyle: getCheckedValue(document.querySelectorAll("input[name='headingStyle']")),
         hr: getCheckedValue(document.querySelectorAll("input[name='hr']")),
@@ -70,6 +74,8 @@ const restoreOptions = () => {
         document.getElementById("title").value = result.title;
         document.getElementById("includeTemplate").checked = result.includeTemplate;
         document.getElementById("saveAs").checked = result.saveAs;
+        document.getElementById("downloadImages").checked = result.downloadImages;
+        document.getElementById("imagePrefix").value = result.imagePrefix;
 
         setCheckedValue(document.querySelectorAll("input[name='headingStyle']"), result.headingStyle);
         setCheckedValue(document.querySelectorAll("input[name='hr']"), result.hr);

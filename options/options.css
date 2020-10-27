@@ -16,7 +16,7 @@ code {
     display: inline-block;
 }
 
-#title {
+input[type="text"] {
     width: calc(100% - 16px);
     display: block;
     border: 1px solid #ccc;
