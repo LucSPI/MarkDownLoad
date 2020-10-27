@@ -43,7 +43,7 @@ function turndown(content, options) {
       }
     });
   }
-  console.log(content);
+
   let markdown = options.frontmatter + turndownService.turndown(content)
       + options.backmatter;
   return { markdown: markdown, imageList: imageList };
@@ -146,7 +146,6 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
             //release the url for the blob
             window.URL.revokeObjectURL(url);
             Object.entries(imageList).forEach(([src, filename]) => {
-              console.log("download file", src, filename);
               browser.downloads.download({
                 url: src,
                 filename: filename,
@@ -203,8 +202,6 @@ async function notify(message) {
 
     // convert the article to markdown
     const { markdown, imageList } = await convertArticleToMarkdown(article);
-    console.log('markdown', markdown)
-    console.log('imageList', imageList);
     // format the title
     article.title = await formatTitle(article);
     // display the data in the popup
@@ -225,7 +222,7 @@ async function createMenus() {
   // tab menu (chrome does not support this)
   try {
     browser.contextMenus.create({
-      id: "tab-download-markdown-tab",
+      id: "download-markdown-tab",
       title: "Download Tab as Markdown",
       contexts: ["tab"]
     }, () => {});
@@ -243,7 +240,7 @@ async function createMenus() {
     }, () => { });
 
     browser.contextMenus.create({
-      id: "tab-tabtoggle-includeTemplate",
+      id: "tabtoggle-includeTemplate",
       type: "checkbox",
       title: "Include front/back template",
       contexts: ["tab"],
@@ -326,7 +323,7 @@ browser.contextMenus.onClicked.addListener(function (info, tab) {
   if (info.menuItemId.startsWith("copy-markdown")) {
     copyMarkdownFromContext(info, tab);
   }
-  else if (info.menuItemId == "download-markdown-alltabs") {
+  else if (info.menuItemId == "download-markdown-alltabs" || info.menuItemId == "tab-download-markdown-alltabs") {
     downloadMarkdownForAllTabs(info);
   }
   // one of the download commands
@@ -387,6 +384,8 @@ async function getArticleFromDom(domString) {
   const article = new Readability(dom).parse();
   // get the base uri from the dom and attach it as important article info
   article.baseURI = dom.baseURI;
+  // also grab the page title
+  article.pageTitle = dom.title;
 
   // return the article
   return article;
