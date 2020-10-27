@@ -1,7 +1,7 @@
 var TurndownService = (function () {
   'use strict';
 
-  function extend(destination) {
+  function extend (destination) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
       for (var key in source) {
@@ -11,35 +11,60 @@ var TurndownService = (function () {
     return destination
   }
 
-  function repeat(character, count) {
+  function repeat (character, count) {
     return Array(count + 1).join(character)
   }
 
   var blockElements = [
-    'address', 'article', 'aside', 'audio', 'blockquote', 'body', 'canvas',
-    'center', 'dd', 'dir', 'div', 'dl', 'dt', 'fieldset', 'figcaption',
-    'figure', 'footer', 'form', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-    'header', 'hgroup', 'hr', 'html', 'isindex', 'li', 'main', 'menu', 'nav',
-    'noframes', 'noscript', 'ol', 'output', 'p', 'pre', 'section', 'table',
-    'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'ul'
+    'ADDRESS', 'ARTICLE', 'ASIDE', 'AUDIO', 'BLOCKQUOTE', 'BODY', 'CANVAS',
+    'CENTER', 'DD', 'DIR', 'DIV', 'DL', 'DT', 'FIELDSET', 'FIGCAPTION', 'FIGURE',
+    'FOOTER', 'FORM', 'FRAMESET', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'HEADER',
+    'HGROUP', 'HR', 'HTML', 'ISINDEX', 'LI', 'MAIN', 'MENU', 'NAV', 'NOFRAMES',
+    'NOSCRIPT', 'OL', 'OUTPUT', 'P', 'PRE', 'SECTION', 'TABLE', 'TBODY', 'TD',
+    'TFOOT', 'TH', 'THEAD', 'TR', 'UL'
   ];
 
-  function isBlock(node) {
-    return blockElements.indexOf(node.nodeName.toLowerCase()) !== -1
+  function isBlock (node) {
+    return is(node, blockElements)
   }
 
   var voidElements = [
-    'area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input',
-    'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'
+    'AREA', 'BASE', 'BR', 'COL', 'COMMAND', 'EMBED', 'HR', 'IMG', 'INPUT',
+    'KEYGEN', 'LINK', 'META', 'PARAM', 'SOURCE', 'TRACK', 'WBR'
   ];
 
-  function isVoid(node) {
-    return voidElements.indexOf(node.nodeName.toLowerCase()) !== -1
+  function isVoid (node) {
+    return is(node, voidElements)
   }
 
-  var voidSelector = voidElements.join();
-  function hasVoid(node) {
-    return node.querySelector && node.querySelector(voidSelector)
+  function hasVoid (node) {
+    return has(node, voidElements)
+  }
+
+  var meaningfulWhenBlankElements = [
+    'A', 'TABLE', 'THEAD', 'TBODY', 'TFOOT', 'TH', 'TD', 'IFRAME', 'SCRIPT',
+    'AUDIO', 'VIDEO'
+  ];
+
+  function isMeaningfulWhenBlank (node) {
+    return is(node, meaningfulWhenBlankElements)
+  }
+
+  function hasMeaningfulWhenBlank (node) {
+    return has(node, meaningfulWhenBlankElements)
+  }
+
+  function is (node, tagNames) {
+    return tagNames.indexOf(node.nodeName) >= 0
+  }
+
+  function has (node, tagNames) {
+    return (
+      node.getElementsByTagName &&
+      tagNames.some(function (tagName) {
+        return node.getElementsByTagName(tagName).length
+      })
+    )
   }
 
   var rules = {};
@@ -151,7 +176,7 @@ var TurndownService = (function () {
     },
 
     replacement: function (content, node, options) {
-      var className = node.firstChild.className || '';
+      var className = node.firstChild.getAttribute('class') || '';
       var language = (className.match(/language-(\S+)/) || [null, ''])[1];
       var code = node.firstChild.textContent;
 
@@ -195,7 +220,8 @@ var TurndownService = (function () {
 
     replacement: function (content, node) {
       var href = node.getAttribute('href');
-      var title = node.title ? ' "' + node.title + '"' : '';
+      var title = cleanAttribute(node.getAttribute('title'));
+      if (title) title = ' "' + title + '"';
       return '[' + content + '](' + href + title + ')'
     }
   };
@@ -211,7 +237,8 @@ var TurndownService = (function () {
 
     replacement: function (content, node, options) {
       var href = node.getAttribute('href');
-      var title = node.title ? ' "' + node.title + '"' : '';
+      var title = cleanAttribute(node.getAttribute('title'));
+      if (title) title = ' "' + title + '"';
       var replacement;
       var reference;
 
@@ -293,19 +320,23 @@ var TurndownService = (function () {
     filter: 'img',
 
     replacement: function (content, node) {
-      var alt = node.alt || '';
+      var alt = cleanAttribute(node.getAttribute('alt'));
       var src = node.getAttribute('src') || '';
-      var title = node.title || '';
+      var title = cleanAttribute(node.getAttribute('title'));
       var titlePart = title ? ' "' + title + '"' : '';
       return src ? '![' + alt + ']' + '(' + src + titlePart + ')' : ''
     }
   };
 
+  function cleanAttribute (attribute) {
+    return attribute ? attribute.replace(/(\n+\s*)+/g, '\n') : ''
+  }
+
   /**
    * Manages a collection of rules used to convert HTML to Markdown
    */
 
-  function Rules(options) {
+  function Rules (options) {
     this.options = options;
     this._keep = [];
     this._remove = [];
@@ -361,7 +392,7 @@ var TurndownService = (function () {
     }
   };
 
-  function findRule(rules, node, options) {
+  function findRule (rules, node, options) {
     for (var i = 0; i < rules.length; i++) {
       var rule = rules[i];
       if (filterValue(rule, node, options)) return rule
@@ -369,7 +400,7 @@ var TurndownService = (function () {
     return void 0
   }
 
-  function filterValue(rule, node, options) {
+  function filterValue (rule, node, options) {
     var filter = rule.filter;
     if (typeof filter === 'string') {
       if (filter === node.nodeName.toLowerCase()) return true
@@ -414,7 +445,7 @@ var TurndownService = (function () {
    *
    * @param {Object} options
    */
-  function collapseWhitespace(options) {
+  function collapseWhitespace (options) {
     var element = options.element;
     var isBlock = options.isBlock;
     var isVoid = options.isVoid;
@@ -435,7 +466,7 @@ var TurndownService = (function () {
         var text = node.data.replace(/[ \r\n\t]+/g, ' ');
 
         if ((!prevText || / $/.test(prevText.data)) &&
-          !prevVoid && text[0] === ' ') {
+            !prevVoid && text[0] === ' ') {
           text = text.substr(1);
         }
 
@@ -486,7 +517,7 @@ var TurndownService = (function () {
    * @param {Node} node
    * @return {Node} node
    */
-  function remove(node) {
+  function remove (node) {
     var next = node.nextSibling || node.parentNode;
 
     node.parentNode.removeChild(node);
@@ -503,7 +534,7 @@ var TurndownService = (function () {
    * @param {Function} isPre
    * @return {Node}
    */
-  function next(prev, current, isPre) {
+  function next (prev, current, isPre) {
     if ((prev && prev.parentNode === current) || isPre(current)) {
       return current.nextSibling || current.parentNode
     }
@@ -521,7 +552,7 @@ var TurndownService = (function () {
    * Parsing HTML strings
    */
 
-  function canParseHTMLNatively() {
+  function canParseHTMLNatively () {
     var Parser = root.DOMParser;
     var canParse = false;
 
@@ -532,13 +563,13 @@ var TurndownService = (function () {
       if (new Parser().parseFromString('', 'text/html')) {
         canParse = true;
       }
-    } catch (e) { }
+    } catch (e) {}
 
     return canParse
   }
 
-  function createHTMLParser() {
-    var Parser = function () { };
+  function createHTMLParser () {
+    var Parser = function () {};
 
     {
       if (shouldUseActiveX()) {
@@ -563,7 +594,7 @@ var TurndownService = (function () {
     return Parser
   }
 
-  function shouldUseActiveX() {
+  function shouldUseActiveX () {
     var useActiveX = false;
     try {
       document.implementation.createHTMLDocument('').open();
@@ -575,7 +606,7 @@ var TurndownService = (function () {
 
   var HTMLParser = canParseHTMLNatively() ? root.DOMParser : createHTMLParser();
 
-  function RootNode(input) {
+  function RootNode (input) {
     var root;
     if (typeof input === 'string') {
       var doc = htmlParser().parseFromString(
@@ -599,12 +630,12 @@ var TurndownService = (function () {
   }
 
   var _htmlParser;
-  function htmlParser() {
+  function htmlParser () {
     _htmlParser = _htmlParser || new HTMLParser();
     return _htmlParser
   }
 
-  function Node(node) {
+  function Node (node) {
     node.isBlock = isBlock(node);
     node.isCode = node.nodeName.toLowerCase() === 'code' || node.parentNode.isCode;
     node.isBlank = isBlank(node);
@@ -612,16 +643,17 @@ var TurndownService = (function () {
     return node
   }
 
-  function isBlank(node) {
+  function isBlank (node) {
     return (
-      ['A', 'TH', 'TD', 'IFRAME', 'SCRIPT', 'AUDIO', 'VIDEO'].indexOf(node.nodeName) === -1 &&
-      /^\s*$/i.test(node.textContent) &&
       !isVoid(node) &&
-      !hasVoid(node)
+      !isMeaningfulWhenBlank(node) &&
+      /^\s*$/i.test(node.textContent) &&
+      !hasVoid(node) &&
+      !hasMeaningfulWhenBlank(node)
     )
   }
 
-  function flankingWhitespace(node) {
+  function flankingWhitespace (node) {
     var leading = '';
     var trailing = '';
 
@@ -642,7 +674,7 @@ var TurndownService = (function () {
     return { leading: leading, trailing: trailing }
   }
 
-  function isFlankedByWhitespace(side, node) {
+  function isFlankedByWhitespace (side, node) {
     var sibling;
     var regExp;
     var isFlanked;
@@ -684,7 +716,7 @@ var TurndownService = (function () {
     [/^(\d+)\. /g, '$1\\. ']
   ];
 
-  function TurndownService(options) {
+  function TurndownService (options) {
     if (!(this instanceof TurndownService)) return new TurndownService(options)
 
     var defaults = {
@@ -817,7 +849,7 @@ var TurndownService = (function () {
    * @type String
    */
 
-  function process(parentNode) {
+  function process (parentNode) {
     var self = this;
     return reduce.call(parentNode.childNodes, function (output, node) {
       node = new Node(node);
@@ -841,7 +873,7 @@ var TurndownService = (function () {
    * @type String
    */
 
-  function postProcess(output) {
+  function postProcess (output) {
     var self = this;
     this.rules.forEach(function (rule) {
       if (typeof rule.append === 'function') {
@@ -860,7 +892,7 @@ var TurndownService = (function () {
    * @type String
    */
 
-  function replacementForNode(node) {
+  function replacementForNode (node) {
     var rule = this.rules.forNode(node);
     var content = process.call(this, node);
     var whitespace = node.flankingWhitespace;
@@ -881,7 +913,7 @@ var TurndownService = (function () {
    * @type String
    */
 
-  function separatingNewlines(output, replacement) {
+  function separatingNewlines (output, replacement) {
     var newlines = [
       output.match(trailingNewLinesRegExp)[0],
       replacement.match(leadingNewLinesRegExp)[0]
@@ -890,7 +922,7 @@ var TurndownService = (function () {
     return maxNewlines.length < 2 ? maxNewlines : '\n\n'
   }
 
-  function join(string1, string2) {
+  function join (string1, string2) {
     var separator = separatingNewlines(string1, string2);
 
     // Remove trailing/leading newlines and replace with separator
@@ -908,7 +940,7 @@ var TurndownService = (function () {
    * @type String|Object|Array|Boolean|Number
    */
 
-  function canConvert(input) {
+  function canConvert (input) {
     return (
       input != null && (
         typeof input === 'string' ||

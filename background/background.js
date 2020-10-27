@@ -27,6 +27,8 @@ createMenus();
 function turndown(content, options) {
   var turndownService = new TurndownService(options);
 
+  turndownService.keep(['iframe']);
+
   let imageList = {};
   if (options.downloadImages) {
     turndownService.addRule('images', {
