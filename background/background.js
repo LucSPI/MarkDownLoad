@@ -468,7 +468,8 @@ async function copyTabAsMarkdownLink(tab) {
     await ensureScripts(tab.id);
     const article = await getArticleFromContent(tab.id);
     const title = await formatTitle(article);
-    await browser.tabs.executeScript(tab.id, {code: `copyToClipboard("[${title}](${article.baseURI})")`});
+    //await browser.tabs.executeScript(tab.id, { code: `copyToClipboard("[${title}](${article.baseURI})")` });
+    await navigator.clipboard.writeText(`[${title}](${article.baseURI})`);
   }
   catch (error) {
     // This could happen if the extension is not allowed to run code in
@@ -485,15 +486,18 @@ async function copyMarkdownFromContext(info, tab) {
       const options = await getOptions();
       options.frontmatter = options.backmatter = '';
       const { markdown } = turndown(`<a href="${info.linkUrl}">${info.linkText}</a>`, { ...options, downloadImages: false });
-      await browser.tabs.executeScript(tab.id, {code: `copyToClipboard(${JSON.stringify(markdown)})`});
+      //await browser.tabs.executeScript(tab.id, {code: `copyToClipboard(${JSON.stringify(markdown)})`});
+      await navigator.clipboard.writeText(markdown);
     }
     else if (info.menuItemId == "copy-markdown-image") {
       await browser.tabs.executeScript(tab.id, {code: `copyToClipboard("![](${info.srcUrl})")`});
+      await navigator.clipboard.writeText(`![](${info.srcUrl})`);
     }
     else {
       const article = await getArticleFromContent(tab.id, info.menuItemId == "copy-markdown-selection");
       const { markdown } = await convertArticleToMarkdown(article, downloadImages = false);
-      await browser.tabs.executeScript(tab.id, {code: `copyToClipboard(${JSON.stringify(markdown)})`});
+      //await browser.tabs.executeScript(tab.id, { code: `copyToClipboard(${JSON.stringify(markdown)})` });
+      await navigator.clipboard.writeText(markdown);
     }
   }
   catch (error) {
