@@ -9,6 +9,7 @@ const defaultOptions = {
   strongDelimiter: "**",
   linkStyle: "inlined",
   linkReferenceStyle: "full",
+  imageStyle: "markdown",
   frontmatter: "{baseURI}\n\n> {excerpt}\n\n# {title}",
   backmatter: "",
   title: "{title}",
@@ -36,12 +37,21 @@ function turndown(content, options) {
       filter: function (node, tdopts) {
         if (node.nodeName == 'IMG' && node.getAttribute('src')) {
           const src = node.getAttribute('src');
-          const imageFilename = getImageFilename(src, options);
+          const imageFilename = getImageFilename(src, options, false);
           imageList[src] = imageFilename;
-          node.setAttribute('src', imageFilename.split('/').map(s=>encodeURI(s)).join('/'));
+          const obsidianLink = options.imageStyle.startsWith("obsidian");
+          const localSrc = options.imageStyle === 'obsidian-nofolder'
+            ? imageFilename.substring(imageFilename.lastIndexOf('/') + 1)
+            : imageFilename.split('/').map(s => obsidianLink ? s : encodeURI(s)).join('/')
+          node.setAttribute('src', localSrc);
+          return obsidianLink;
         }
         return false;
+      },
+      replacement: function (content, node, tdopts) {
+        return `![[${node.getAttribute('src')}]]`;
       }
+
     });
   }
 
@@ -50,13 +60,13 @@ function turndown(content, options) {
   return { markdown: markdown, imageList: imageList };
 }
 
-function getImageFilename(src, options) {
+function getImageFilename(src, options, prependFilePath = true) {
   const slashPos = src.lastIndexOf('/');
   const queryPos = src.indexOf('?');
   const filename = src.substring(slashPos+1, queryPos > 0 ? queryPos : src.length);
 
   var imagePrefix = (options.imagePrefix || '');
-  if (options.title.includes('/')) {
+  if (prependFilePath && options.title.includes('/')) {
     imagePrefix = options.title.substring(0, options.title.lastIndexOf('/') + 1) + imagePrefix;
   }
 

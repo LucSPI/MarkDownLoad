@@ -9,6 +9,7 @@ const defaultOptions = {
     strongDelimiter: "**",
     linkStyle: "inlined",
     linkReferenceStyle: "full",
+    imageStyle: "markdown",
     includeTemplate: false,
     frontmatter: "{baseURI}\n\n> {excerpt}\n\n# {title}",
     backmatter: "",
@@ -41,7 +42,8 @@ const saveOptions = e => {
         emDelimiter: getCheckedValue(document.querySelectorAll("input[name='emDelimiter']")),
         strongDelimiter: getCheckedValue(document.querySelectorAll("input[name='strongDelimiter']")),
         linkStyle: getCheckedValue(document.querySelectorAll("input[name='linkStyle']")),
-        linkReferenceStyle: getCheckedValue(document.querySelectorAll("input[name='linkReferenceStyle']"))
+        linkReferenceStyle: getCheckedValue(document.querySelectorAll("input[name='linkReferenceStyle']")),
+        imageStyle: getCheckedValue(document.querySelectorAll("input[name='imageStyle']")),
     }
     console.log('frontmatter:', JSON.stringify(options.frontmatter));
 
@@ -92,6 +94,7 @@ const restoreOptions = () => {
         setCheckedValue(document.querySelectorAll("input[name='strongDelimiter']"), result.strongDelimiter);
         setCheckedValue(document.querySelectorAll("input[name='linkStyle']"), result.linkStyle);
         setCheckedValue(document.querySelectorAll("input[name='linkReferenceStyle']"), result.linkReferenceStyle);
+        setCheckedValue(document.querySelectorAll("input[name='imageStyle']"), result.imageStyle);
     }
 
     const onError = error => {

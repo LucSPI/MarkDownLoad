@@ -130,6 +130,21 @@ const helloWorld = () => {
     <input type="radio" name="linkReferenceStyle" id="shortcut" value="shortcut" />
     <label for="shortcut">Shortcut</label>
 
+    <h3>Image Style</h3>
+    <p><strong>Note:</strong> This only applies if Download Images is on.</p>
+    <input type="radio" name="imageStyle" id="markdown" value="markdown" />
+    <label for="markdown">Pure Markdown
+        <pre>![](folder/image.jpg)</pre>
+    </label>
+    <input type="radio" name="imageStyle" id="obsidian" value="obsidian" />
+    <label for="obsidian">Obsidian internal embed
+        <pre>![[folder/image.jpg]]</pre>
+    </label>
+    <input type="radio" name="imageStyle" id="obsidian-nofolder" value="obsidian-nofolder" />
+    <label for="obsidian-nofolder">Obsidian internal embed (no folder prefix)
+        <pre>![[image.jpg]]</pre>
+    </label>
+
     <div class="status"></div>
     <button class="save">Save</button>
 
