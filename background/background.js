@@ -191,7 +191,6 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
       await ensureScripts(tabId);
       const filename = generateValidFileName(title, options.disallowedChars) + ".md";
       const code = `downloadMarkdown("${filename}","${base64EncodeUnicode(markdown)}");`
-      console.log("code",code);
       await browser.tabs.executeScript(tabId, {code: code});
     }
     catch (error) {

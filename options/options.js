@@ -45,7 +45,6 @@ const saveOptions = e => {
         linkReferenceStyle: getCheckedValue(document.querySelectorAll("input[name='linkReferenceStyle']")),
         imageStyle: getCheckedValue(document.querySelectorAll("input[name='imageStyle']")),
     }
-    console.log('frontmatter:', JSON.stringify(options.frontmatter));
 
     browser.storage.sync.set(options)
         .then(() => {
