@@ -54,7 +54,13 @@ function getImageFilename(src, options) {
   const slashPos = src.lastIndexOf('/');
   const queryPos = src.indexOf('?');
   const filename = src.substring(slashPos+1, queryPos > 0 ? queryPos : src.length);
-  return (options.imagePrefix || '') + filename;
+
+  var imagePrefix = (options.imagePrefix || '');
+  if (options.title.includes('/')) {
+    imagePrefix = options.title.substring(0, options.title.lastIndexOf('/') + 1) + imagePrefix;
+  }
+
+  return imagePrefix + filename;
 }
 
 // function to replace placeholder strings with article info
