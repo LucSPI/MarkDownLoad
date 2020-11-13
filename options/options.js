@@ -24,8 +24,8 @@ const saveOptions = e => {
     e.preventDefault();
 
     const options = {
-        frontmatter: document.getElementById("frontmatter").innerText,
-        backmatter: document.getElementById("backmatter").innerText,
+        frontmatter: document.getElementById("frontmatter").value,
+        backmatter: document.getElementById("backmatter").value,
         title: document.getElementById("title").value,
         disallowedChars: document.getElementById("disallowedChars").value,
         includeTemplate: document.getElementById("includeTemplate").checked,
@@ -43,6 +43,7 @@ const saveOptions = e => {
         linkStyle: getCheckedValue(document.querySelectorAll("input[name='linkStyle']")),
         linkReferenceStyle: getCheckedValue(document.querySelectorAll("input[name='linkReferenceStyle']"))
     }
+    console.log('frontmatter:', JSON.stringify(options.frontmatter));
 
     browser.storage.sync.set(options)
         .then(() => {
@@ -71,8 +72,10 @@ const saveOptions = e => {
 
 const restoreOptions = () => {
     const setCurrentChoice = result => {
-        document.getElementById("frontmatter").innerText = result.frontmatter;
-        document.getElementById("backmatter").innerText = result.backmatter;
+        document.getElementById("frontmatter").value = result.frontmatter;
+        textareaInput.bind(document.getElementById("frontmatter"))();
+        document.getElementById("backmatter").value = result.backmatter;
+        textareaInput.bind(document.getElementById("backmatter"))();
         document.getElementById("title").value = result.title;
         document.getElementById("disallowedChars").value = result.disallowedChars;
         document.getElementById("includeTemplate").checked = result.includeTemplate;
@@ -98,8 +101,13 @@ const restoreOptions = () => {
     browser.storage.sync.get(defaultOptions).then(setCurrentChoice, onError);
 }
 
+function textareaInput(){
+    this.parentNode.dataset.value = this.value;
+}
+
 document.addEventListener("DOMContentLoaded", restoreOptions);
 document.querySelectorAll(".save").forEach(el => el.addEventListener("click", saveOptions));
+document.querySelectorAll(".input-sizer > textarea").forEach(el => el.addEventListener("input", textareaInput));
 
 /// https://www.somacon.com/p143.php
 // return the value of the radio button that is checked
