@@ -50,15 +50,17 @@
     <h2>Markdown conversion options</h2>
 
     <h3>Heading Style</h3>
-    <input type="radio" name="headingStyle" id="setext" value="setext" />
-    <label for="setext">Setext-Style Headers
-        <pre>All About Dogs
-==============</pre>
-    </label>
-    <input type="radio" name="headingStyle" id="atx" value="atx" />
-    <label for="atx">Atx-Style Headers
-        <pre># All About Dogs</pre>
-    </label>
+    <div class="radio-container">
+        <input type="radio" name="headingStyle" id="setext" value="setext" class="radio-btn" />
+        <label for="setext" class="radio-label"><span>Setext-Style Headers</span>
+            <pre>All About Dogs
+    ==============</pre>
+        </label>
+        <input type="radio" name="headingStyle" id="atx" value="atx" class="radio-btn" />
+        <label for="atx" class="radio-label"><span>Atx-Style Headers</span>
+            <pre># All About Dogs</pre>
+        </label>
+    </div>
 
     <h3>Horizontal Rule style</h3>
     <input type="radio" name="hr" id="***" value="***" />
