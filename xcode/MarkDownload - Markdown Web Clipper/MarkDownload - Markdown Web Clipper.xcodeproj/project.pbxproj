@@ -435,7 +435,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "MarkDownload - Markdown Web Clipper Extension/MarkDownload___Markdown_Web_Clipper_Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HA7UGB559W;
+				DEVELOPMENT_TEAM = 4JYKNQ5WRZ;
 				INFOPLIST_FILE = "MarkDownload - Markdown Web Clipper Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -443,7 +443,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.death.MarkDownload---Markdown-Web-Clipper-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = au.death.MarkDownload;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -455,7 +455,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "MarkDownload - Markdown Web Clipper Extension/MarkDownload___Markdown_Web_Clipper_Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HA7UGB559W;
+				DEVELOPMENT_TEAM = 4JYKNQ5WRZ;
 				INFOPLIST_FILE = "MarkDownload - Markdown Web Clipper Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -463,7 +463,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.death.MarkDownload---Markdown-Web-Clipper-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = au.death.MarkDownload;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -480,14 +480,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = HA7UGB559W;
+				DEVELOPMENT_TEAM = 4JYKNQ5WRZ;
 				INFOPLIST_FILE = "MarkDownload - Markdown Web Clipper/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.death.MarkDownload---Markdown-Web-Clipper";
+				PRODUCT_BUNDLE_IDENTIFIER = au.death.MarkDownload;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -503,14 +503,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = HA7UGB559W;
+				DEVELOPMENT_TEAM = 4JYKNQ5WRZ;
 				INFOPLIST_FILE = "MarkDownload - Markdown Web Clipper/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.death.MarkDownload---Markdown-Web-Clipper";
+				PRODUCT_BUNDLE_IDENTIFIER = au.death.MarkDownload;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};

@@ -94,6 +94,14 @@ const restoreOptions = () => {
         setCheckedValue(document.querySelectorAll("input[name='linkStyle']"), result.linkStyle);
         setCheckedValue(document.querySelectorAll("input[name='linkReferenceStyle']"), result.linkReferenceStyle);
         setCheckedValue(document.querySelectorAll("input[name='imageStyle']"), result.imageStyle);
+
+        // if browser doesn't support the download api (i.e. Safari) I can't download images at this stage...
+        // so hide all those settings
+        if(!browser.download) {
+            document.getElementById("downloadImages").checked = false;
+            document.getElementById("imageOptions").style.display = "none";
+            document.getElementById("otherOptions").style.display = "none";
+        }
     }
 
     const onError = error => {

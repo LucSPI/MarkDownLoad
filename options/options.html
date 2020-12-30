@@ -123,49 +123,53 @@ const helloWorld = () => {
     </label>
 
     <h3>Link Reference Style</h3>
-    <input type="radio" name="linkReferenceStyle" id="full" value="full" />
+    <input type="radio" name="linkReferenceStyle" id="full" value="full"  />
     <label for="full">Full</label>
     <input type="radio" name="linkReferenceStyle" id="collapsed" value="collapsed" />
     <label for="collapsed">Collapsed</label>
     <input type="radio" name="linkReferenceStyle" id="shortcut" value="shortcut" />
     <label for="shortcut">Shortcut</label>
-
-    <h3>Image Style</h3>
-    <p><strong>Note:</strong> This only applies if Download Images is on.</p>
-    <input type="radio" name="imageStyle" id="markdown" value="markdown" />
-    <label for="markdown">Pure Markdown
-        <pre>![](folder/image.jpg)</pre>
-    </label>
-    <input type="radio" name="imageStyle" id="obsidian" value="obsidian" />
-    <label for="obsidian">Obsidian internal embed
-        <pre>![[folder/image.jpg]]</pre>
-    </label>
-    <input type="radio" name="imageStyle" id="obsidian-nofolder" value="obsidian-nofolder" />
-    <label for="obsidian-nofolder">Obsidian internal embed (no folder prefix)
-        <pre>![[image.jpg]]</pre>
-    </label>
-
-    <div class="status"></div>
-    <button class="save">Save</button>
-
-    <h2>Other options</h2>
-
-    <input name="saveAs" id="saveAs" type="checkbox" />
-    <label for="saveAs">Always show Save As dialog (regardless of browser setting)</label>
-
-    <hr />
-
-    <input name="downloadImages" id="downloadImages" type="checkbox" />
-    <label for="downloadImages">Download images alongside markdown files</label>
-
-    <br />
-
-    <label for="imagePrefix">Image filename prefix template: </label>
-    <input type="text" id="imagePrefix" name="imagePrefix" role="textbox" />
     
+    <div id="imageOptions">
+        <h3>Image Style</h3>
+        <p><strong>Note:</strong> This only applies if Download Images is on.</p>
+        <input type="radio" name="imageStyle" id="markdown" value="markdown" />
+        <label for="markdown">Pure Markdown
+            <pre>![](folder/image.jpg)</pre>
+        </label>
+        <input type="radio" name="imageStyle" id="obsidian" value="obsidian" />
+        <label for="obsidian">Obsidian internal embed
+            <pre>![[folder/image.jpg]]</pre>
+        </label>
+        <input type="radio" name="imageStyle" id="obsidian-nofolder" value="obsidian-nofolder" />
+        <label for="obsidian-nofolder">Obsidian internal embed (no folder prefix)
+            <pre>![[image.jpg]]</pre>
+        </label>
+    </div>
+
     <div class="status"></div>
     <button class="save">Save</button>
 
+    <div id="otherOptions">
+        <h2>Other options</h2>
+        
+        <input name="saveAs" id="saveAs" type="checkbox" />
+        <label for="saveAs">Always show Save As dialog (regardless of browser setting)</label>
+        
+        <hr />
+        
+        <input name="downloadImages" id="downloadImages" type="checkbox" />
+        <label for="downloadImages">Download images alongside markdown files</label>
+        
+        <br />
+        
+        <label for="imagePrefix">Image filename prefix template: </label>
+        <input type="text" id="imagePrefix" name="imagePrefix" role="textbox" />
+        
+        <div class="status"></div>
+        <button class="save">Save</button>
+    </div>
+        
     <script src="../browser-polyfill.min.js"></script>
     <script src="options.js"></script>
 </body>
