@@ -91,7 +91,7 @@ function textReplace(string, article, disallowedChars = null) {
     matches.forEach(match => {
       const format = match.substring(6, match.length - 1);
       const dateString = moment(now).format(format);
-      string = string.replaceAll(match, dateString);
+      string = string.replace(new RegExp(match, 'g'), dateString);
     });
   }
 
@@ -138,11 +138,11 @@ function generateValidFileName(title, disallowedChars = null) {
   // remove < > : " / \ | ? * 
   var illegalRe = /[\/\?<>\\:\*\|":]/g;
   // and non-breaking spaces (thanks @Licat)
-  var name = title.replaceAll(illegalRe, "").replaceAll('\u00A0', ' ');
+  var name = title.replace(illegalRe, "").replace(new RegExp('\u00A0', 'g'), ' ');
   
   if (disallowedChars) {
     for (let c of disallowedChars) {
-      name = name.replaceAll(c, '');
+      name = name.replace(new RegExp(c, 'g'), '');
     }
   }
   
