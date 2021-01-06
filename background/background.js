@@ -197,7 +197,7 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
       const code = `downloadMarkdown("${filename}","${base64EncodeUnicode(markdown)}");`
       await browser.tabs.executeScript(tabId, {code: code});
       Object.entries(imageList).forEach(async ([src, imgfilename]) => {
-        console.log(`downloadImage("${imgfilename}","${src}");`);
+        console.info(`downloadImage("${imgfilename}","${src}");`);
         await browser.tabs.executeScript(tabId, {code: `downloadImage("${imgfilename}","${src}");`});
       })
     }
