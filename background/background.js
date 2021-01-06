@@ -142,6 +142,7 @@ function generateValidFileName(title, disallowedChars = null) {
   
   if (disallowedChars) {
     for (let c of disallowedChars) {
+      if (`[\\^$.|?*+()`.includes(c)) c = `\\${c}`;
       name = name.replace(new RegExp(c, 'g'), '');
     }
   }
