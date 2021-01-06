@@ -20,19 +20,22 @@ const defaultOptions = {
     disallowedChars: '[]#^'
 }
 
+let options = defaultOptions;
+let keyupTimeout = null;
+
 
 const saveOptions = e => {
     e.preventDefault();
 
-    const options = {
-        frontmatter: document.getElementById("frontmatter").value,
-        backmatter: document.getElementById("backmatter").value,
-        title: document.getElementById("title").value,
-        disallowedChars: document.getElementById("disallowedChars").value,
-        includeTemplate: document.getElementById("includeTemplate").checked,
-        saveAs: document.getElementById("saveAs").checked,
-        downloadImages: document.getElementById("downloadImages").checked,
-        imagePrefix: document.getElementById("imagePrefix").value,
+    options = {
+        frontmatter: document.querySelector("[name='frontmatter']").value,
+        backmatter: document.querySelector("[name='backmatter']").value,
+        title: document.querySelector("[name='title']").value,
+        disallowedChars: document.querySelector("[name='disallowedChars']").value,
+        includeTemplate: document.querySelector("[name='includeTemplate']").checked,
+        saveAs: document.querySelector("[name='saveAs']").checked,
+        downloadImages: document.querySelector("[name='downloadImages']").checked,
+        imagePrefix: document.querySelector("[name='imagePrefix']").value,
 
         headingStyle: getCheckedValue(document.querySelectorAll("input[name='headingStyle']")),
         hr: getCheckedValue(document.querySelectorAll("input[name='hr']")),
@@ -46,6 +49,12 @@ const saveOptions = e => {
         imageStyle: getCheckedValue(document.querySelectorAll("input[name='imageStyle']")),
     }
 
+    save();
+}
+
+const save = () => {
+    const spinner = document.getElementById("spinner");
+    spinner.style.display = "block";
     browser.storage.sync.set(options)
         .then(() => {
             browser.contextMenus.update("toggle-includeTemplate", {
@@ -56,11 +65,9 @@ const saveOptions = e => {
                     checked: options.includeTemplate
                 });
             } catch { }
-            document.querySelectorAll(".status").forEach(statusEl => {
-                statusEl.textContent = "Options saved.";
-                statusEl.classList.remove('error');
-                statusEl.classList.add('success');
-            });
+        })
+        .then(() => {
+            spinner.style.display = "none";
         })
         .catch(err => {
             document.querySelectorAll(".status").forEach(statusEl => {
@@ -68,37 +75,53 @@ const saveOptions = e => {
                 statusEl.classList.remove('success');
                 statusEl.classList.add('error');
             });
+            spinner.style.display = "none";
         });
 }
 
 const restoreOptions = () => {
     const setCurrentChoice = result => {
-        document.getElementById("frontmatter").value = result.frontmatter;
-        textareaInput.bind(document.getElementById("frontmatter"))();
-        document.getElementById("backmatter").value = result.backmatter;
-        textareaInput.bind(document.getElementById("backmatter"))();
-        document.getElementById("title").value = result.title;
-        document.getElementById("disallowedChars").value = result.disallowedChars;
-        document.getElementById("includeTemplate").checked = result.includeTemplate;
-        document.getElementById("saveAs").checked = result.saveAs;
-        document.getElementById("downloadImages").checked = result.downloadImages;
-        document.getElementById("imagePrefix").value = result.imagePrefix;
+        options = result;
+        document.querySelector("[name='frontmatter']").value = result.frontmatter;
+        textareaInput.bind(document.querySelector("[name='frontmatter']"))();
+        document.querySelector("[name='backmatter']").value = result.backmatter;
+        textareaInput.bind(document.querySelector("[name='backmatter']"))();
+        document.querySelector("[name='title']").value = result.title;
+        document.querySelector("[name='disallowedChars']").value = result.disallowedChars;
+        document.querySelector("[name='includeTemplate']").checked = result.includeTemplate;
+        document.querySelector("[name='saveAs']").checked = result.saveAs;
+        document.querySelector("[name='downloadImages']").checked = result.downloadImages;
+        document.querySelector("[name='imagePrefix']").value = result.imagePrefix;
 
-        setCheckedValue(document.querySelectorAll("input[name='headingStyle']"), result.headingStyle);
-        setCheckedValue(document.querySelectorAll("input[name='hr']"), result.hr);
-        setCheckedValue(document.querySelectorAll("input[name='bulletListMarker']"), result.bulletListMarker);
-        setCheckedValue(document.querySelectorAll("input[name='codeBlockStyle']"), result.codeBlockStyle);
-        setCheckedValue(document.querySelectorAll("input[name='fence']"), result.fence);
-        setCheckedValue(document.querySelectorAll("input[name='emDelimiter']"), result.emDelimiter);
-        setCheckedValue(document.querySelectorAll("input[name='strongDelimiter']"), result.strongDelimiter);
-        setCheckedValue(document.querySelectorAll("input[name='linkStyle']"), result.linkStyle);
-        setCheckedValue(document.querySelectorAll("input[name='linkReferenceStyle']"), result.linkReferenceStyle);
-        setCheckedValue(document.querySelectorAll("input[name='imageStyle']"), result.imageStyle);
+        setCheckedValue(document.querySelectorAll("[name='headingStyle']"), result.headingStyle);
+        setCheckedValue(document.querySelectorAll("[name='hr']"), result.hr);
+        setCheckedValue(document.querySelectorAll("[name='bulletListMarker']"), result.bulletListMarker);
+        setCheckedValue(document.querySelectorAll("[name='codeBlockStyle']"), result.codeBlockStyle);
+        setCheckedValue(document.querySelectorAll("[name='fence']"), result.fence);
+        setCheckedValue(document.querySelectorAll("[name='emDelimiter']"), result.emDelimiter);
+        setCheckedValue(document.querySelectorAll("[name='strongDelimiter']"), result.strongDelimiter);
+        setCheckedValue(document.querySelectorAll("[name='linkStyle']"), result.linkStyle);
+        setCheckedValue(document.querySelectorAll("[name='linkReferenceStyle']"), result.linkReferenceStyle);
+        setCheckedValue(document.querySelectorAll("[name='imageStyle']"), result.imageStyle);
+
+        if (options.linkStyle == "inlined") {
+            document.getElementById("linkReferenceStyle").style.height = 0;
+            document.getElementById("linkReferenceStyle").style.opacity = 0;
+        }
+        if (options.codeBlockStyle == "indented") {
+            document.getElementById("fence").style.height = 0;
+            document.getElementById("fence").style.opacity = 0;
+        }
+        if (!options.downloadImages) {
+            document.getElementById("imagePrefix").style.height = 0;
+            document.getElementById("imagePrefix").style.opacity = 0;
+        }
 
         // if browser doesn't support the download api (i.e. Safari) I can't download images at this stage...
         // so hide all those settings
-        if(!browser.download) {
-            document.getElementById("downloadImages").checked = false;
+        if (!browser.downloads) {
+            options.downloadImages = false;
+            document.querySelector("[name='downloadImages']").checked = false;
             document.getElementById("imageOptions").style.display = "none";
             document.getElementById("otherOptions").style.display = "none";
         }
@@ -115,7 +138,53 @@ function textareaInput(){
     this.parentNode.dataset.value = this.value;
 }
 
-document.addEventListener("DOMContentLoaded", restoreOptions);
+const inputChange = e => {
+    if (e.target.name == "linkStyle") {
+        const el = document.getElementById("linkReferenceStyle");
+        el.style.height = (e.target.value == "inlined") ? "0" : el.dataset.height + 'px';
+        el.style.opacity = (e.target.value == "inlined") ? "0" : "1";
+    }
+
+    if (e.target.name == "codeBlockStyle") {
+        const el = document.getElementById("fence");
+        el.style.height = (e.target.value == "indented") ? "0" : el.dataset.height + 'px';
+        el.style.opacity = (e.target.value == "indented") ? "0" :"1";
+    }
+
+    if (e.target.name == "downloadImages") {
+        const el = document.getElementById("imagePrefix");
+        el.style.height = (e.target.checked) ? el.dataset.height + 'px' : '0';
+        el.style.opacity = (e.target.checked) ? '1' : '0';
+    }
+
+    let key = e.target.name;
+    let value = e.target.value;
+    if (e.target.type == "checkbox") value = e.target.checked;
+    options[key] = value;
+    save();
+}
+
+const inputKeyup = (e) => {
+    if (keyupTimeout) clearTimeout(keyupTimeout);
+    keyupTimeout = setTimeout(inputChange, 500, e);
+}
+
+const loaded = () => {
+    document.querySelectorAll('.radio-container,.checkbox-container,.textbox-container').forEach(container => {
+        container.dataset.height = container.clientHeight;
+    });
+
+    restoreOptions();
+
+    document.querySelectorAll('input,textarea').forEach(input => {
+        if (input.tagName == "TEXTAREA" || input.type == "text") {
+            input.addEventListener('keyup', inputKeyup);
+        }
+        else input.addEventListener('change', inputChange);
+    })
+}
+
+document.addEventListener("DOMContentLoaded", loaded);
 document.querySelectorAll(".save").forEach(el => el.addEventListener("click", saveOptions));
 document.querySelectorAll(".input-sizer > textarea").forEach(el => el.addEventListener("input", textareaInput));
 

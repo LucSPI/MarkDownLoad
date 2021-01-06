@@ -3,13 +3,24 @@
 var selectedText = null;
 var imageList = null;
 
+const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 // set up event handlers
-document.getElementById("md").addEventListener("select", select);
-document.getElementById("md").addEventListener("change", select);
-document.getElementById("md").addEventListener("blur", select);
-document.getElementById("md").addEventListener("mouseup", select);
-document.getElementById("md").addEventListener("keyup", select);
-document.getElementById("md").addEventListener("click", select);
+const cm = CodeMirror.fromTextArea(document.getElementById("md"), {
+    theme: darkMode ? "xq-dark" : "xq-light",
+    mode: "markdown",
+    lineWrapping: true
+});
+cm.on("cursorActivity", (cm) => {
+    const somethingSelected = cm.somethingSelected();
+    var a = document.getElementById("downloadSelection");
+
+    if (somethingSelected) {
+        if(a.style.display != "block") a.style.display = "block";
+    }
+    else {
+        if(a.style.display != "none") a.style.display = "none";
+    }
+});
 document.getElementById("download").addEventListener("click", download);
 document.getElementById("downloadSelection").addEventListener("click", downloadSelection);
 
@@ -20,18 +31,18 @@ const defaultOptions = {
 
 const checkInitialSettings = options => {
     if (options.includeTemplate)
-        document.querySelector("#includeTemplate > i").classList.add("checked");
+        document.querySelector("#includeTemplate").classList.add("checked");
 
     if (options.clipSelection)
-        document.querySelector("#selected > i").classList.add("checked");
+        document.querySelector("#selected").classList.add("checked");
     else
-        document.querySelector("#document > i").classList.add("checked");
+        document.querySelector("#document").classList.add("checked");
 }
 
 const toggleClipSelection = options => {
     options.clipSelection = !options.clipSelection;
-    document.querySelector("#selected > i").classList.toggle("checked");
-    document.querySelector("#document > i").classList.toggle("checked");
+    document.querySelector("#selected").classList.toggle("checked");
+    document.querySelector("#document").classList.toggle("checked");
     browser.storage.sync.set(options).then(() => clipSite()).catch((error) => {
         console.error(error);
     });
@@ -39,7 +50,7 @@ const toggleClipSelection = options => {
 
 const toggleIncludeTemplate = options => {
     options.includeTemplate = !options.includeTemplate;
-    document.querySelector("#includeTemplate > i").classList.toggle("checked");
+    document.querySelector("#includeTemplate").classList.toggle("checked");
     browser.storage.sync.set(options).then(() => {
         browser.contextMenus.update("toggle-includeTemplate", {
             checked: options.includeTemplate
@@ -156,32 +167,15 @@ function sendDownloadMessage(text) {
 // event handler for download button
 function download(e) {
     e.preventDefault();
-    sendDownloadMessage(document.getElementById("md").value);
+    sendDownloadMessage(cm.getValue());
     window.close();
 }
 
 // event handler for download selected button
 function downloadSelection(e) {
     e.preventDefault();
-    if (selectedText != null) {
-        sendDownloadMessage(selectedText);
-    }
-}
-
-// event handler for selecting (or deselecting) text
-function select(event) {
-    var start = event.currentTarget.selectionStart;
-    var finish = event.currentTarget.selectionEnd;
-
-    var a = document.getElementById("downloadSelection");
-
-    if (start != finish) {
-        selectedText = event.currentTarget.value.substring(start, finish);
-        a.style.display = "block";
-    }
-    else {
-        selectedText = null;
-        a.style.display = "none";
+    if (cm.somethingSelected()) {
+        sendDownloadMessage(cm.getSelection());
     }
 }
 
@@ -191,7 +185,8 @@ function notify(message) {
     if (message.type == "display.md") {
 
         // set the values from the message
-        document.getElementById("md").value = message.markdown;
+        //document.getElementById("md").value = message.markdown;
+        cm.setValue(message.markdown);
         document.getElementById("title").value = message.article.title;
         imageList = message.imageList;
         

@@ -9,7 +9,7 @@
 
 <body>
     <h2>Custom text</h2>
-    <small>For the title, as well as the front- and back-matter custom text, you can use the following text replacement values.
+    <small class="instructions">For the title, as well as the front- and back-matter custom text, you can use the following text replacement values.
         Please note that not all websites will provide all values
         <ul>
             <li><code>{title}</code> - Article Title</li>
@@ -24,115 +24,175 @@
     </small>
 
     <h3>Title template</h3>
-    <label for="title">Template for title/filename</label>
-    <input type="text" id="title" name="title" role="textbox" />
+    <div class="textbox-container">
+        <label for="title">Template for title/filename</label>
+        <input type="text" id="title" name="title" role="textbox" />
+    </div>
 
     <br />
-    <label for="disallowedChars">Disallowed Characters (to strip out of title/filename — in addition to <code>/</code>, <code>?</code>, <code>&lt;</code>, <code>&gt;</code>, <code>\</code>, <code>:</code>, <code>*</code>, <code>|</code>, <code>"</code>)</label>
-    <input type="text" id="disallowedChars" name="disallowedChars" role="textbox" />
+    <div class="textbox-container">
+        <label for="disallowedChars">Disallowed Characters (to strip out of title/filename —
+            in addition to <code>/</code>, <code>?</code>, <code>&lt;</code>, <code>&gt;</code>, <code>\</code>,
+            <code>:</code>, <code>*</code>, <code>|</code>, <code>"</code>)</label>
+        <input type="text" id="disallowedChars" name="disallowedChars" role="textbox" />
+    </div>
     
     <h3>Front-matter template</h3>
-    <label for="frontmatter">Enter the text here that should appear at the top of the output file.</label> <br />
-    <div class="input-sizer"><textarea id="frontmatter" class="textarea" role="textbox"></textarea></div>
+    <div class="textbox-container">
+        <label for="frontmatter">Enter the text here that should appear at the top of the output file.</label> <br />
+        <div class="input-sizer"><textarea name="frontmatter" id="frontmatter" class="textarea" role="textbox"></textarea></div>
+    </div>
 
     <h3>Back-matter template</h3>
-    <label for="backmatter">Enter the text here that should appear at the bottom of the output file.</label> <br />
-    <div class="input-sizer"><textarea id="backmatter" class="textarea" role="textbox"></textarea></div>
+    <div class="textbox-container">
+        <label for="backmatter">Enter the text here that should appear at the bottom of the output file.</label> <br />
+        <div class="input-sizer"><textarea name="backmatter" id="backmatter" class="textarea" role="textbox"></textarea></div>
+    </div>
+
+    <div class="checkbox-container">
+        <input name="includeTemplate" id="includeTemplate" type="checkbox" />
+        <label for="includeTemplate">Append front/back template to clipped text</label>
+    </div>
 
     <hr>
 
-    <input name="includeTemplate" id="includeTemplate" type="checkbox" />
-    <label for="includeTemplate">Append front/back template to clipped text</label>
+    <div id="otherOptions">
+        <h2>Other options</h2>
 
-    <div class="status"></div>
-    <button class="save">Save</button>
+        <div class="checkbox-container">
+            <input name="saveAs" id="saveAs" type="checkbox" />
+            <label for="saveAs">Always show Save As dialog (regardless of browser setting)</label>
+        </div>
+
+        <br />
+
+        <div class="checkbox-container">
+            <input name="downloadImages" id="downloadImages" type="checkbox" />
+            <label for="downloadImages">Download images alongside markdown files</label>
+        </div>
+
+        <div class="textbox-container" id="imagePrefix">
+            <label for="imagePrefix">Image filename prefix template: </label>
+            <input type="text" name="imagePrefix" role="textbox" />
+        </div>
+    </div>
+
+    <hr>
 
     <h2>Markdown conversion options</h2>
 
-    <h3>Heading Style</h3>
-    <div class="radio-container">
-        <input type="radio" name="headingStyle" id="setext" value="setext" class="radio-btn" />
-        <label for="setext" class="radio-label"><span>Setext-Style Headers</span>
+    <div class="radio-container" id="headingStyle">
+        <h3>Heading Style</h3>
+        <input type="radio" name="headingStyle" id="setext" value="setext" />
+        <label for="setext"><span>Setext-Style Headers</span>
             <pre>All About Dogs
-    ==============</pre>
+==============</pre>
         </label>
-        <input type="radio" name="headingStyle" id="atx" value="atx" class="radio-btn" />
-        <label for="atx" class="radio-label"><span>Atx-Style Headers</span>
+        <input type="radio" name="headingStyle" id="atx" value="atx" />
+        <label for="atx"><span>Atx-Style Headers</span>
             <pre># All About Dogs</pre>
         </label>
     </div>
 
-    <h3>Horizontal Rule style</h3>
-    <input type="radio" name="hr" id="***" value="***" />
-    <label for="***"><code>***</code></label>
-    <input type="radio" name="hr" id="---" value="---" />
-    <label for="---"><code>---</code></label>
-    <input type="radio" name="hr" id="___" value="___" />
-    <label for="___"><code>___</code></label>
+    <div class="radio-container" id="hr">
+        <h3>Horizontal Rule style</h3>
+        <input type="radio" name="hr" id="***" value="***" />
+        <label for="***"><code>***</code></label>
+        <input type="radio" name="hr" id="---" value="---" />
+        <label for="---"><code>---</code></label>
+        <input type="radio" name="hr" id="___" value="___" />
+        <label for="___"><code>___</code></label>
+    </div>
 
-    <h3>Bullet List Marker</h3>
-    <input type="radio" name="bulletListMarker" id="*" value="*" />
-    <label for="*"><code>*</code></label>
-    <input type="radio" name="bulletListMarker" id="-" value="-" />
-    <label for="-"><code>-</code></label>
-    <input type="radio" name="bulletListMarker" id="+" value="+" />
-    <label for="+"><code>+</code></label>
+    <div class="radio-container" id="bulletListMarker">
+        <h3>Bullet List Marker</h3>
+        <input type="radio" name="bulletListMarker" id="*" value="*" />
+        <label for="*"><code>*</code></label>
+        <input type="radio" name="bulletListMarker" id="-" value="-" />
+        <label for="-"><code>-</code></label>
+        <input type="radio" name="bulletListMarker" id="+" value="+" />
+        <label for="+"><code>+</code></label>
+    </div>
 
-    <h3>Code Block Style</h3>
-    <input type="radio" name="codeBlockStyle" id="indented" value="indented" />
-    <label for="indented">Indented
-        <pre>    const helloWorld = () => {
-        console.log("Hello World");
-    }</pre>
-    </label>
-    <input type="radio" name="codeBlockStyle" id="fenced" value="fenced" />
-    <label for="fenced">Fenced
-        <pre>```
+    <div class="radio-container" id="codeBlockStyle">
+        <h3>Code Block Style</h3>
+        <input type="radio" name="codeBlockStyle" id="indented" value="indented" />
+        <label for="indented">Indented
+            <pre>····const helloWorld = () => {
+········console.log("Hello World");
+····}</pre>
+        </label>
+        <input type="radio" name="codeBlockStyle" id="fenced" value="fenced" />
+        <label for="fenced">Fenced
+            <pre>```
 const helloWorld = () => {
-    console.log("Hello World");
+····console.log("Hello World");
 }
 ```</pre>
-    </label>
-    
-    <h3>Code Block Fence</h3>
-    <input type="radio" name="fence" id="```" value="```" />
-    <label for="```"><code>```</code></label>
-    <input type="radio" name="fence" id="~~~" value="~~~" />
-    <label for="~~~"><code>~~~</code></label>
+        </label>
+    </div>
 
-    <h3>Emphesis (italics) Delimiter</h3>
-    <input type="radio" name="emDelimiter" id="_" value="_" />
-    <label for="_"><code>_italics_</code></label>
-    <input type="radio" name="emDelimiter" id="*" value="*" />
-    <label for="*"><code>*italics*</code></label>
+    <div class="radio-container" id="fence">
+        <h3>Code Block Fence</h3>
+        <input type="radio" name="fence" id="```" value="```" />
+        <label for="```"><code>```</code></label>
+        <input type="radio" name="fence" id="~~~" value="~~~" />
+        <label for="~~~"><code>~~~</code></label>
+    </div>
 
-    <h3>Strong (bold) Delimiter</h3>
-    <input type="radio" name="strongDelimiter" id="**" value="**" />
-    <label for="**"><code>**bold**</code></label>
-    <input type="radio" name="strongDelimiter" id="__" value="__" />
-    <label for="__"><code>__bold__</code></label>
+    <div class="radio-container" id="emDelimiter">
+        <h3>Emphesis (italics) Delimiter</h3>
+        <input type="radio" name="emDelimiter" id="em_" value="_" />
+        <label for="em_"><code>_italics_</code></label>
+        <input type="radio" name="emDelimiter" id="em*" value="*" />
+        <label for="em*"><code>*italics*</code></label>
+    </div>
 
-    <h3>Link Style</h3>
-    <input type="radio" name="linkStyle" id="inlined" value="inlined" />
-    <label for="inlined">Inlined
-        <pre>[Google](http://google.com)</pre>
-    </label>
-    <input type="radio" name="linkStyle" id="referenced" value="referenced" />
-    <label for="referenced">Referenced
-        <pre>[Google]
+    <div class="radio-container" id="strongDelimiter">
+        <h3>Strong (bold) Delimiter</h3>
+        <input type="radio" name="strongDelimiter" id="**" value="**" />
+        <label for="**"><code>**bold**</code></label>
+        <input type="radio" name="strongDelimiter" id="__" value="__" />
+        <label for="__"><code>__bold__</code></label>
+    </div>
+
+    <div class="radio-container" id="linkStyle">
+        <h3>Link Style</h3>
+        <input type="radio" name="linkStyle" id="inlined" value="inlined" />
+        <label for="inlined">Inlined
+            <pre>[Google](http://google.com)</pre>
+        </label>
+        <input type="radio" name="linkStyle" id="referenced" value="referenced" />
+        <label for="referenced">Referenced
+            <pre>[Google]
 
 [Google]: http://google.com</pre>
-    </label>
+        </label>
+    </div>
 
-    <h3>Link Reference Style</h3>
-    <input type="radio" name="linkReferenceStyle" id="full" value="full"  />
-    <label for="full">Full</label>
-    <input type="radio" name="linkReferenceStyle" id="collapsed" value="collapsed" />
-    <label for="collapsed">Collapsed</label>
-    <input type="radio" name="linkReferenceStyle" id="shortcut" value="shortcut" />
-    <label for="shortcut">Shortcut</label>
+    <div class="radio-container" id="linkReferenceStyle">
+        <h3>Link Reference Style</h3>
+        <input type="radio" name="linkReferenceStyle" id="full" value="full"  />
+        <label for="full">Full
+            <pre>[Google][1]
+
+[1]: http://google.com</pre>
+        </label>
+        <input type="radio" name="linkReferenceStyle" id="collapsed" value="collapsed" />
+        <label for="collapsed">Collapsed
+            <pre>[Google][]
+
+[Google]: http://google.com</pre>
+        </label>
+        <input type="radio" name="linkReferenceStyle" id="shortcut" value="shortcut" />
+        <label for="shortcut">Shortcut
+            <pre>[Google]
+
+[Google]: http://google.com</pre>
+        </label>
+    </div>
     
-    <div id="imageOptions">
+    <div class="radio-container" id="imageOptions">
         <h3>Image Style</h3>
         <p><strong>Note:</strong> This only applies if Download Images is on.</p>
         <input type="radio" name="imageStyle" id="markdown" value="markdown" />
@@ -149,29 +209,8 @@ const helloWorld = () => {
         </label>
     </div>
 
-    <div class="status"></div>
-    <button class="save">Save</button>
+    <div id="spinner" style="display: none;"></div>
 
-    <div id="otherOptions">
-        <h2>Other options</h2>
-        
-        <input name="saveAs" id="saveAs" type="checkbox" />
-        <label for="saveAs">Always show Save As dialog (regardless of browser setting)</label>
-        
-        <hr />
-        
-        <input name="downloadImages" id="downloadImages" type="checkbox" />
-        <label for="downloadImages">Download images alongside markdown files</label>
-        
-        <br />
-        
-        <label for="imagePrefix">Image filename prefix template: </label>
-        <input type="text" id="imagePrefix" name="imagePrefix" role="textbox" />
-        
-        <div class="status"></div>
-        <button class="save">Save</button>
-    </div>
-        
     <script src="../browser-polyfill.min.js"></script>
     <script src="options.js"></script>
 </body>
