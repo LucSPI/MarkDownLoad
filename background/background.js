@@ -161,22 +161,74 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
     try {
       // get the options (for save as)
       const options = await getOptions();
+
+      let id = null;
+      let pathSeperator = '/';
+      let downloadsPath = null;
+      let destPath = null;
+      const createdListener = async dl => {
+        const filename = dl.filename;
+        // first, test download to get the default downloads path
+        if (!downloadsPath) {
+          pathSeperator = filename.includes('\\') ? '\\' : '/';
+          downloadsPath = filename.substring(0, filename.lastIndexOf(pathSeperator));
+          console.log(downloadsPath);
+          await browser.downloads.cancel(dl.id);
+          id = await browser.downloads.download({
+            url: url,
+            filename: title + ".md",
+            saveAs: options.saveAs
+          });
+        }
+        else {
+          // second, this is where the file is actually going
+          const fullPath = filename.substring(0, filename.lastIndexOf(pathSeperator));
+          let common = [];
+          let dlParts = downloadsPath.split(pathSeperator);
+          let fpParts = fullPath.split(pathSeperator);
+
+          console.log(dlParts)
+          console.log(fpParts);
+
+          dlParts.forEach((dlPart, index) => {
+            if (dlPart == fpParts[0]) {
+              fpParts.shift();              
+            }
+            else {
+              common.push('..');
+            }
+          });
+          fpParts.forEach(fpPart => {
+            common.push(fpPart);
+          })
+
+          console.log(common)
+          destPath = common.join(pathSeperator) + pathSeperator;
+          console.log(destPath)
+
+          browser.downloads.onCreated.removeListener(createdListener);
+        }
+      }
+
+      browser.downloads.onCreated.addListener(createdListener);
+
       // start the download
-      const id = await browser.downloads.download({
+      id = await browser.downloads.download({
         url: url,
-        filename: title + ".md",
-        saveAs: options.saveAs
+        filename: "temp.md",
+        saveAs: false
       });
       // add a listener for the download completion
       browser.downloads.onChanged.addListener((delta) => {
         if (delta.state && delta.state.current == "complete") {
           if (delta.id === id) {
+            console.log(delta, id);
             //release the url for the blob
             window.URL.revokeObjectURL(url);
             Object.entries(imageList).forEach(([src, filename]) => {
               browser.downloads.download({
                 url: src,
-                filename: filename,
+                filename: destPath ? destPath + filename : destPath,
                 saveAs: false
               })
             })
