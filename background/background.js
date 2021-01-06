@@ -74,10 +74,11 @@ function getImageFilename(src, options, prependFilePath = true) {
 }
 
 // function to replace placeholder strings with article info
-function textReplace(string, article) {
+function textReplace(string, article, disallowedChars = null) {
   for (const key in article) {
     if (article.hasOwnProperty(key) && key != "content") {
-      const s = article[key] || '';
+      let s = article[key] || '';
+      if (s && disallowedChars) s = this.generateValidFileName(s, disallowedChars);
       string = string.split('{' + key + '}').join(s);
     }
   }
@@ -124,7 +125,7 @@ async function convertArticleToMarkdown(article, downloadImages = null) {
     options.frontmatter = options.backmatter = '';
   }
 
-  options.imagePrefix = textReplace(options.imagePrefix, article)
+  options.imagePrefix = textReplace(options.imagePrefix, article, options.disallowedChars)
     .split('/').map(s=>generateValidFileName(s, options.disallowedChars)).join('/');
 
   return turndown(article.content, options);
@@ -132,17 +133,19 @@ async function convertArticleToMarkdown(article, downloadImages = null) {
 
 // function to turn the title into a valid file name
 function generateValidFileName(title, disallowedChars = null) {
+  if (!title) return title;
+  else title = title + '';
   // remove < > : " / \ | ? * 
   var illegalRe = /[\/\?<>\\:\*\|":]/g;
   // and non-breaking spaces (thanks @Licat)
   var name = title.replaceAll(illegalRe, "").replaceAll('\u00A0', ' ');
-
+  
   if (disallowedChars) {
     for (let c of disallowedChars) {
       name = name.replaceAll(c, '');
     }
   }
-
+  
   return name;
 }
 
@@ -466,7 +469,7 @@ async function formatTitle(article) {
     options = defaultOptions
   }
   
-  let title = textReplace(options.title, article)
+  let title = textReplace(options.title, article, options.disallowedChars);
   title = title.split('/').map(s=>generateValidFileName(s, options.disallowedChars)).join('/');
   return title;
 }
