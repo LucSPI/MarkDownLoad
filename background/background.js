@@ -16,7 +16,8 @@ const defaultOptions = {
   includeTemplate: false,
   saveAs: false,
   downloadImages: false,
-  imagePrefix: '{title}/',
+  mdClipsFolder: 'MDClips',
+  imagePrefix: '_resources/{title}/',
   disallowedChars: '[]#^'
 }
 
@@ -70,7 +71,7 @@ function getImageFilename(src, options, prependFilePath = true) {
     imagePrefix = options.title.substring(0, options.title.lastIndexOf('/') + 1) + imagePrefix;
   }
 
-  return imagePrefix + filename;
+  return options.mdClipsFolder + "/" + imagePrefix + filename;
 }
 
 // function to replace placeholder strings with article info
@@ -164,7 +165,7 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
       // start the download
       const id = await browser.downloads.download({
         url: url,
-        filename: title + ".md",
+        filename: options.mdClipsFolder + "/" + title + ".md",
         saveAs: options.saveAs
       });
       // add a listener for the download completion
@@ -193,7 +194,7 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
     try {
       const options = await getOptions();
       await ensureScripts(tabId);
-      const filename = generateValidFileName(title, options.disallowedChars) + ".md";
+      const filename = options.mdClipsFolder + "/" + generateValidFileName(title, options.disallowedChars) + ".md";
       const code = `downloadMarkdown("${filename}","${base64EncodeUnicode(markdown)}");`
       await browser.tabs.executeScript(tabId, {code: code});
       Object.entries(imageList).forEach(async ([src, imgfilename]) => {
