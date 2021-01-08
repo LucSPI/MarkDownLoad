@@ -15,8 +15,9 @@ const defaultOptions = {
     backmatter: "",
     title: "{title}",
     saveAs: false,
-    downloadImages: false,
-    imagePrefix: '{title}/',
+    downloadImages: true,
+    mdClipsFolder: 'MDClips',
+    imagePrefix: '_resources/{title}/',
     disallowedChars: '[]#^'
 }
 
@@ -36,6 +37,7 @@ const saveOptions = e => {
         saveAs: document.querySelector("[name='saveAs']").checked,
         downloadImages: document.querySelector("[name='downloadImages']").checked,
         imagePrefix: document.querySelector("[name='imagePrefix']").value,
+        mdClipsFolder: document.querySelector("[name='mdClipsFolder']").value,
 
         headingStyle: getCheckedValue(document.querySelectorAll("input[name='headingStyle']")),
         hr: getCheckedValue(document.querySelectorAll("input[name='hr']")),
@@ -92,6 +94,7 @@ const restoreOptions = () => {
         document.querySelector("[name='saveAs']").checked = result.saveAs;
         document.querySelector("[name='downloadImages']").checked = result.downloadImages;
         document.querySelector("[name='imagePrefix']").value = result.imagePrefix;
+        document.querySelector("[name='mdClipsFolder']").value = result.mdClipsFolder;
 
         setCheckedValue(document.querySelectorAll("[name='headingStyle']"), result.headingStyle);
         setCheckedValue(document.querySelectorAll("[name='hr']"), result.hr);
