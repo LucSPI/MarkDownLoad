@@ -1,6 +1,6 @@
 // these are the default options
 const defaultOptions = {
-    headingStyle: "setext",
+    headingStyle: "atx",
     hr: "***",
     bulletListMarker: "*",
     codeBlockStyle: "indented",
@@ -10,14 +10,14 @@ const defaultOptions = {
     linkStyle: "inlined",
     linkReferenceStyle: "full",
     imageStyle: "markdown",
-    includeTemplate: false,
-    frontmatter: "{baseURI}\n\n> {excerpt}\n\n# {title}",
-    backmatter: "",
-    title: "{title}",
+    frontmatter: "# {pageTitle}\n\n---\n\ncreated: {date:YYYY-MM-DDTHH:mm:ss} (UTC {date:Z})\ntags: #nessy \nsource: {baseURI}\n\n---\n\n> ## Excerpt\n> {excerpt}\n\n---",
+    backmatter: "---",
+    title: "{pageTitle}",
+    includeTemplate: true,
     saveAs: false,
     downloadImages: true,
     mdClipsFolder: 'MDClips',
-    imagePrefix: '_resources/{title}/',
+    imagePrefix: '_resources/{pageTitle}/',
     disallowedChars: '[]#^'
 }
 

@@ -1,6 +1,6 @@
 // these are the default options
 const defaultOptions = {
-  headingStyle: "setext",
+  headingStyle: "atx",
   hr: "***",
   bulletListMarker: "*",
   codeBlockStyle: "indented",
@@ -10,14 +10,14 @@ const defaultOptions = {
   linkStyle: "inlined",
   linkReferenceStyle: "full",
   imageStyle: "markdown",
-  frontmatter: "{baseURI}\n\n> {excerpt}\n\n# {title}",
-  backmatter: "",
-  title: "{title}",
-  includeTemplate: false,
+  frontmatter: "# {pageTitle}\n\n---\n\ncreated: {date:YYYY-MM-DDTHH:mm:ss} (UTC {date:Z})\ntags: #nessy \nsource: {baseURI}\n\n---\n\n> ## Excerpt\n> {excerpt}\n\n---",
+  backmatter: "---",
+  title: "{pageTitle}",
+  includeTemplate: true,
   saveAs: false,
-  downloadImages: false,
+  downloadImages: true,
   mdClipsFolder: 'MDClips',
-  imagePrefix: '_resources/{title}/',
+  imagePrefix: '_resources/{pageTitle}/',
   disallowedChars: '[]#^'
 }
 
@@ -162,59 +162,8 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
     try {
       // get the options (for save as)
       const options = await getOptions();
-
-      let id = null;
-      let pathSeperator = '/';
-      let downloadsPath = null;
-      let destPath = null;
-      const createdListener = async dl => {
-        const filename = dl.filename;
-        // first, test download to get the default downloads path
-        if (!downloadsPath) {
-          pathSeperator = filename.includes('\\') ? '\\' : '/';
-          downloadsPath = filename.substring(0, filename.lastIndexOf(pathSeperator));
-          console.log(downloadsPath);
-          await browser.downloads.cancel(dl.id);
-          id = await browser.downloads.download({
-            url: url,
-            filename: title + ".md",
-            saveAs: options.saveAs
-          });
-        }
-        else {
-          // second, this is where the file is actually going
-          const fullPath = filename.substring(0, filename.lastIndexOf(pathSeperator));
-          let common = [];
-          let dlParts = downloadsPath.split(pathSeperator);
-          let fpParts = fullPath.split(pathSeperator);
-
-          console.log(dlParts)
-          console.log(fpParts);
-
-          dlParts.forEach((dlPart, index) => {
-            if (dlPart == fpParts[0]) {
-              fpParts.shift();              
-            }
-            else {
-              common.push('..');
-            }
-          });
-          fpParts.forEach(fpPart => {
-            common.push(fpPart);
-          })
-
-          console.log(common)
-          destPath = common.join(pathSeperator) + pathSeperator;
-          console.log(destPath)
-
-          browser.downloads.onCreated.removeListener(createdListener);
-        }
-      }
-
-      browser.downloads.onCreated.addListener(createdListener);
-
       // start the download
-      id = await browser.downloads.download({
+      const id = await browser.downloads.download({
         url: url,
         filename: options.mdClipsFolder + "/" + title + ".md",
         saveAs: options.saveAs
@@ -223,13 +172,12 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
       browser.downloads.onChanged.addListener((delta) => {
         if (delta.state && delta.state.current == "complete") {
           if (delta.id === id) {
-            console.log(delta, id);
             //release the url for the blob
             window.URL.revokeObjectURL(url);
             Object.entries(imageList).forEach(([src, filename]) => {
               browser.downloads.download({
                 url: src,
-                filename: destPath ? destPath + filename : destPath,
+                filename: filename,
                 saveAs: false
               })
             })
