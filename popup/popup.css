@@ -9,17 +9,41 @@
     --border-primary: #4A90E2;
 }
 
-@media(prefers-color-scheme: dark){
+@media(prefers-color-scheme: dark) {
     :root {
         --focus: orange;
-        --bg: #0A001F;
+        --bg: #2A2A2E;
         --fg: #f8f8f8;
-        --border: #eee;
+        --border: #555;
         --primary: #4A90E2;
         --fg-primary: #eee;
-        --bg-primary: hsl(212, 100%, 20%);
+        --bg-primary: hsl(212, 80%, 30%);
         --border-primary: #4A90E2;
+        --pre-bg: #474749;
     }
+    .cm-s-xq-dark.CodeMirror {
+        background-color: var(--bg);
+    }
+}
+
+/* Works on Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--pre-bg) var(--bg);
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 20px;
 }
 
 * {
@@ -103,7 +127,7 @@ a.button {
 }
 
 #downloadSelection {
-    background-color: black;
+    background-color: var(--bg-primary);
     display: none;
 }
 

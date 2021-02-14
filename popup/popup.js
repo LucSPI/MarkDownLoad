@@ -195,6 +195,7 @@ function notify(message) {
         document.getElementById("spinner").style.display = 'none';
          // focus the download button
         document.getElementById("download").focus();
+        cm.refresh();
     }
 }
 

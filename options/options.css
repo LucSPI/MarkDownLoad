@@ -8,19 +8,41 @@
     --fg-primary: #eee;
     --bg-primary: #ECF5FF;
     --border-primary: #4A90E2;
+    --pre-bg: #eee;
 }
 
 @media(prefers-color-scheme: dark) {
     :root {
         --focus: orange;
-        --bg: #0A001F;
+        --bg: #202023;
         --fg: #f8f8f8;
-        --border: #eee;
+        --border: #555;
         --primary: #4A90E2;
         --fg-primary: #eee;
-        --bg-primary: hsl(212, 100%, 20%);
+        --bg-primary: hsl(212, 80%, 30%);
         --border-primary: #4A90E2;
+        --pre-bg: #474749;
     }
+}
+
+/* Works on Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--pre-bg) var(--bg);
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 20px;
 }
 
 body {
@@ -36,10 +58,15 @@ a {
     color:var(--primary);
 }
 
-pre, code {
-    background-color: lightgray;
-    color: #000;
+pre,
+code {
+    border-radius: 5px;
+    background: var(--pre-bg);
+    color: var(--fg);
     padding: 0.5em;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-weight: 400;
 }
 
 code {
@@ -117,14 +144,6 @@ input[type="text"] {
   white-space: pre;
   font-family: inherit;
   font-size: inherit;
-}
-
-pre, code {
-    border-radius: 5px;
-    background-color: #eee;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    font-weight: 400;
 }
 
 .radio-container>label,
@@ -263,4 +282,9 @@ pre, code {
     border-top: 2px solid var(--primary);
     border-right: 2px solid transparent;
     animation: spinner .6s linear infinite;
+}
+
+input[type="text"], textarea {
+    background-color: var(--bg);
+    color: var(--fg);
 }
