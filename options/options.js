@@ -169,9 +169,13 @@ const refereshElements = () => {
 
     show(document.getElementById("fence"), (options.codeBlockStyle == "fenced"));
 
-    show(document.getElementById("imagePrefix"), options.downloadImages && options.downloadMode == 'downloadsApi');
+    const downloadImages = options.downloadImages && options.downloadMode == 'downloadsApi';
 
-    show(document.getElementById("imageOptions"), options.downloadImages && options.downloadMode == 'downloadsApi');
+    show(document.getElementById("imagePrefix"), downloadImages);
+
+    document.getElementById('markdown').disabled = !downloadImages;
+    document.getElementById('obsidian').disabled = !downloadImages;
+    document.getElementById('obsidian-nofolder').disabled = !downloadImages;
 
 }
 

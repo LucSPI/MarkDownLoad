@@ -17,7 +17,8 @@ const defaultOptions = {
   saveAs: false,
   downloadImages: false,
   imagePrefix: '{title}/',
-  disallowedChars: '[]#^'
+  disallowedChars: '[]#^',
+  downloadMode: 'downloadsApi'
 }
 
 // add notification listener for foreground page messages
@@ -26,38 +27,102 @@ browser.runtime.onMessage.addListener(notify);
 createMenus();
 
 // function to convert the article content to markdown using Turndown
-function turndown(content, options) {
+function turndown(content, options, article) {
   var turndownService = new TurndownService(options);
 
   turndownService.keep(['iframe']);
 
   let imageList = {};
-  if (options.downloadImages) {
-    turndownService.addRule('images', {
-      filter: function (node, tdopts) {
-        if (node.nodeName == 'IMG' && node.getAttribute('src')) {
-          const src = node.getAttribute('src');
+  // add an image rule
+  turndownService.addRule('images', {
+    filter: function (node, tdopts) {
+      // if we're looking at an img node with a src
+      if (node.nodeName == 'IMG' && node.getAttribute('src')) {
+        // if we want to strip images, just pass the filter
+        if (options.imageStyle == 'noImage') return true;
+        
+        // get the original src
+        let src = node.getAttribute('src')
+        // set the new src
+        node.setAttribute('src', validateUri(src, article.baseURI));
+        
+        // if we're downloading images, there's more to do.
+        if (options.downloadImages) {
+          // generate a file name for the image
+          // TODO: update this with checks for file extension
           const imageFilename = getImageFilename(src, options, false);
+          // add it to the list of images to download later
           imageList[src] = imageFilename;
+          // check if we're doing an obsidian style link
           const obsidianLink = options.imageStyle.startsWith("obsidian");
+          // figure out the (local) src of the image
           const localSrc = options.imageStyle === 'obsidian-nofolder'
+            // if using "nofolder" then we just need the filename, no folder
             ? imageFilename.substring(imageFilename.lastIndexOf('/') + 1)
+            // otherwise we may need to modify the filename to uri encode parts for an obsidian link
             : imageFilename.split('/').map(s => obsidianLink ? s : encodeURI(s)).join('/')
-          node.setAttribute('src', localSrc);
+          
+          // set the new src attribute to be the local filename
+          if(options.imageStyle != 'originalSource') node.setAttribute('src', localSrc);
+          // pass the filter if we're making an obsidian link
           return obsidianLink;
         }
-        return false;
-      },
-      replacement: function (content, node, tdopts) {
-        return `![[${node.getAttribute('src')}]]`;
       }
+      // don't pass the filter, just output a normal markdown link
+      return false;
+    },
+    replacement: function (content, node, tdopts) {
+      // if we're stripping images, output nothing
+      if (options.imageStyle == 'noImage') return '';
+      // otherwise, this must be an obsidian link, so output that
+      else return `![[${node.getAttribute('src')}]]`;
+    }
 
-    });
-  }
+  });
+
+  // add a rule for links
+  turndownService.addRule('links', {
+    filter: (node, tdopts) => {
+      // check that this is indeed a link
+      if (node.nodeName == 'A' && node.getAttribute('href')) {
+        // get the href
+        const href = node.getAttribute('href');
+        // set the new href
+        node.setAttribute('href', validateUri(href, article.baseURI));
+        // if we are to strip links, the filter needs to pass
+        return options.linkStyle == 'stripLinks';
+      }
+      // we're not passing the filter, just do the normal thing.
+      return false;
+    },
+    // if the filter passes, we're stripping links, so just return the content
+    replacement: (content, node, tdopts) => content
+  });
 
   let markdown = options.frontmatter + turndownService.turndown(content)
       + options.backmatter;
   return { markdown: markdown, imageList: imageList };
+}
+
+function validateUri(href, baseURI) {
+  // check if the href is a valid url
+  try {
+    new URL(href);
+  }
+  catch {
+    // if it's not a valid url, that likely means we have to prepend the base uri
+    const baseUri = new URL(baseURI);
+
+    // if the href starts with '/', we need to go from the origin
+    if (href.startsWith('/')) {
+      href = baseUri.origin + href
+    }
+    // otherwise we need to go from the local folder
+    else {
+      href = baseUri.href + (baseUri.href.endsWith('/') ? '/' : '') + href
+    }
+  }
+  return href;
 }
 
 function getImageFilename(src, options, prependFilePath = true) {
@@ -106,6 +171,7 @@ async function getOptions() {
   } catch (err) {
     console.error(err);
   }
+  if (!browser.downloads) options.downloadMode = 'contentLink';
   return options;
 }
 
@@ -128,7 +194,7 @@ async function convertArticleToMarkdown(article, downloadImages = null) {
   options.imagePrefix = textReplace(options.imagePrefix, article, options.disallowedChars)
     .split('/').map(s=>generateValidFileName(s, options.disallowedChars)).join('/');
 
-  return turndown(article.content, options);
+  return turndown(article.content, options, article);
 }
 
 // function to turn the title into a valid file name
@@ -152,7 +218,7 @@ function generateValidFileName(title, disallowedChars = null) {
 
 // function to actually download the markdown file
 async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
-  if (browser.downloads) {
+  if (options.downloadMode == 'downloadsApi' && browser.downloads) {
     // create the object url with markdown data as a blob
     const url = URL.createObjectURL(new Blob([markdown], {
       type: "text/markdown;charset=utf-8"
@@ -192,7 +258,7 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
 
           dlParts.forEach((dlPart, index) => {
             if (dlPart == fpParts[0]) {
-              fpParts.shift();              
+              fpParts.shift();
             }
             else {
               common.push('..');
@@ -248,10 +314,6 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
       const filename = generateValidFileName(title, options.disallowedChars) + ".md";
       const code = `downloadMarkdown("${filename}","${base64EncodeUnicode(markdown)}");`
       await browser.tabs.executeScript(tabId, {code: code});
-      Object.entries(imageList).forEach(async ([src, imgfilename]) => {
-        console.info(`downloadImage("${imgfilename}","${src}");`);
-        await browser.tabs.executeScript(tabId, {code: `downloadImage("${imgfilename}","${src}");`});
-      })
     }
     catch (error) {
       // This could happen if the extension is not allowed to run code in
@@ -560,7 +622,8 @@ async function copyMarkdownFromContext(info, tab) {
     if (info.menuItemId == "copy-markdown-link") {
       const options = await getOptions();
       options.frontmatter = options.backmatter = '';
-      const { markdown } = turndown(`<a href="${info.linkUrl}">${info.linkText}</a>`, { ...options, downloadImages: false });
+      const article = await getArticleFromContent(tab.id, false);
+      const { markdown } = turndown(`<a href="${info.linkUrl}">${info.linkText}</a>`, { ...options, downloadImages: false }, article);
       //await browser.tabs.executeScript(tab.id, {code: `copyToClipboard(${JSON.stringify(markdown)})`});
       await navigator.clipboard.writeText(markdown);
     }

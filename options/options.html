@@ -182,6 +182,10 @@ const helloWorld = () => {
 
 [Google]: http://google.com</pre>
         </label>
+        <input type="radio" name="linkStyle" id="stripLinks" value="stripLinks" />
+        <label for="stripLinks">Strip Links
+            <pre>Google</pre>
+        </label>
     </div>
 
     <div class="radio-container" id="linkReferenceStyle">
@@ -208,7 +212,15 @@ const helloWorld = () => {
     
     <div class="radio-container" id="imageOptions">
         <h3>Image Style</h3>
-        <p><strong>Note:</strong> This only applies if Download Images is on.</p>
+        <input type="radio" name="imageStyle" id="originalSource" value="originalSource" />
+        <label for="originalSource">Original Source
+            <pre>![](folder/image.jpg)</pre>
+        </label>
+        <input type="radio" name="imageStyle" id="noImage" value="noImage" />
+        <label for="noImage">Strip Images
+            <pre> &nbsp; &nbsp; &nbsp; </pre>
+        </label>
+        <p><strong>Note:</strong> The following only apply if Download Images is on.</p>
         <input type="radio" name="imageStyle" id="markdown" value="markdown" />
         <label for="markdown">Pure Markdown
             <pre>![](folder/image.jpg)</pre>
