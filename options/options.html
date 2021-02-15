@@ -59,14 +59,27 @@
     <div id="otherOptions">
         <h2>Other options</h2>
 
-        <div class="checkbox-container">
+        <div class="radio-container" id="downloadMode">
+            <h3>Download Mode</h3>
+            <p>
+                Method to use for downloading Markdown files. Set to "Content Link" if you're having trouble with the Downloads API
+                (Sometimes conflicts can occur with other download extensions, leading to randomly generated filenames and other symptoms). <br/>
+            </p>
+            <p><strong>Note:</strong> "Content Link" mode disables some functionality such as downloading images.</p>
+            <input type="radio" name="downloadMode" id="downloadsApi" value="downloadsApi" />
+            <label for="downloadsApi">Downloads API (recommended)</label>
+            <input type="radio" name="downloadMode" id="contentLink" value="contentLink" />
+            <label for="contentLink">Content Link</label>
+        </div>
+        <div id="downloadModeGroup">
+        <div class="checkbox-container" id="saveAs-container">
             <input name="saveAs" id="saveAs" type="checkbox" />
             <label for="saveAs">Always show Save As dialog (regardless of browser setting)</label>
         </div>
 
         <br />
 
-        <div class="checkbox-container">
+        <div class="checkbox-container" id="downloadImages-container">
             <input name="downloadImages" id="downloadImages" type="checkbox" />
             <label for="downloadImages">Download images alongside markdown files</label>
         </div>
@@ -74,6 +87,7 @@
         <div class="textbox-container" id="imagePrefix">
             <label for="imagePrefix">Image filename prefix template: </label>
             <input type="text" name="imagePrefix" role="textbox" />
+        </div>
         </div>
     </div>
 

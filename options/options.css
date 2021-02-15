@@ -229,6 +229,18 @@ input[type="text"] {
     background-size: 15px;
 }
 
+.radio-container>input[type="radio"]:disabled+label,
+.checkbox-container>input[type="checkbox"]:disabled+label {
+    background-color: var(--bg);
+    border-color: var(--pre-bg);
+    cursor: not-allowed;
+}
+
+.radio-container>input[type="radio"]:disabled+label::before,
+.checkbox-container>input[type="checkbox"]:disabled+label::before {
+    background-color: var(--pre-bg);
+}
+
 .radio-container, .checkbox-container {
     display:flex;
     flex-direction: row;
@@ -287,4 +299,8 @@ input[type="text"] {
 input[type="text"], textarea {
     background-color: var(--bg);
     color: var(--fg);
+}
+
+#downloadMode p{
+    font-size: 0.85em;
 }

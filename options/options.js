@@ -17,7 +17,8 @@ const defaultOptions = {
     saveAs: false,
     downloadImages: false,
     imagePrefix: '{title}/',
-    disallowedChars: '[]#^'
+    disallowedChars: '[]#^',
+    downloadMode: 'downloadsApi'
 }
 
 let options = defaultOptions;
@@ -47,6 +48,7 @@ const saveOptions = e => {
         linkStyle: getCheckedValue(document.querySelectorAll("input[name='linkStyle']")),
         linkReferenceStyle: getCheckedValue(document.querySelectorAll("input[name='linkReferenceStyle']")),
         imageStyle: getCheckedValue(document.querySelectorAll("input[name='imageStyle']")),
+        downloadMode: getCheckedValue(document.querySelectorAll("input[name='downloadMode']")),
     }
 
     save();
@@ -82,49 +84,64 @@ const save = () => {
 const restoreOptions = () => {
     const setCurrentChoice = result => {
         options = result;
-        document.querySelector("[name='frontmatter']").value = result.frontmatter;
-        textareaInput.bind(document.querySelector("[name='frontmatter']"))();
-        document.querySelector("[name='backmatter']").value = result.backmatter;
-        textareaInput.bind(document.querySelector("[name='backmatter']"))();
-        document.querySelector("[name='title']").value = result.title;
-        document.querySelector("[name='disallowedChars']").value = result.disallowedChars;
-        document.querySelector("[name='includeTemplate']").checked = result.includeTemplate;
-        document.querySelector("[name='saveAs']").checked = result.saveAs;
-        document.querySelector("[name='downloadImages']").checked = result.downloadImages;
-        document.querySelector("[name='imagePrefix']").value = result.imagePrefix;
 
-        setCheckedValue(document.querySelectorAll("[name='headingStyle']"), result.headingStyle);
-        setCheckedValue(document.querySelectorAll("[name='hr']"), result.hr);
-        setCheckedValue(document.querySelectorAll("[name='bulletListMarker']"), result.bulletListMarker);
-        setCheckedValue(document.querySelectorAll("[name='codeBlockStyle']"), result.codeBlockStyle);
-        setCheckedValue(document.querySelectorAll("[name='fence']"), result.fence);
-        setCheckedValue(document.querySelectorAll("[name='emDelimiter']"), result.emDelimiter);
-        setCheckedValue(document.querySelectorAll("[name='strongDelimiter']"), result.strongDelimiter);
-        setCheckedValue(document.querySelectorAll("[name='linkStyle']"), result.linkStyle);
-        setCheckedValue(document.querySelectorAll("[name='linkReferenceStyle']"), result.linkReferenceStyle);
-        setCheckedValue(document.querySelectorAll("[name='imageStyle']"), result.imageStyle);
-
-        if (options.linkStyle == "inlined") {
-            document.getElementById("linkReferenceStyle").style.height = 0;
-            document.getElementById("linkReferenceStyle").style.opacity = 0;
-        }
-        if (options.codeBlockStyle == "indented") {
-            document.getElementById("fence").style.height = 0;
-            document.getElementById("fence").style.opacity = 0;
-        }
-        if (!options.downloadImages) {
-            document.getElementById("imagePrefix").style.height = 0;
-            document.getElementById("imagePrefix").style.opacity = 0;
-        }
-
-        // if browser doesn't support the download api (i.e. Safari) I can't download images at this stage...
-        // so hide all those settings
+        // if browser doesn't support the download api (i.e. Safari)
+        // we have to use contentLink download mode
         if (!browser.downloads) {
-            options.downloadImages = false;
-            document.querySelector("[name='downloadImages']").checked = false;
-            document.getElementById("imageOptions").style.display = "none";
-            document.getElementById("otherOptions").style.display = "none";
+            options.downloadMode = 'contentLink';
+            document.querySelectorAll("[name='downloadMode']").forEach(el => el.disabled = true)
+            document.querySelector('#downloadMode p').innerText = "The Downloas API is unavailable in this browser."
         }
+
+        document.querySelector("[name='frontmatter']").value = options.frontmatter;
+        textareaInput.bind(document.querySelector("[name='frontmatter']"))();
+        document.querySelector("[name='backmatter']").value = options.backmatter;
+        textareaInput.bind(document.querySelector("[name='backmatter']"))();
+        document.querySelector("[name='title']").value = options.title;
+        document.querySelector("[name='disallowedChars']").value = options.disallowedChars;
+        document.querySelector("[name='includeTemplate']").checked = options.includeTemplate;
+        document.querySelector("[name='saveAs']").checked = options.saveAs;
+        document.querySelector("[name='downloadImages']").checked = options.downloadImages;
+        document.querySelector("[name='imagePrefix']").value = options.imagePrefix;
+
+        setCheckedValue(document.querySelectorAll("[name='headingStyle']"), options.headingStyle);
+        setCheckedValue(document.querySelectorAll("[name='hr']"), options.hr);
+        setCheckedValue(document.querySelectorAll("[name='bulletListMarker']"), options.bulletListMarker);
+        setCheckedValue(document.querySelectorAll("[name='codeBlockStyle']"), options.codeBlockStyle);
+        setCheckedValue(document.querySelectorAll("[name='fence']"), options.fence);
+        setCheckedValue(document.querySelectorAll("[name='emDelimiter']"), options.emDelimiter);
+        setCheckedValue(document.querySelectorAll("[name='strongDelimiter']"), options.strongDelimiter);
+        setCheckedValue(document.querySelectorAll("[name='linkStyle']"), options.linkStyle);
+        setCheckedValue(document.querySelectorAll("[name='linkReferenceStyle']"), options.linkReferenceStyle);
+        setCheckedValue(document.querySelectorAll("[name='imageStyle']"), options.imageStyle);
+        setCheckedValue(document.querySelectorAll("[name='downloadMode']"), options.downloadMode);
+
+        // if (options.linkStyle == "inlined") {
+        //     document.getElementById("linkReferenceStyle").style.height = 0;
+        //     document.getElementById("linkReferenceStyle").style.opacity = 0;
+        // }
+        // if (options.codeBlockStyle == "indented") {
+        //     document.getElementById("fence").style.height = 0;
+        //     document.getElementById("fence").style.opacity = 0;
+        // }
+        // if (!options.downloadImages) {
+        //     document.getElementById("imagePrefix").style.height = 0;
+        //     document.getElementById("imagePrefix").style.opacity = 0;
+        // }
+
+        // // if browser doesn't support the download api (i.e. Safari) we can't download images at this stage...
+        // // so hide all those settings
+        // if (options.downloadMode != 'downloadsApi') {
+
+        //     options.downloadImages = false;
+        //     document.querySelector("[name='downloadImages']").checked = false;
+        //     hide(document.getElementById("imageOptions"), true);
+        //     document.getElementById("downloadModeGroup").querySelectorAll('.radio-container,.checkbox-container,.textbox-container').forEach(container => {
+        //         hide(container, options.downloadMode == 'downloadsApi')
+        //     });
+        // }
+
+        refereshElements();
     }
 
     const onError = error => {
@@ -138,30 +155,39 @@ function textareaInput(){
     this.parentNode.dataset.value = this.value;
 }
 
+const show = (el, show) => {
+    el.style.height = show ? el.dataset.height + 'px' : "0";
+    el.style.opacity = show ? "1" : "0";
+}
+
+const refereshElements = () => {
+    document.getElementById("downloadModeGroup").querySelectorAll('.radio-container,.checkbox-container,.textbox-container').forEach(container => {
+        show(container, options.downloadMode == 'downloadsApi')
+    });
+
+    show(document.getElementById("linkReferenceStyle"), (options.linkStyle == "referenced"));
+
+    show(document.getElementById("fence"), (options.codeBlockStyle == "fenced"));
+
+    show(document.getElementById("imagePrefix"), options.downloadImages && options.downloadMode == 'downloadsApi');
+
+    show(document.getElementById("imageOptions"), options.downloadImages && options.downloadMode == 'downloadsApi');
+
+}
+
 const inputChange = e => {
-    if (e.target.name == "linkStyle") {
-        const el = document.getElementById("linkReferenceStyle");
-        el.style.height = (e.target.value == "inlined") ? "0" : el.dataset.height + 'px';
-        el.style.opacity = (e.target.value == "inlined") ? "0" : "1";
-    }
+    console.log('inputChange');
 
-    if (e.target.name == "codeBlockStyle") {
-        const el = document.getElementById("fence");
-        el.style.height = (e.target.value == "indented") ? "0" : el.dataset.height + 'px';
-        el.style.opacity = (e.target.value == "indented") ? "0" :"1";
+    if (e) {
+        let key = e.target.name;
+        let value = e.target.value;
+        if (e.target.type == "checkbox") value = e.target.checked;
+        options[key] = value;
     }
-
-    if (e.target.name == "downloadImages") {
-        const el = document.getElementById("imagePrefix");
-        el.style.height = (e.target.checked) ? el.dataset.height + 'px' : '0';
-        el.style.opacity = (e.target.checked) ? '1' : '0';
-    }
-
-    let key = e.target.name;
-    let value = e.target.value;
-    if (e.target.type == "checkbox") value = e.target.checked;
-    options[key] = value;
+    
     save();
+
+    refereshElements();
 }
 
 const inputKeyup = (e) => {
