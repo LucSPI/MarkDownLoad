@@ -34,6 +34,7 @@
   "background": {
     "scripts": [
       "browser-polyfill.min.js",
+      "background/apache-mime-types.js",
       "background/moment.min.js",
       "background/turndown.js",
       "/background/Readability.js",
