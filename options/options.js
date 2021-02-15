@@ -18,7 +18,8 @@ const defaultOptions = {
     downloadImages: false,
     imagePrefix: '{title}/',
     disallowedChars: '[]#^',
-    downloadMode: 'downloadsApi'
+    downloadMode: 'downloadsApi',
+    obsidianVault: null
 }
 
 let options = defaultOptions;
@@ -37,6 +38,7 @@ const saveOptions = e => {
         saveAs: document.querySelector("[name='saveAs']").checked,
         downloadImages: document.querySelector("[name='downloadImages']").checked,
         imagePrefix: document.querySelector("[name='imagePrefix']").value,
+        obsidianVault: document.querySelector("[name='obsidianValur']").value,
 
         headingStyle: getCheckedValue(document.querySelectorAll("input[name='headingStyle']")),
         hr: getCheckedValue(document.querySelectorAll("input[name='hr']")),
@@ -103,6 +105,7 @@ const restoreOptions = () => {
         document.querySelector("[name='saveAs']").checked = options.saveAs;
         document.querySelector("[name='downloadImages']").checked = options.downloadImages;
         document.querySelector("[name='imagePrefix']").value = options.imagePrefix;
+        document.querySelector("[name='obsidianVault']").value = options.obsidianVault;
 
         setCheckedValue(document.querySelectorAll("[name='headingStyle']"), options.headingStyle);
         setCheckedValue(document.querySelectorAll("[name='hr']"), options.hr);
@@ -115,31 +118,6 @@ const restoreOptions = () => {
         setCheckedValue(document.querySelectorAll("[name='linkReferenceStyle']"), options.linkReferenceStyle);
         setCheckedValue(document.querySelectorAll("[name='imageStyle']"), options.imageStyle);
         setCheckedValue(document.querySelectorAll("[name='downloadMode']"), options.downloadMode);
-
-        // if (options.linkStyle == "inlined") {
-        //     document.getElementById("linkReferenceStyle").style.height = 0;
-        //     document.getElementById("linkReferenceStyle").style.opacity = 0;
-        // }
-        // if (options.codeBlockStyle == "indented") {
-        //     document.getElementById("fence").style.height = 0;
-        //     document.getElementById("fence").style.opacity = 0;
-        // }
-        // if (!options.downloadImages) {
-        //     document.getElementById("imagePrefix").style.height = 0;
-        //     document.getElementById("imagePrefix").style.opacity = 0;
-        // }
-
-        // // if browser doesn't support the download api (i.e. Safari) we can't download images at this stage...
-        // // so hide all those settings
-        // if (options.downloadMode != 'downloadsApi') {
-
-        //     options.downloadImages = false;
-        //     document.querySelector("[name='downloadImages']").checked = false;
-        //     hide(document.getElementById("imageOptions"), true);
-        //     document.getElementById("downloadModeGroup").querySelectorAll('.radio-container,.checkbox-container,.textbox-container').forEach(container => {
-        //         hide(container, options.downloadMode == 'downloadsApi')
-        //     });
-        // }
 
         refereshElements();
     }
@@ -163,6 +141,10 @@ const show = (el, show) => {
 const refereshElements = () => {
     document.getElementById("downloadModeGroup").querySelectorAll('.radio-container,.checkbox-container,.textbox-container').forEach(container => {
         show(container, options.downloadMode == 'downloadsApi')
+    });
+
+    document.getElementById("obsidianUriGroup").querySelectorAll('.radio-container,.checkbox-container,.textbox-container').forEach(container => {
+        show(container, options.downloadMode == 'obsidianUri')
     });
 
     show(document.getElementById("linkReferenceStyle"), (options.linkStyle == "referenced"));
