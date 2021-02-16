@@ -63,7 +63,6 @@ function copyToClipboard(text) {
 }
 
 function downloadMarkdown(filename, text) {
-    console.log("downloadMarkdown", filename, text);
     let datauri = `data:text/markdown;base64,${text}`;
     var link = document.createElement('a');
     link.download = filename;
@@ -72,7 +71,6 @@ function downloadMarkdown(filename, text) {
 }
 
 function downloadImage(filename, url) {
-    console.log("downloadImage", filename, url);
 
     /* Link with a download attribute? CORS says no.
     var link = document.createElement('a');

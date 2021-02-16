@@ -721,18 +721,15 @@ async function copyMarkdownFromContext(info, tab) {
       options.frontmatter = options.backmatter = '';
       const article = await getArticleFromContent(tab.id, false);
       const { markdown } = turndown(`<a href="${info.linkUrl}">${info.linkText}</a>`, { ...options, downloadImages: false }, article);
-      //await browser.tabs.executeScript(tab.id, {code: `copyToClipboard(${JSON.stringify(markdown)})`});
-      await navigator.clipboard.writeText(markdown);
+      await browser.tabs.executeScript(tab.id, {code: `copyToClipboard(${JSON.stringify(markdown)})`});
     }
     else if (info.menuItemId == "copy-markdown-image") {
       await browser.tabs.executeScript(tab.id, {code: `copyToClipboard("![](${info.srcUrl})")`});
-      await navigator.clipboard.writeText(`![](${info.srcUrl})`);
     }
     else {
       const article = await getArticleFromContent(tab.id, info.menuItemId == "copy-markdown-selection");
       const { markdown } = await convertArticleToMarkdown(article, downloadImages = false);
-      //await browser.tabs.executeScript(tab.id, { code: `copyToClipboard(${JSON.stringify(markdown)})` });
-      await navigator.clipboard.writeText(markdown);
+      await browser.tabs.executeScript(tab.id, { code: `copyToClipboard(${JSON.stringify(markdown)})` });
     }
   }
   catch (error) {
