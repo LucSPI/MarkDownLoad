@@ -160,6 +160,8 @@ function getImageFilename(src, options, prependFilePath = true) {
     // for now, give it an 'idunno' extension and we'll process it later
     filename = filename + '.idunno';
   }
+
+  filename = generateValidFileName(filename, options.disallowedChars);
   
   return imagePrefix + filename;
 
