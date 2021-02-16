@@ -377,7 +377,6 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
   //     if (options.obsidianVault) uri += `&vault=${encodeURIComponent(options.obsidianVault)}`;
   //     uri += `&content=${encodeURIComponent(markdown)}`;
   //     let code = `window.location='${uri}'`;
-  //     console.log(uri.length);
   //     await browser.tabs.executeScript(tabId, {code: code});
   //   }
   //   catch (error) {
@@ -647,13 +646,10 @@ async function getArticleFromDom(domString) {
 
   // add all meta tags, so users can do whatever they want
   dom.head.querySelectorAll('meta[name][content]')?.forEach(meta => {
-    console.log(meta);
     if (meta.name && meta.content && !article[meta.name]) {
       article[meta.name] = meta.content;
     }
   })
-
-  console.log(article);
 
   // return the article
   return article;
