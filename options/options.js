@@ -19,7 +19,8 @@ const defaultOptions = {
     imagePrefix: '{title}/',
     disallowedChars: '[]#^',
     downloadMode: 'downloadsApi',
-    obsidianVault: null
+    // obsidianVault: null,
+    // obsidianPathType: 'name'
 }
 
 let options = defaultOptions;
@@ -38,7 +39,7 @@ const saveOptions = e => {
         saveAs: document.querySelector("[name='saveAs']").checked,
         downloadImages: document.querySelector("[name='downloadImages']").checked,
         imagePrefix: document.querySelector("[name='imagePrefix']").value,
-        obsidianVault: document.querySelector("[name='obsidianValur']").value,
+        // obsidianVault: document.querySelector("[name='obsidianValur']").value,
 
         headingStyle: getCheckedValue(document.querySelectorAll("input[name='headingStyle']")),
         hr: getCheckedValue(document.querySelectorAll("input[name='hr']")),
@@ -51,6 +52,7 @@ const saveOptions = e => {
         linkReferenceStyle: getCheckedValue(document.querySelectorAll("input[name='linkReferenceStyle']")),
         imageStyle: getCheckedValue(document.querySelectorAll("input[name='imageStyle']")),
         downloadMode: getCheckedValue(document.querySelectorAll("input[name='downloadMode']")),
+        // obsidianPathType: getCheckedValue(document.querySelectorAll("input[name='obsidianPathType']")),
     }
 
     save();
@@ -105,7 +107,7 @@ const restoreOptions = () => {
         document.querySelector("[name='saveAs']").checked = options.saveAs;
         document.querySelector("[name='downloadImages']").checked = options.downloadImages;
         document.querySelector("[name='imagePrefix']").value = options.imagePrefix;
-        document.querySelector("[name='obsidianVault']").value = options.obsidianVault;
+        // document.querySelector("[name='obsidianVault']").value = options.obsidianVault;
 
         setCheckedValue(document.querySelectorAll("[name='headingStyle']"), options.headingStyle);
         setCheckedValue(document.querySelectorAll("[name='hr']"), options.hr);
@@ -118,6 +120,7 @@ const restoreOptions = () => {
         setCheckedValue(document.querySelectorAll("[name='linkReferenceStyle']"), options.linkReferenceStyle);
         setCheckedValue(document.querySelectorAll("[name='imageStyle']"), options.imageStyle);
         setCheckedValue(document.querySelectorAll("[name='downloadMode']"), options.downloadMode);
+        // setCheckedValue(document.querySelectorAll("[name='obsidianPathType']"), options.obsidianPathType);
 
         refereshElements();
     }
@@ -143,9 +146,9 @@ const refereshElements = () => {
         show(container, options.downloadMode == 'downloadsApi')
     });
 
-    document.getElementById("obsidianUriGroup").querySelectorAll('.radio-container,.checkbox-container,.textbox-container').forEach(container => {
-        show(container, options.downloadMode == 'obsidianUri')
-    });
+    // document.getElementById("obsidianUriGroup").querySelectorAll('.radio-container,.checkbox-container,.textbox-container').forEach(container => {
+    //     show(container, options.downloadMode == 'obsidianUri')
+    // });
 
     show(document.getElementById("linkReferenceStyle"), (options.linkStyle == "referenced"));
 

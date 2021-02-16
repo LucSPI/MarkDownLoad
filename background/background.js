@@ -19,7 +19,8 @@ const defaultOptions = {
   imagePrefix: '{title}/',
   disallowedChars: '[]#^',
   downloadMode: 'downloadsApi',
-  obsidianVault: null,
+  // obsidianVault: null,
+  // obsidianPathType: 'name'
 }
 
 // add notification listener for foreground page messages
@@ -345,26 +346,25 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
       console.error("Download failed", err);
     }
   }
-  // download via obsidian://new uri
-  else if (options.downloadMode == 'obsidianUri') {
-    try {
-      await ensureScripts(tabId);
-      let uri = 'obsidian://new?';
-      if (title.includes('/')) uri += `path=${encodeURIComponent(title)}`;
-      else uri += `name=${encodeURIComponent(title)}`;
-      if (options.obsidianVault) uri += `&vault=${encodeURIComponent(options.obsidianVault)}`;
-      uri += `&content=${encodeURIComponent(markdown)}`;
-      let code = `window.location='${uri}'`;
-      console.log(code);
-      await browser.tabs.executeScript(tabId, {code: code});
-    }
-    catch (error) {
-      // This could happen if the extension is not allowed to run code in
-      // the page, for example if the tab is a privileged page.
-      console.error("Failed to execute script: " + error);
-    };
+  // // download via obsidian://new uri
+  // else if (options.downloadMode == 'obsidianUri') {
+  //   try {
+  //     await ensureScripts(tabId);
+  //     let uri = 'obsidian://new?';
+  //     uri += `${options.obsidianPathType}=${encodeURIComponent(title)}`;
+  //     if (options.obsidianVault) uri += `&vault=${encodeURIComponent(options.obsidianVault)}`;
+  //     uri += `&content=${encodeURIComponent(markdown)}`;
+  //     let code = `window.location='${uri}'`;
+  //     console.log(uri.length);
+  //     await browser.tabs.executeScript(tabId, {code: code});
+  //   }
+  //   catch (error) {
+  //     // This could happen if the extension is not allowed to run code in
+  //     // the page, for example if the tab is a privileged page.
+  //     console.error("Failed to execute script: " + error);
+  //   };
     
-  }
+  // }
   // download via content link
   else {
     try {
