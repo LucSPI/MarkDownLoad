@@ -19,8 +19,9 @@ const defaultOptions = {
     imagePrefix: '{title}/',
     disallowedChars: '[]#^',
     downloadMode: 'downloadsApi',
+    turndownEscape: true,
     // obsidianVault: null,
-    // obsidianPathType: 'name'
+    // obsidianPathType: 'name',
 }
 
 let options = defaultOptions;
@@ -39,7 +40,8 @@ const saveOptions = e => {
         saveAs: document.querySelector("[name='saveAs']").checked,
         downloadImages: document.querySelector("[name='downloadImages']").checked,
         imagePrefix: document.querySelector("[name='imagePrefix']").value,
-        // obsidianVault: document.querySelector("[name='obsidianValur']").value,
+        turndownEscape: document.querySelector("[name='turndownEscape']").checked,
+        // obsidianVault: document.querySelector("[name='obsidianVault']").value,
 
         headingStyle: getCheckedValue(document.querySelectorAll("input[name='headingStyle']")),
         hr: getCheckedValue(document.querySelectorAll("input[name='hr']")),
@@ -107,6 +109,7 @@ const restoreOptions = () => {
         document.querySelector("[name='saveAs']").checked = options.saveAs;
         document.querySelector("[name='downloadImages']").checked = options.downloadImages;
         document.querySelector("[name='imagePrefix']").value = options.imagePrefix;
+        document.querySelector("[name='turndownEscape']").checked = options.turndownEscape;
         // document.querySelector("[name='obsidianVault']").value = options.obsidianVault;
 
         setCheckedValue(document.querySelectorAll("[name='headingStyle']"), options.headingStyle);

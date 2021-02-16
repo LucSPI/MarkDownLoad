@@ -19,6 +19,7 @@ const defaultOptions = {
   imagePrefix: '{title}/',
   disallowedChars: '[]#^',
   downloadMode: 'downloadsApi',
+  turndownEscape: true,
   // obsidianVault: null,
   // obsidianPathType: 'name'
 }
@@ -28,8 +29,14 @@ browser.runtime.onMessage.addListener(notify);
 // create context menus
 createMenus();
 
+TurndownService.prototype.defaultEscape = TurndownService.prototype.escape;
+
 // function to convert the article content to markdown using Turndown
 function turndown(content, options, article) {
+
+  if (options.turndownEscape) TurndownService.prototype.escape = TurndownService.prototype.defaultEscape;
+  else TurndownService.prototype.escape = s => s;
+
   var turndownService = new TurndownService(options);
 
   turndownService.keep(['iframe']);
