@@ -118,6 +118,11 @@ function turndown(content, options, article) {
 
   let markdown = options.frontmatter + turndownService.turndown(content)
       + options.backmatter;
+
+  // strip out non-printing special characters which CodeMirror displays as a red dot
+  // see: https://codemirror.net/doc/manual.html#option_specialChars
+  markdown = markdown.replace(/[\u0000-\u001f\u007f-\u009f\u00ad\u061c\u200b-\u200f\u2028\u2029\ufeff\ufff9-\ufffc]/g, '');
+  
   return { markdown: markdown, imageList: imageList };
 }
 
