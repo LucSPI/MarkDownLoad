@@ -36,11 +36,15 @@ function getHTMLOfSelection() {
     } else if (window.getSelection) {
         var selection = window.getSelection();
         if (selection.rangeCount > 0) {
-            range = selection.getRangeAt(0);
-            var clonedSelection = range.cloneContents();
-            var div = document.createElement('div');
-            div.appendChild(clonedSelection);
-            return div.innerHTML;
+            let content = '';
+            for (let i = 0; i < selection.rangeCount; i++) {
+                range = selection.getRangeAt(0);
+                var clonedSelection = range.cloneContents();
+                var div = document.createElement('div');
+                div.appendChild(clonedSelection);
+                content += div.innerHTML;
+            }
+            return content;
         } else {
             return '';
         }
