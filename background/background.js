@@ -633,8 +633,18 @@ async function getArticleFromDom(domString) {
   // also grab the page title
   article.pageTitle = dom.title;
 
-  // and the keywords, should they exist
+  // and the keywords, should they exist, as an array
   article.keywords = dom.head.querySelector('meta[name="keywords"]')?.content?.split(',')?.map(s => s.trim());
+
+  // add all meta tags, so users can do whatever they want
+  dom.head.querySelectorAll('meta[name][content]')?.forEach(meta => {
+    console.log(meta);
+    if (meta.name && meta.content && !article[meta.name]) {
+      article[meta.name] = meta.content;
+    }
+  })
+
+  console.log(article);
 
   // return the article
   return article;
