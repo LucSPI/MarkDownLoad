@@ -169,7 +169,7 @@ function getImageFilename(src, options, prependFilePath = true) {
 function textReplace(string, article, disallowedChars = null) {
   for (const key in article) {
     if (article.hasOwnProperty(key) && key != "content") {
-      let s = article[key] + '' || '';
+      let s = (article[key] || '') + '';
       if (s && disallowedChars) s = s.split('/').map(x => this.generateValidFileName(x, disallowedChars)).join('/');
       string = string.split('{' + key + '}').join(s);
     }
@@ -185,6 +185,21 @@ function textReplace(string, article, disallowedChars = null) {
       const dateString = moment(now).format(format);
       string = string.replace(new RegExp(match, 'g'), dateString);
     });
+  }
+
+  // replace keywords
+  const keywordRegex = /{keywords:?(.*)?}/g
+  const keywordMatches = string.match(keywordRegex);
+  if (keywordMatches && keywordMatches.forEach) {
+    keywordMatches.forEach(match => {
+      let seperator = match.substring(10, match.length - 1)
+      try {
+        seperator = JSON.parse(JSON.stringify(seperator).replace(/\\\\/g, '\\'));
+      }
+      catch { }
+      const keywordsString = (article.keywords || []).join(seperator);
+      string = string.replace(new RegExp(match.replace(/\\/g, '\\\\'), 'g'), keywordsString);
+    })
   }
 
   return string;
@@ -266,11 +281,9 @@ async function preDownloadImages(imageList, markdown) {
           // here's the returned blob
           const blob = xhr.response;
           let newFilename = filename;
-          console.log('src', src);
           if (newFilename.endsWith('.idunno')) {
             // replace any unknown extension with a lookup based on mime type
             newFilename = filename.replace('.idunno', '.' + mimedb[blob.type]);
-            console.log(newFilename)
 
             // and replace any instances of this in the markdown
             // remember to url encode for replacement if it's not an obsidian link
@@ -619,6 +632,9 @@ async function getArticleFromDom(domString) {
   article.baseURI = dom.baseURI;
   // also grab the page title
   article.pageTitle = dom.title;
+
+  // and the keywords, should they exist
+  article.keywords = dom.head.querySelector('meta[name="keywords"]')?.content?.split(',')?.map(s => s.trim());
 
   // return the article
   return article;
