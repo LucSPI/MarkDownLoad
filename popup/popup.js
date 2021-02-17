@@ -2,6 +2,7 @@
 // default variables
 var selectedText = null;
 var imageList = null;
+var mdClipsFolder = '';
 
 const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 // set up event handlers
@@ -147,7 +148,7 @@ browser.runtime.onMessage.addListener(notify);
 function sendDownloadMessage(text) {
     if (text != null) {
 
-        browser.tabs.query({
+        return browser.tabs.query({
             currentWindow: true,
             active: true
         }).then(tabs => {
@@ -156,26 +157,26 @@ function sendDownloadMessage(text) {
                 markdown: text,
                 title: document.getElementById("title").value,
                 tab: tabs[0],
-                imageList: imageList
+                imageList: imageList,
+                mdClipsFolder: mdClipsFolder
             };
-    
-            browser.runtime.sendMessage(message);
+            return browser.runtime.sendMessage(message);
         });
     }
 }
 
 // event handler for download button
-function download(e) {
+async function download(e) {
     e.preventDefault();
-    sendDownloadMessage(cm.getValue());
+    await sendDownloadMessage(cm.getValue());
     window.close();
 }
 
 // event handler for download selected button
-function downloadSelection(e) {
+async function downloadSelection(e) {
     e.preventDefault();
     if (cm.somethingSelected()) {
-        sendDownloadMessage(cm.getSelection());
+        await sendDownloadMessage(cm.getSelection());
     }
 }
 
@@ -189,6 +190,7 @@ function notify(message) {
         cm.setValue(message.markdown);
         document.getElementById("title").value = message.article.title;
         imageList = message.imageList;
+        mdClipsFolder = message.mdClipsFolder;
         
         // show the hidden elements
         document.getElementById("container").style.display = 'flex';

@@ -1,27 +1,28 @@
 // these are the default options
 const defaultOptions = {
-    headingStyle: "setext",
-    hr: "***",
-    bulletListMarker: "*",
-    codeBlockStyle: "indented",
-    fence: "```",
-    emDelimiter: "_",
-    strongDelimiter: "**",
-    linkStyle: "inlined",
-    linkReferenceStyle: "full",
-    imageStyle: "markdown",
-    includeTemplate: false,
-    frontmatter: "{baseURI}\n\n> {excerpt}\n\n# {title}",
-    backmatter: "",
-    title: "{title}",
-    saveAs: false,
-    downloadImages: false,
-    imagePrefix: '{title}/',
-    disallowedChars: '[]#^',
-    downloadMode: 'downloadsApi',
-    turndownEscape: true,
-    // obsidianVault: null,
-    // obsidianPathType: 'name',
+  headingStyle: "atx",
+  hr: "___",
+  bulletListMarker: "-",
+  codeBlockStyle: "fenced",
+  fence: "```",
+  emDelimiter: "_",
+  strongDelimiter: "**",
+  linkStyle: "inlined",
+  linkReferenceStyle: "full",
+  imageStyle: "markdown",
+  frontmatter: "---\ncreated: {date:YYYY-MM-DDTHH:mm:ss} (UTC {date:Z})\ntags: [{keywords}]\nsource: {baseURI}\nauthor: {byline}\n---\n\n# {pageTitle}\n\n> ## Excerpt\n> {excerpt}\n\n---",
+  backmatter: "",
+  title: "{title}",
+  includeTemplate: false,
+  saveAs: false,
+  downloadImages: false,
+  imagePrefix: '{title}/',
+  mdClipsFolder: null,
+  disallowedChars: '[]#^',
+  downloadMode: 'downloadsApi',
+  turndownEscape: true,
+  // obsidianVault: null,
+  // obsidianPathType: 'name'
 }
 
 let options = defaultOptions;
@@ -40,6 +41,7 @@ const saveOptions = e => {
         saveAs: document.querySelector("[name='saveAs']").checked,
         downloadImages: document.querySelector("[name='downloadImages']").checked,
         imagePrefix: document.querySelector("[name='imagePrefix']").value,
+        mdClipsFolder: document.querySelector("[name='mdClipsFolder']").value,
         turndownEscape: document.querySelector("[name='turndownEscape']").checked,
         // obsidianVault: document.querySelector("[name='obsidianVault']").value,
 
@@ -115,6 +117,7 @@ const restoreOptions = () => {
         document.querySelector("[name='saveAs']").checked = options.saveAs;
         document.querySelector("[name='downloadImages']").checked = options.downloadImages;
         document.querySelector("[name='imagePrefix']").value = options.imagePrefix;
+        document.querySelector("[name='mdClipsFolder']").value = result.mdClipsFolder;
         document.querySelector("[name='turndownEscape']").checked = options.turndownEscape;
         // document.querySelector("[name='obsidianVault']").value = options.obsidianVault;
 

@@ -1,22 +1,23 @@
 // these are the default options
 const defaultOptions = {
-  headingStyle: "setext",
-  hr: "***",
-  bulletListMarker: "*",
-  codeBlockStyle: "indented",
+  headingStyle: "atx",
+  hr: "___",
+  bulletListMarker: "-",
+  codeBlockStyle: "fenced",
   fence: "```",
   emDelimiter: "_",
   strongDelimiter: "**",
   linkStyle: "inlined",
   linkReferenceStyle: "full",
   imageStyle: "markdown",
-  frontmatter: "{baseURI}\n\n> {excerpt}\n\n# {title}",
+  frontmatter: "---\ncreated: {date:YYYY-MM-DDTHH:mm:ss} (UTC {date:Z})\ntags: [{keywords}]\nsource: {baseURI}\nauthor: {byline}\n---\n\n# {pageTitle}\n\n> ## Excerpt\n> {excerpt}\n\n---",
   backmatter: "",
   title: "{title}",
   includeTemplate: false,
   saveAs: false,
   downloadImages: false,
   imagePrefix: '{title}/',
+  mdClipsFolder: null,
   disallowedChars: '[]#^',
   downloadMode: 'downloadsApi',
   turndownEscape: true,
@@ -174,9 +175,8 @@ function getImageFilename(src, options, prependFilePath = true) {
   }
 
   filename = generateValidFileName(filename, options.disallowedChars);
-  
-  return imagePrefix + filename;
 
+  return imagePrefix + filename;
 }
 
 // function to replace placeholder strings with article info
@@ -249,7 +249,6 @@ async function convertArticleToMarkdown(article, downloadImages = null) {
 
   options.imagePrefix = textReplace(options.imagePrefix, article, options.disallowedChars)
     .split('/').map(s=>generateValidFileName(s, options.disallowedChars)).join('/');
-
 
   let result = turndown(article.content, options, article);
   if (options.downloadImages) {
@@ -329,7 +328,7 @@ async function preDownloadImages(imageList, markdown) {
 }
 
 // function to actually download the markdown file
-async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
+async function downloadMarkdown(markdown, title, tabId, imageList = {}, mdClipsFolder = '') {
   // get the options
   const options = await getOptions();
   
@@ -345,7 +344,7 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
       // start the download
       const id = await browser.downloads.download({
         url: url,
-        filename: title + ".md",
+        filename: mdClipsFolder + title + ".md",
         saveAs: options.saveAs
       });
 
@@ -355,7 +354,7 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
       // download images (if enabled)
       if (options.downloadImages) {
         // get the relative path of the markdown file (if any) for image path
-        const destPath = title.substring(0, title.lastIndexOf('/'));
+        const destPath = mdClipsFolder + title.substring(0, title.lastIndexOf('/'));
         Object.entries(imageList).forEach(async ([src, filename]) => {
           // start the download of the image
           const imgId = await browser.downloads.download({
@@ -395,7 +394,7 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}) {
   else {
     try {
       await ensureScripts(tabId);
-      const filename = generateValidFileName(title, options.disallowedChars) + ".md";
+      const filename = mdClipsFolder + generateValidFileName(title, options.disallowedChars) + ".md";
       const code = `downloadMarkdown("${filename}","${base64EncodeUnicode(markdown)}");`
       await browser.tabs.executeScript(tabId, {code: code});
     }
@@ -431,6 +430,7 @@ function base64EncodeUnicode(str) {
 
 //function that handles messages from the injected script into the site
 async function notify(message) {
+  const options = await this.getOptions();
   // message for initial clipping of the dom
   if (message.type == "clip") {
     // get the article info from the passed in dom
@@ -448,12 +448,15 @@ async function notify(message) {
     // format the title
     article.title = await formatTitle(article);
 
+    // format the mdClipsFolder
+    const mdClipsFolder = await formatMdClipsFolder(article);
+
     // display the data in the popup
-    await browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article, imageList: imageList });
+    await browser.runtime.sendMessage({ type: "display.md", markdown: markdown, article: article, imageList: imageList, mdClipsFolder: mdClipsFolder});
   }
   // message for triggering download
   else if (message.type == "download") {
-    downloadMarkdown(message.markdown, message.title, message.tab.id, message.imageList);
+    downloadMarkdown(message.markdown, message.title, message.tab.id, message.imageList, message.mdClipsFolder);
   }
 }
 
@@ -691,13 +694,28 @@ async function formatTitle(article) {
   return title;
 }
 
+async function formatMdClipsFolder(article) {
+  let options = await getOptions();
+
+  let mdClipsFolder = '';
+  if (options.mdClipsFolder) {
+    mdClipsFolder = textReplace(options.mdClipsFolder, article, options.disallowedChars);
+    mdClipsFolder = mdClipsFolder.split('/').map(s => generateValidFileName(s, options.disallowedChars)).join('/');
+    if (!mdClipsFolder.endsWith('/')) mdClipsFolder += '/';
+  }
+
+  return mdClipsFolder;
+}
+
 // function to download markdown, triggered by context menu
 async function downloadMarkdownFromContext(info, tab) {
   await ensureScripts(tab.id);
   const article = await getArticleFromContent(tab.id, info.menuItemId == "download-markdown-selection");
   const title = await formatTitle(article);
   const { markdown, imageList } = await convertArticleToMarkdown(article);
-  await downloadMarkdown(markdown, title, tab.id, imageList); 
+  // format the mdClipsFolder
+  const mdClipsFolder = await formatMdClipsFolder(article);
+  await downloadMarkdown(markdown, title, tab.id, imageList, mdClipsFolder); 
 
 }
 
