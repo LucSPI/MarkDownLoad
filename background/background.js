@@ -725,7 +725,7 @@ async function copyMarkdownFromContext(info, tab) {
       const options = await getOptions();
       options.frontmatter = options.backmatter = '';
       const article = await getArticleFromContent(tab.id, false);
-      const { markdown } = turndown(`<a href="${info.linkUrl}">${info.linkText}</a>`, { ...options, downloadImages: false }, article);
+      const { markdown } = turndown(`<a href="${info.linkUrl}">${info.linkText || info.selectionText}</a>`, { ...options, downloadImages: false }, article);
       await browser.tabs.executeScript(tab.id, {code: `copyToClipboard(${JSON.stringify(markdown)})`});
     }
     else if (info.menuItemId == "copy-markdown-image") {
