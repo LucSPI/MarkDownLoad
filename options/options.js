@@ -99,6 +99,12 @@ const restoreOptions = () => {
             document.querySelector('#downloadMode p').innerText = "The Downloas API is unavailable in this browser."
         }
 
+        const downloadImages = options.downloadImages && options.downloadMode == 'downloadsApi';
+
+        if(!downloadImages && (options.imageStyle == 'markdown' || options.imageStyle.startsWith('obsidian'))) {
+            options.imageStyle = 'originalSource';
+        }
+
         document.querySelector("[name='frontmatter']").value = options.frontmatter;
         textareaInput.bind(document.querySelector("[name='frontmatter']"))();
         document.querySelector("[name='backmatter']").value = options.backmatter;
@@ -165,6 +171,7 @@ const refereshElements = () => {
     document.getElementById('obsidian').disabled = !downloadImages;
     document.getElementById('obsidian-nofolder').disabled = !downloadImages;
 
+    
 }
 
 const inputChange = e => {
