@@ -161,6 +161,7 @@ const refereshElements = () => {
     // document.getElementById("obsidianUriGroup").querySelectorAll('.radio-container,.checkbox-container,.textbox-container').forEach(container => {
     //     show(container, options.downloadMode == 'obsidianUri')
     // });
+    show(document.getElementById("mdClipsFolder"), options.downloadMode == 'downloadsApi');
 
     show(document.getElementById("linkReferenceStyle"), (options.linkStyle == "referenced"));
 

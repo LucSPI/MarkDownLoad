@@ -251,7 +251,7 @@ async function convertArticleToMarkdown(article, downloadImages = null) {
     .split('/').map(s=>generateValidFileName(s, options.disallowedChars)).join('/');
 
   let result = turndown(article.content, options, article);
-  if (options.downloadImages) {
+  if (options.downloadImages && options.downloadMode == 'downloadsApi') {
     // pre-download the images
     result = await preDownloadImages(result.imageList, result.markdown);
   }
@@ -698,7 +698,7 @@ async function formatMdClipsFolder(article) {
   let options = await getOptions();
 
   let mdClipsFolder = '';
-  if (options.mdClipsFolder) {
+  if (options.mdClipsFolder && options.downloadMode == 'downloadsApi') {
     mdClipsFolder = textReplace(options.mdClipsFolder, article, options.disallowedChars);
     mdClipsFolder = mdClipsFolder.split('/').map(s => generateValidFileName(s, options.disallowedChars)).join('/');
     if (!mdClipsFolder.endsWith('/')) mdClipsFolder += '/';
