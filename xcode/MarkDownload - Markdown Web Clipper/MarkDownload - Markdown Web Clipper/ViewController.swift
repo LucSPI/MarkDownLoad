@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  MarkDownload - Markdown Web Clipper
 //
-//  Created by Gordon Pedersen on 25/9/20.
+//  Created by Gordon Pedersen on 17/2/21.
 //
 
 import Cocoa
@@ -10,7 +10,7 @@ import SafariServices.SFSafariApplication
 import SafariServices.SFSafariExtensionManager
 
 let appName = "MarkDownload - Markdown Web Clipper"
-let extensionBundleIdentifier = "au.death.MarkDownload---Markdown-Web-Clipper-Extension"
+let extensionBundleIdentifier = "au.death.MarkDownload---Markdown-Web-Clipper.Extension"
 
 class ViewController: NSViewController {
 

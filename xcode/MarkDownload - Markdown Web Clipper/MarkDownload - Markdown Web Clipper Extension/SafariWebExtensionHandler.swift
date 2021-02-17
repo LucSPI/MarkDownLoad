@@ -2,7 +2,7 @@
 //  SafariWebExtensionHandler.swift
 //  MarkDownload - Markdown Web Clipper Extension
 //
-//  Created by Gordon Pedersen on 25/9/20.
+//  Created by Gordon Pedersen on 17/2/21.
 //
 
 import SafariServices
