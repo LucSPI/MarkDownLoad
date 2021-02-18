@@ -41,6 +41,19 @@ much, feel free to throw some coins in my hat via the following:
 [![Paypal](https://img.shields.io/badge/paypal-deathau-yellow?style=social&logo=paypal)](https://paypal.me/deathau)
 
 # Version History
+## 3.0.0
+- Theme revamp
+- Utilizing CodeMirror for the Markdown Editor
+- Strip Disallowed characters on title and image filenames during text replacement
+- Add "Download Type" option, to attempt to resolve conflicts with other Download extensions (and to help support Safari!)
+- Add options for stripping images and links
+- Fixes around downloading images and getting correct urls in the markdown
+- Added meta keywords support for the text replace
+- Added text replace support for meta tags in general
+- Add option to disable turndown escaping
+- Strip out 'red dot' special characters
+- Added an option to specify a download path (within the downloads folder). Thanks to Nikita Lukianets!
+
 ## 2.4.1
 - Add option for Obsidian-style image links (when downloading images with the markdown file)
 - Downloaded images should download relative to the markdown file in the case where you specify a subfolder in your title template
