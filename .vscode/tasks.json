@@ -6,12 +6,12 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "web-ext build"
+            "command": "web-ext build -s ./src"
         },
         {
             "label": "run",
             "type": "shell",
-            "command": "web-ext run"
+            "command": "web-ext run -s ./src"
         }
     ]
 }
