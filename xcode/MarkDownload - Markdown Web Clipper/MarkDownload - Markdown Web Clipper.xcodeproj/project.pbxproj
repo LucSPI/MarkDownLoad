@@ -7,46 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F8F9178E25DCEF660055F2A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F9178D25DCEF660055F2A9 /* AppDelegate.swift */; };
-		F8F9179125DCEF660055F2A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8F9178F25DCEF660055F2A9 /* Main.storyboard */; };
-		F8F9179325DCEF660055F2A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F9179225DCEF660055F2A9 /* ViewController.swift */; };
-		F8F9179525DCEF670055F2A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8F9179425DCEF670055F2A9 /* Assets.xcassets */; };
-		F8F9179C25DCEF680055F2A9 /* MarkDownload - Markdown Web Clipper Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F8F9179B25DCEF680055F2A9 /* MarkDownload - Markdown Web Clipper Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		F8F917A125DCEF680055F2A9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8F917A025DCEF680055F2A9 /* Cocoa.framework */; };
-		F8F917A425DCEF680055F2A9 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F917A325DCEF680055F2A9 /* SafariWebExtensionHandler.swift */; };
-		F8F917BF25DCEF680055F2A9 /* background in Resources */ = {isa = PBXBuildFile; fileRef = F8F917B125DCEF680055F2A9 /* background */; };
-		F8F917C125DCEF680055F2A9 /* options in Resources */ = {isa = PBXBuildFile; fileRef = F8F917B325DCEF680055F2A9 /* options */; };
-		F8F917C225DCEF680055F2A9 /* popup in Resources */ = {isa = PBXBuildFile; fileRef = F8F917B425DCEF680055F2A9 /* popup */; };
-		F8F917C325DCEF680055F2A9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F8F917B525DCEF680055F2A9 /* LICENSE */; };
-		F8F917C425DCEF680055F2A9 /* markdown-clipper in Resources */ = {isa = PBXBuildFile; fileRef = F8F917B625DCEF680055F2A9 /* markdown-clipper */; };
-		F8F917C525DCEF680055F2A9 /* browser-polyfill.min.js in Resources */ = {isa = PBXBuildFile; fileRef = F8F917B725DCEF680055F2A9 /* browser-polyfill.min.js */; };
-		F8F917C625DCEF680055F2A9 /* PRIVACY.md in Resources */ = {isa = PBXBuildFile; fileRef = F8F917B825DCEF680055F2A9 /* PRIVACY.md */; };
-		F8F917C725DCEF680055F2A9 /* web-ext-artifacts in Resources */ = {isa = PBXBuildFile; fileRef = F8F917B925DCEF680055F2A9 /* web-ext-artifacts */; };
-		F8F917C825DCEF680055F2A9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F8F917BA25DCEF680055F2A9 /* README.md */; };
-		F8F917C925DCEF680055F2A9 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = F8F917BB25DCEF680055F2A9 /* icons */; };
-		F8F917CA25DCEF680055F2A9 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = F8F917BC25DCEF680055F2A9 /* manifest.json */; };
-		F8F917CB25DCEF680055F2A9 /* contentScript in Resources */ = {isa = PBXBuildFile; fileRef = F8F917BD25DCEF680055F2A9 /* contentScript */; };
-		F8F917CC25DCEF680055F2A9 /* media in Resources */ = {isa = PBXBuildFile; fileRef = F8F917BE25DCEF680055F2A9 /* media */; };
+		F88D6F4425DDEF08001F90AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88D6F4325DDEF08001F90AF /* AppDelegate.swift */; };
+		F88D6F4725DDEF08001F90AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F88D6F4525DDEF08001F90AF /* Main.storyboard */; };
+		F88D6F4925DDEF08001F90AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88D6F4825DDEF08001F90AF /* ViewController.swift */; };
+		F88D6F4B25DDEF0A001F90AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F88D6F4A25DDEF0A001F90AF /* Assets.xcassets */; };
+		F88D6F5225DDEF0A001F90AF /* MarkDownload - Markdown Web Clipper Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F88D6F5125DDEF0A001F90AF /* MarkDownload - Markdown Web Clipper Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F88D6F5725DDEF0A001F90AF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F88D6F5625DDEF0A001F90AF /* Cocoa.framework */; };
+		F88D6F5A25DDEF0A001F90AF /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88D6F5925DDEF0A001F90AF /* SafariWebExtensionHandler.swift */; };
+		F88D6F6E25DDEF0B001F90AF /* background in Resources */ = {isa = PBXBuildFile; fileRef = F88D6F6725DDEF0B001F90AF /* background */; };
+		F88D6F6F25DDEF0B001F90AF /* options in Resources */ = {isa = PBXBuildFile; fileRef = F88D6F6825DDEF0B001F90AF /* options */; };
+		F88D6F7025DDEF0B001F90AF /* popup in Resources */ = {isa = PBXBuildFile; fileRef = F88D6F6925DDEF0B001F90AF /* popup */; };
+		F88D6F7125DDEF0B001F90AF /* browser-polyfill.min.js in Resources */ = {isa = PBXBuildFile; fileRef = F88D6F6A25DDEF0B001F90AF /* browser-polyfill.min.js */; };
+		F88D6F7225DDEF0B001F90AF /* icons in Resources */ = {isa = PBXBuildFile; fileRef = F88D6F6B25DDEF0B001F90AF /* icons */; };
+		F88D6F7325DDEF0B001F90AF /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = F88D6F6C25DDEF0B001F90AF /* manifest.json */; };
+		F88D6F7425DDEF0B001F90AF /* contentScript in Resources */ = {isa = PBXBuildFile; fileRef = F88D6F6D25DDEF0B001F90AF /* contentScript */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		F8F9179D25DCEF680055F2A9 /* PBXContainerItemProxy */ = {
+		F88D6F5325DDEF0A001F90AF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F8F9178125DCEF660055F2A9 /* Project object */;
+			containerPortal = F88D6F3725DDEF07001F90AF /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F8F9179A25DCEF680055F2A9;
+			remoteGlobalIDString = F88D6F5025DDEF0A001F90AF;
 			remoteInfo = "MarkDownload - Markdown Web Clipper Extension";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F8F917AC25DCEF680055F2A9 /* Embed App Extensions */ = {
+		F88D6F6225DDEF0A001F90AF /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				F8F9179C25DCEF680055F2A9 /* MarkDownload - Markdown Web Clipper Extension.appex in Embed App Extensions */,
+				F88D6F5225DDEF0A001F90AF /* MarkDownload - Markdown Web Clipper Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -54,121 +48,107 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F8F9178925DCEF660055F2A9 /* MarkDownload - Markdown Web Clipper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MarkDownload - Markdown Web Clipper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8F9178C25DCEF660055F2A9 /* MarkDownload___Markdown_Web_Clipper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MarkDownload___Markdown_Web_Clipper.entitlements"; sourceTree = "<group>"; };
-		F8F9178D25DCEF660055F2A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F8F9179025DCEF660055F2A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		F8F9179225DCEF660055F2A9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		F8F9179425DCEF670055F2A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F8F9179625DCEF670055F2A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F8F9179B25DCEF680055F2A9 /* MarkDownload - Markdown Web Clipper Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "MarkDownload - Markdown Web Clipper Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8F917A025DCEF680055F2A9 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		F8F917A325DCEF680055F2A9 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
-		F8F917A525DCEF680055F2A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F8F917A625DCEF680055F2A9 /* MarkDownload___Markdown_Web_Clipper_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MarkDownload___Markdown_Web_Clipper_Extension.entitlements"; sourceTree = "<group>"; };
-		F8F917B125DCEF680055F2A9 /* background */ = {isa = PBXFileReference; lastKnownFileType = folder; name = background; path = ../../../background; sourceTree = "<group>"; };
-		F8F917B225DCEF680055F2A9 /* xcode */ = {isa = PBXFileReference; lastKnownFileType = folder; name = xcode; path = ../..; sourceTree = "<group>"; };
-		F8F917B325DCEF680055F2A9 /* options */ = {isa = PBXFileReference; lastKnownFileType = folder; name = options; path = ../../../options; sourceTree = "<group>"; };
-		F8F917B425DCEF680055F2A9 /* popup */ = {isa = PBXFileReference; lastKnownFileType = folder; name = popup; path = ../../../popup; sourceTree = "<group>"; };
-		F8F917B525DCEF680055F2A9 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE; path = ../../../LICENSE; sourceTree = "<group>"; };
-		F8F917B625DCEF680055F2A9 /* markdown-clipper */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "markdown-clipper"; path = "../../../markdown-clipper"; sourceTree = "<group>"; };
-		F8F917B725DCEF680055F2A9 /* browser-polyfill.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "browser-polyfill.min.js"; path = "../../../browser-polyfill.min.js"; sourceTree = "<group>"; };
-		F8F917B825DCEF680055F2A9 /* PRIVACY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = PRIVACY.md; path = ../../../PRIVACY.md; sourceTree = "<group>"; };
-		F8F917B925DCEF680055F2A9 /* web-ext-artifacts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "web-ext-artifacts"; path = "../../../web-ext-artifacts"; sourceTree = "<group>"; };
-		F8F917BA25DCEF680055F2A9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../../README.md; sourceTree = "<group>"; };
-		F8F917BB25DCEF680055F2A9 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../icons; sourceTree = "<group>"; };
-		F8F917BC25DCEF680055F2A9 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../manifest.json; sourceTree = "<group>"; };
-		F8F917BD25DCEF680055F2A9 /* contentScript */ = {isa = PBXFileReference; lastKnownFileType = folder; name = contentScript; path = ../../../contentScript; sourceTree = "<group>"; };
-		F8F917BE25DCEF680055F2A9 /* media */ = {isa = PBXFileReference; lastKnownFileType = folder; name = media; path = ../../../media; sourceTree = "<group>"; };
+		F88D6F3F25DDEF08001F90AF /* MarkDownload - Markdown Web Clipper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MarkDownload - Markdown Web Clipper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F88D6F4225DDEF08001F90AF /* MarkDownload___Markdown_Web_Clipper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MarkDownload___Markdown_Web_Clipper.entitlements"; sourceTree = "<group>"; };
+		F88D6F4325DDEF08001F90AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F88D6F4625DDEF08001F90AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F88D6F4825DDEF08001F90AF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F88D6F4A25DDEF0A001F90AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F88D6F4C25DDEF0A001F90AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F88D6F5125DDEF0A001F90AF /* MarkDownload - Markdown Web Clipper Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "MarkDownload - Markdown Web Clipper Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F88D6F5625DDEF0A001F90AF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		F88D6F5925DDEF0A001F90AF /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		F88D6F5B25DDEF0A001F90AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F88D6F5C25DDEF0A001F90AF /* MarkDownload___Markdown_Web_Clipper_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MarkDownload___Markdown_Web_Clipper_Extension.entitlements"; sourceTree = "<group>"; };
+		F88D6F6725DDEF0B001F90AF /* background */ = {isa = PBXFileReference; lastKnownFileType = folder; name = background; path = ../../../src/background; sourceTree = "<group>"; };
+		F88D6F6825DDEF0B001F90AF /* options */ = {isa = PBXFileReference; lastKnownFileType = folder; name = options; path = ../../../src/options; sourceTree = "<group>"; };
+		F88D6F6925DDEF0B001F90AF /* popup */ = {isa = PBXFileReference; lastKnownFileType = folder; name = popup; path = ../../../src/popup; sourceTree = "<group>"; };
+		F88D6F6A25DDEF0B001F90AF /* browser-polyfill.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "browser-polyfill.min.js"; path = "../../../src/browser-polyfill.min.js"; sourceTree = "<group>"; };
+		F88D6F6B25DDEF0B001F90AF /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../src/icons; sourceTree = "<group>"; };
+		F88D6F6C25DDEF0B001F90AF /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../src/manifest.json; sourceTree = "<group>"; };
+		F88D6F6D25DDEF0B001F90AF /* contentScript */ = {isa = PBXFileReference; lastKnownFileType = folder; name = contentScript; path = ../../../src/contentScript; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		F8F9178625DCEF660055F2A9 /* Frameworks */ = {
+		F88D6F3C25DDEF07001F90AF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F8F9179825DCEF680055F2A9 /* Frameworks */ = {
+		F88D6F4E25DDEF0A001F90AF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8F917A125DCEF680055F2A9 /* Cocoa.framework in Frameworks */,
+				F88D6F5725DDEF0A001F90AF /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F8F9178025DCEF660055F2A9 = {
+		F88D6F3625DDEF07001F90AF = {
 			isa = PBXGroup;
 			children = (
-				F8F9178B25DCEF660055F2A9 /* MarkDownload - Markdown Web Clipper */,
-				F8F917A225DCEF680055F2A9 /* MarkDownload - Markdown Web Clipper Extension */,
-				F8F9179F25DCEF680055F2A9 /* Frameworks */,
-				F8F9178A25DCEF660055F2A9 /* Products */,
+				F88D6F4125DDEF08001F90AF /* MarkDownload - Markdown Web Clipper */,
+				F88D6F5825DDEF0A001F90AF /* MarkDownload - Markdown Web Clipper Extension */,
+				F88D6F5525DDEF0A001F90AF /* Frameworks */,
+				F88D6F4025DDEF08001F90AF /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		F8F9178A25DCEF660055F2A9 /* Products */ = {
+		F88D6F4025DDEF08001F90AF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F8F9178925DCEF660055F2A9 /* MarkDownload - Markdown Web Clipper.app */,
-				F8F9179B25DCEF680055F2A9 /* MarkDownload - Markdown Web Clipper Extension.appex */,
+				F88D6F3F25DDEF08001F90AF /* MarkDownload - Markdown Web Clipper.app */,
+				F88D6F5125DDEF0A001F90AF /* MarkDownload - Markdown Web Clipper Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F8F9178B25DCEF660055F2A9 /* MarkDownload - Markdown Web Clipper */ = {
+		F88D6F4125DDEF08001F90AF /* MarkDownload - Markdown Web Clipper */ = {
 			isa = PBXGroup;
 			children = (
-				F8F9178C25DCEF660055F2A9 /* MarkDownload___Markdown_Web_Clipper.entitlements */,
-				F8F9178D25DCEF660055F2A9 /* AppDelegate.swift */,
-				F8F9178F25DCEF660055F2A9 /* Main.storyboard */,
-				F8F9179225DCEF660055F2A9 /* ViewController.swift */,
-				F8F9179425DCEF670055F2A9 /* Assets.xcassets */,
-				F8F9179625DCEF670055F2A9 /* Info.plist */,
+				F88D6F4225DDEF08001F90AF /* MarkDownload___Markdown_Web_Clipper.entitlements */,
+				F88D6F4325DDEF08001F90AF /* AppDelegate.swift */,
+				F88D6F4525DDEF08001F90AF /* Main.storyboard */,
+				F88D6F4825DDEF08001F90AF /* ViewController.swift */,
+				F88D6F4A25DDEF0A001F90AF /* Assets.xcassets */,
+				F88D6F4C25DDEF0A001F90AF /* Info.plist */,
 			);
 			path = "MarkDownload - Markdown Web Clipper";
 			sourceTree = "<group>";
 		};
-		F8F9179F25DCEF680055F2A9 /* Frameworks */ = {
+		F88D6F5525DDEF0A001F90AF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F8F917A025DCEF680055F2A9 /* Cocoa.framework */,
+				F88D6F5625DDEF0A001F90AF /* Cocoa.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F8F917A225DCEF680055F2A9 /* MarkDownload - Markdown Web Clipper Extension */ = {
+		F88D6F5825DDEF0A001F90AF /* MarkDownload - Markdown Web Clipper Extension */ = {
 			isa = PBXGroup;
 			children = (
-				F8F917B025DCEF680055F2A9 /* Resources */,
-				F8F917A325DCEF680055F2A9 /* SafariWebExtensionHandler.swift */,
-				F8F917A525DCEF680055F2A9 /* Info.plist */,
-				F8F917A625DCEF680055F2A9 /* MarkDownload___Markdown_Web_Clipper_Extension.entitlements */,
+				F88D6F6625DDEF0B001F90AF /* Resources */,
+				F88D6F5925DDEF0A001F90AF /* SafariWebExtensionHandler.swift */,
+				F88D6F5B25DDEF0A001F90AF /* Info.plist */,
+				F88D6F5C25DDEF0A001F90AF /* MarkDownload___Markdown_Web_Clipper_Extension.entitlements */,
 			);
 			path = "MarkDownload - Markdown Web Clipper Extension";
 			sourceTree = "<group>";
 		};
-		F8F917B025DCEF680055F2A9 /* Resources */ = {
+		F88D6F6625DDEF0B001F90AF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F8F917B125DCEF680055F2A9 /* background */,
-				F8F917B225DCEF680055F2A9 /* xcode */,
-				F8F917B325DCEF680055F2A9 /* options */,
-				F8F917B425DCEF680055F2A9 /* popup */,
-				F8F917B525DCEF680055F2A9 /* LICENSE */,
-				F8F917B625DCEF680055F2A9 /* markdown-clipper */,
-				F8F917B725DCEF680055F2A9 /* browser-polyfill.min.js */,
-				F8F917B825DCEF680055F2A9 /* PRIVACY.md */,
-				F8F917B925DCEF680055F2A9 /* web-ext-artifacts */,
-				F8F917BA25DCEF680055F2A9 /* README.md */,
-				F8F917BB25DCEF680055F2A9 /* icons */,
-				F8F917BC25DCEF680055F2A9 /* manifest.json */,
-				F8F917BD25DCEF680055F2A9 /* contentScript */,
-				F8F917BE25DCEF680055F2A9 /* media */,
+				F88D6F6725DDEF0B001F90AF /* background */,
+				F88D6F6825DDEF0B001F90AF /* options */,
+				F88D6F6925DDEF0B001F90AF /* popup */,
+				F88D6F6A25DDEF0B001F90AF /* browser-polyfill.min.js */,
+				F88D6F6B25DDEF0B001F90AF /* icons */,
+				F88D6F6C25DDEF0B001F90AF /* manifest.json */,
+				F88D6F6D25DDEF0B001F90AF /* contentScript */,
 			);
 			name = Resources;
 			path = "MarkDownload - Markdown Web Clipper Extension";
@@ -177,32 +157,32 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F8F9178825DCEF660055F2A9 /* MarkDownload - Markdown Web Clipper */ = {
+		F88D6F3E25DDEF07001F90AF /* MarkDownload - Markdown Web Clipper */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F8F917AD25DCEF680055F2A9 /* Build configuration list for PBXNativeTarget "MarkDownload - Markdown Web Clipper" */;
+			buildConfigurationList = F88D6F6325DDEF0A001F90AF /* Build configuration list for PBXNativeTarget "MarkDownload - Markdown Web Clipper" */;
 			buildPhases = (
-				F8F9178525DCEF660055F2A9 /* Sources */,
-				F8F9178625DCEF660055F2A9 /* Frameworks */,
-				F8F9178725DCEF660055F2A9 /* Resources */,
-				F8F917AC25DCEF680055F2A9 /* Embed App Extensions */,
+				F88D6F3B25DDEF07001F90AF /* Sources */,
+				F88D6F3C25DDEF07001F90AF /* Frameworks */,
+				F88D6F3D25DDEF07001F90AF /* Resources */,
+				F88D6F6225DDEF0A001F90AF /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				F8F9179E25DCEF680055F2A9 /* PBXTargetDependency */,
+				F88D6F5425DDEF0A001F90AF /* PBXTargetDependency */,
 			);
 			name = "MarkDownload - Markdown Web Clipper";
 			productName = "MarkDownload - Markdown Web Clipper";
-			productReference = F8F9178925DCEF660055F2A9 /* MarkDownload - Markdown Web Clipper.app */;
+			productReference = F88D6F3F25DDEF08001F90AF /* MarkDownload - Markdown Web Clipper.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F8F9179A25DCEF680055F2A9 /* MarkDownload - Markdown Web Clipper Extension */ = {
+		F88D6F5025DDEF0A001F90AF /* MarkDownload - Markdown Web Clipper Extension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F8F917A925DCEF680055F2A9 /* Build configuration list for PBXNativeTarget "MarkDownload - Markdown Web Clipper Extension" */;
+			buildConfigurationList = F88D6F5F25DDEF0A001F90AF /* Build configuration list for PBXNativeTarget "MarkDownload - Markdown Web Clipper Extension" */;
 			buildPhases = (
-				F8F9179725DCEF680055F2A9 /* Sources */,
-				F8F9179825DCEF680055F2A9 /* Frameworks */,
-				F8F9179925DCEF680055F2A9 /* Resources */,
+				F88D6F4D25DDEF0A001F90AF /* Sources */,
+				F88D6F4E25DDEF0A001F90AF /* Frameworks */,
+				F88D6F4F25DDEF0A001F90AF /* Resources */,
 			);
 			buildRules = (
 			);
@@ -210,27 +190,27 @@
 			);
 			name = "MarkDownload - Markdown Web Clipper Extension";
 			productName = "MarkDownload - Markdown Web Clipper Extension";
-			productReference = F8F9179B25DCEF680055F2A9 /* MarkDownload - Markdown Web Clipper Extension.appex */;
+			productReference = F88D6F5125DDEF0A001F90AF /* MarkDownload - Markdown Web Clipper Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		F8F9178125DCEF660055F2A9 /* Project object */ = {
+		F88D6F3725DDEF07001F90AF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
-					F8F9178825DCEF660055F2A9 = {
+					F88D6F3E25DDEF07001F90AF = {
 						CreatedOnToolsVersion = 12.4;
 					};
-					F8F9179A25DCEF680055F2A9 = {
+					F88D6F5025DDEF0A001F90AF = {
 						CreatedOnToolsVersion = 12.4;
 					};
 				};
 			};
-			buildConfigurationList = F8F9178425DCEF660055F2A9 /* Build configuration list for PBXProject "MarkDownload - Markdown Web Clipper" */;
+			buildConfigurationList = F88D6F3A25DDEF07001F90AF /* Build configuration list for PBXProject "MarkDownload - Markdown Web Clipper" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -238,82 +218,76 @@
 				en,
 				Base,
 			);
-			mainGroup = F8F9178025DCEF660055F2A9;
-			productRefGroup = F8F9178A25DCEF660055F2A9 /* Products */;
+			mainGroup = F88D6F3625DDEF07001F90AF;
+			productRefGroup = F88D6F4025DDEF08001F90AF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F8F9178825DCEF660055F2A9 /* MarkDownload - Markdown Web Clipper */,
-				F8F9179A25DCEF680055F2A9 /* MarkDownload - Markdown Web Clipper Extension */,
+				F88D6F3E25DDEF07001F90AF /* MarkDownload - Markdown Web Clipper */,
+				F88D6F5025DDEF0A001F90AF /* MarkDownload - Markdown Web Clipper Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		F8F9178725DCEF660055F2A9 /* Resources */ = {
+		F88D6F3D25DDEF07001F90AF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8F9179525DCEF670055F2A9 /* Assets.xcassets in Resources */,
-				F8F9179125DCEF660055F2A9 /* Main.storyboard in Resources */,
+				F88D6F4B25DDEF0A001F90AF /* Assets.xcassets in Resources */,
+				F88D6F4725DDEF08001F90AF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F8F9179925DCEF680055F2A9 /* Resources */ = {
+		F88D6F4F25DDEF0A001F90AF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8F917C925DCEF680055F2A9 /* icons in Resources */,
-				F8F917C525DCEF680055F2A9 /* browser-polyfill.min.js in Resources */,
-				F8F917C125DCEF680055F2A9 /* options in Resources */,
-				F8F917C825DCEF680055F2A9 /* README.md in Resources */,
-				F8F917CA25DCEF680055F2A9 /* manifest.json in Resources */,
-				F8F917C425DCEF680055F2A9 /* markdown-clipper in Resources */,
-				F8F917C225DCEF680055F2A9 /* popup in Resources */,
-				F8F917CB25DCEF680055F2A9 /* contentScript in Resources */,
-				F8F917C725DCEF680055F2A9 /* web-ext-artifacts in Resources */,
-				F8F917BF25DCEF680055F2A9 /* background in Resources */,
-				F8F917C325DCEF680055F2A9 /* LICENSE in Resources */,
-				F8F917C625DCEF680055F2A9 /* PRIVACY.md in Resources */,
-				F8F917CC25DCEF680055F2A9 /* media in Resources */,
+				F88D6F7125DDEF0B001F90AF /* browser-polyfill.min.js in Resources */,
+				F88D6F7025DDEF0B001F90AF /* popup in Resources */,
+				F88D6F6E25DDEF0B001F90AF /* background in Resources */,
+				F88D6F7425DDEF0B001F90AF /* contentScript in Resources */,
+				F88D6F7225DDEF0B001F90AF /* icons in Resources */,
+				F88D6F7325DDEF0B001F90AF /* manifest.json in Resources */,
+				F88D6F6F25DDEF0B001F90AF /* options in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		F8F9178525DCEF660055F2A9 /* Sources */ = {
+		F88D6F3B25DDEF07001F90AF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8F9179325DCEF660055F2A9 /* ViewController.swift in Sources */,
-				F8F9178E25DCEF660055F2A9 /* AppDelegate.swift in Sources */,
+				F88D6F4925DDEF08001F90AF /* ViewController.swift in Sources */,
+				F88D6F4425DDEF08001F90AF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F8F9179725DCEF680055F2A9 /* Sources */ = {
+		F88D6F4D25DDEF0A001F90AF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8F917A425DCEF680055F2A9 /* SafariWebExtensionHandler.swift in Sources */,
+				F88D6F5A25DDEF0A001F90AF /* SafariWebExtensionHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F8F9179E25DCEF680055F2A9 /* PBXTargetDependency */ = {
+		F88D6F5425DDEF0A001F90AF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F8F9179A25DCEF680055F2A9 /* MarkDownload - Markdown Web Clipper Extension */;
-			targetProxy = F8F9179D25DCEF680055F2A9 /* PBXContainerItemProxy */;
+			target = F88D6F5025DDEF0A001F90AF /* MarkDownload - Markdown Web Clipper Extension */;
+			targetProxy = F88D6F5325DDEF0A001F90AF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		F8F9178F25DCEF660055F2A9 /* Main.storyboard */ = {
+		F88D6F4525DDEF08001F90AF /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F8F9179025DCEF660055F2A9 /* Base */,
+				F88D6F4625DDEF08001F90AF /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -321,7 +295,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		F8F917A725DCEF680055F2A9 /* Debug */ = {
+		F88D6F5D25DDEF0A001F90AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -382,7 +356,7 @@
 			};
 			name = Debug;
 		};
-		F8F917A825DCEF680055F2A9 /* Release */ = {
+		F88D6F5E25DDEF0A001F90AF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -436,7 +410,7 @@
 			};
 			name = Release;
 		};
-		F8F917AA25DCEF680055F2A9 /* Debug */ = {
+		F88D6F6025DDEF0A001F90AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "MarkDownload - Markdown Web Clipper Extension/MarkDownload___Markdown_Web_Clipper_Extension.entitlements";
@@ -458,7 +432,7 @@
 			};
 			name = Debug;
 		};
-		F8F917AB25DCEF680055F2A9 /* Release */ = {
+		F88D6F6125DDEF0A001F90AF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "MarkDownload - Markdown Web Clipper Extension/MarkDownload___Markdown_Web_Clipper_Extension.entitlements";
@@ -480,7 +454,7 @@
 			};
 			name = Release;
 		};
-		F8F917AE25DCEF680055F2A9 /* Debug */ = {
+		F88D6F6425DDEF0A001F90AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -504,7 +478,7 @@
 			};
 			name = Debug;
 		};
-		F8F917AF25DCEF680055F2A9 /* Release */ = {
+		F88D6F6525DDEF0A001F90AF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -531,34 +505,34 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F8F9178425DCEF660055F2A9 /* Build configuration list for PBXProject "MarkDownload - Markdown Web Clipper" */ = {
+		F88D6F3A25DDEF07001F90AF /* Build configuration list for PBXProject "MarkDownload - Markdown Web Clipper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F8F917A725DCEF680055F2A9 /* Debug */,
-				F8F917A825DCEF680055F2A9 /* Release */,
+				F88D6F5D25DDEF0A001F90AF /* Debug */,
+				F88D6F5E25DDEF0A001F90AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F8F917A925DCEF680055F2A9 /* Build configuration list for PBXNativeTarget "MarkDownload - Markdown Web Clipper Extension" */ = {
+		F88D6F5F25DDEF0A001F90AF /* Build configuration list for PBXNativeTarget "MarkDownload - Markdown Web Clipper Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F8F917AA25DCEF680055F2A9 /* Debug */,
-				F8F917AB25DCEF680055F2A9 /* Release */,
+				F88D6F6025DDEF0A001F90AF /* Debug */,
+				F88D6F6125DDEF0A001F90AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F8F917AD25DCEF680055F2A9 /* Build configuration list for PBXNativeTarget "MarkDownload - Markdown Web Clipper" */ = {
+		F88D6F6325DDEF0A001F90AF /* Build configuration list for PBXNativeTarget "MarkDownload - Markdown Web Clipper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F8F917AE25DCEF680055F2A9 /* Debug */,
-				F8F917AF25DCEF680055F2A9 /* Release */,
+				F88D6F6425DDEF0A001F90AF /* Debug */,
+				F88D6F6525DDEF0A001F90AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = F8F9178125DCEF660055F2A9 /* Project object */;
+	rootObject = F88D6F3725DDEF07001F90AF /* Project object */;
 }
