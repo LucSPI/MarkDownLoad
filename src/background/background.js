@@ -575,6 +575,14 @@ async function createMenus() {
   }, () => { });
 }
 
+browser.commands.onCommand.addListener(function (command) {
+  if (command == "download_tab_as_markdown") {
+    const tab = browser.tabs.getCurrent()
+    const info = { menuItemId: "download-markdown-all" };
+    downloadMarkdownFromContext(info, tab);
+  }
+});
+
 // click handler for the context menus
 browser.contextMenus.onClicked.addListener(function (info, tab) {
   // one of the copy to clipboard commands
