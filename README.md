@@ -37,9 +37,15 @@ It uses the following libraries:
 The Common Mark icon courtesy of https://github.com/dcurtis/markdown-mark
 
 ## Pricing
-Huh? This is an open-source extension I made *for fun*. It's completely free.
-However, if you absolutely *have* to send me money because you like it that
-much, feel free to throw some coins in my hat via the following:
+This is an open-source extension I made *for fun*. It's intention is to be completely free.
+It's free on Firefox, Edge and Chrome (and other Chromium browsers),
+but unfortunately for Safari there is a yearly developer fee, so I've decided to
+charge a small price for the Safari version to help cover that cost.
+Alternately, you can become a GitHub Sponsor for as little as $2 per month and
+you can request a key for the Safari version.
+Also, even if you're using the free version and you absolutely *have* to
+send me money because you like it that much, feel free to throw some coins
+in my hat via the following:
 
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/deathau?style=social)](https://github.com/sponsors/deathau)
 [![Paypal](https://img.shields.io/badge/paypal-deathau-yellow?style=social&logo=paypal)](https://paypal.me/deathau)
