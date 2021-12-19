@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "MarkDownload - Markdown Web Clipper",
-  "version": "3.0.0",
+  "version": "3.0.2",
   "author": "Gordon Pedsersen",
   "description": "This extension works like a web clipper, but it downloads articles in markdown format.",
   "icons": {
@@ -15,7 +15,6 @@
   "permissions": [
     "<all_urls>",
     "activeTab",
-    "tabs",
     "downloads",
     "storage",
     "contextMenus",
