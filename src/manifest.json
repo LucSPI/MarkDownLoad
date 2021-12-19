@@ -51,7 +51,13 @@
       "suggested_key": {
         "default": "Alt+Shift+M"
       }
-    }
+    },
+    "download_tab_as_markdown": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+M"
+        },
+        "description": "Save current tab as Markdown"
+      }
   },
   "browser_specific_settings": {
     "gecko": {
