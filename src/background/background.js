@@ -213,7 +213,8 @@ function textReplace(string, article, disallowedChars = null) {
     matches.forEach(match => {
       const format = match.substring(6, match.length - 1);
       const dateString = moment(now).format(format);
-      string = string.replace(new RegExp(match, 'g'), dateString);
+      console.log('format', format, dateString, '--- replace', match, 'with', dateString)
+      string = string.replaceAll(match, dateString);
     });
   }
 
