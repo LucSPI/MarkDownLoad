@@ -692,9 +692,11 @@ async function getArticleFromDom(domString) {
   article.keywords = dom.head.querySelector('meta[name="keywords"]')?.content?.split(',')?.map(s => s.trim());
 
   // add all meta tags, so users can do whatever they want
-  dom.head.querySelectorAll('meta[name][content]')?.forEach(meta => {
-    if (meta.name && meta.content && !article[meta.name]) {
-      article[meta.name] = meta.content;
+  dom.head.querySelectorAll('meta[name][content], meta[property][content]')?.forEach(meta => {
+    const key = (meta.getAttribute('name') || meta.getAttribute('property'))
+    const val = meta.getAttribute('content')
+    if (key && val && !article[key]) {
+      article[key] = val;
     }
   })
 
