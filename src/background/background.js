@@ -135,6 +135,16 @@ function turndown(content, options, article) {
     }
   })
 
+  // handle <pre> as code blocks
+  turndownService.addRule('pre', {
+    filter: (node, tdopts) => node.nodeName == 'PRE' && (!node.firstChild || node.firstChild.nodeName != 'CODE'),
+    replacement: (content, node, tdopts) => {
+      const langMatch = node.id?.match(/code-lang-(.+)/);
+      const lang = langMatch?.length > 0 ? langMatch[1] : '';
+      return '\n\n' + options.fence + (lang || '') + '\n' + node.textContent + '\n' + options.fence + '\n\n';
+    }
+  });
+
   let markdown = options.frontmatter + turndownService.turndown(content)
       + options.backmatter;
 
@@ -215,7 +225,6 @@ function textReplace(string, article, disallowedChars = null) {
     matches.forEach(match => {
       const format = match.substring(6, match.length - 1);
       const dateString = moment(now).format(format);
-      console.log('format', format, dateString, '--- replace', match, 'with', dateString)
       string = string.replaceAll(match, dateString);
     });
   }
@@ -688,6 +697,13 @@ async function getArticleFromDom(domString) {
     }
   })
 
+  dom.body.querySelectorAll('[class*=highlight-text],[class*=highlight-source]')?.forEach(codeSource => {
+    const language = codeSource.className.match(/highlight-(?:text|source)-([a-z0-9]+)/)?.[1]
+    if (codeSource.firstChild.nodeName == "PRE") {
+      codeSource.firstChild.id = `code-lang-${language}`
+    }
+  });
+
   // simplify the dom into an article
   const article = new Readability(dom).parse();
   // get the base uri from the dom and attach it as important article info
@@ -695,17 +711,20 @@ async function getArticleFromDom(domString) {
   // also grab the page title
   article.pageTitle = dom.title;
 
-  // and the keywords, should they exist, as an array
-  article.keywords = dom.head.querySelector('meta[name="keywords"]')?.content?.split(',')?.map(s => s.trim());
+  // make sure the dom has a head
+  if (dom.head) {
+    // and the keywords, should they exist, as an array
+    article.keywords = dom.head.querySelector('meta[name="keywords"]')?.content?.split(',')?.map(s => s.trim());
 
-  // add all meta tags, so users can do whatever they want
-  dom.head.querySelectorAll('meta[name][content], meta[property][content]')?.forEach(meta => {
-    const key = (meta.getAttribute('name') || meta.getAttribute('property'))
-    const val = meta.getAttribute('content')
-    if (key && val && !article[key]) {
-      article[key] = val;
-    }
-  })
+    // add all meta tags, so users can do whatever they want
+    dom.head.querySelectorAll('meta[name][content], meta[property][content]')?.forEach(meta => {
+      const key = (meta.getAttribute('name') || meta.getAttribute('property'))
+      const val = meta.getAttribute('content')
+      if (key && val && !article[key]) {
+        article[key] = val;
+      }
+    })
+  }
 
   article.math = math
 
