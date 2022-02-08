@@ -117,6 +117,22 @@ function turndown(content, options, article) {
     replacement: (content, node, tdopts) => content
   });
 
+  // handle multiple lines math
+  turndownService.addRule('mathjax', {
+    filter(node, options) {
+      const id = node.id || ''
+      return id.startsWith('MathJax-Element')
+    },
+    replacement(content, node, options) {
+      const mathId = node.id.match(/MathJax-Element-(\d+)/)[1]
+      const math = article.math[mathId]
+      if (math.inline)
+        return `$${math.tex}$`
+      else
+        return `$$\n${math.tex}\n$$`
+    }
+  })
+
   let markdown = options.frontmatter + turndownService.turndown(content)
       + options.backmatter;
 
@@ -650,6 +666,21 @@ async function getArticleFromDom(domString) {
     console.error("error while parsing");
   }
 
+  const math = {}
+  dom.body.querySelectorAll('script[id^=MathJax-Element-]')?.forEach(mathSource => {
+    const mathId = mathSource.id.match(/MathJax-Element-(\d+)/)[1]
+    if (mathId) {
+      let tex = mathSource.innerText.trim()
+      tex = tex.replaceAll("\xa0", " ")
+
+      const type = mathSource.attributes.type.value
+      math[mathId] = {
+        tex,
+        inline: type ? !type.includes('mode=display') : false
+      };
+    }
+  })
+
   // simplify the dom into an article
   const article = new Readability(dom).parse();
   // get the base uri from the dom and attach it as important article info
@@ -666,6 +697,8 @@ async function getArticleFromDom(domString) {
       article[meta.name] = meta.content;
     }
   })
+
+  article.math = math
 
   // return the article
   return article;
