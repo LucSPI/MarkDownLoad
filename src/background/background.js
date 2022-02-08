@@ -232,6 +232,10 @@ function textReplace(string, article, disallowedChars = null) {
     })
   }
 
+  // replace anything left in curly braces
+  const defaultRegex = /{(.*?)}/g
+  string = string.replace(defaultRegex, '')
+
   return string;
 }
 
