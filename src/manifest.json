@@ -54,11 +54,23 @@
       }
     },
     "download_tab_as_markdown": {
-        "suggested_key": {
-          "default": "Ctrl+Shift+M"
-        },
-        "description": "Save current tab as Markdown"
-      }
+      "suggested_key": {
+        "default": "Alt+Shift+D"
+      },
+      "description": "Save current tab as Markdown"
+    },
+    "copy_tab_as_markdown": {
+      "suggested_key": {
+        "default": "Alt+Shift+C"
+      },
+      "description": "Copy current tab as Markdown to the clipboard"
+    },
+    "copy_tab_as_markdown_link": {
+      "suggested_key": {
+        "default": "Alt+Shift+L"
+      },
+      "description": "Copy current tab URL as Markdown link to the clipboard"
+    }
   },
   "browser_specific_settings": {
     "gecko": {

@@ -608,10 +608,17 @@ async function createMenus() {
 }
 
 browser.commands.onCommand.addListener(function (command) {
+  const tab = browser.tabs.getCurrent()
   if (command == "download_tab_as_markdown") {
-    const tab = browser.tabs.getCurrent()
     const info = { menuItemId: "download-markdown-all" };
     downloadMarkdownFromContext(info, tab);
+  }
+  else if (command == "copy_tab_as_markdown") {
+    const info = { menuItemId: "copy-markdown-all" };
+    copyMarkdownFromContext(info, tab);
+  }
+  else if (command == "copy_tab_as_markdown_link") {
+    copyTabAsMarkdownLink(tab);
   }
 });
 
