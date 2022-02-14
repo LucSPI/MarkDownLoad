@@ -186,7 +186,12 @@ function textReplace(string, article, disallowedChars = null) {
     if (article.hasOwnProperty(key) && key != "content") {
       let s = (article[key] || '') + '';
       if (s && disallowedChars) s = this.generateValidFileName(s, disallowedChars);
-      string = string.split('{' + key + '}').join(s);
+
+      string = string.replace(new RegExp('{' + key + '}', 'g'), s);
+      string = string.replace(new RegExp('{' + key + ':kebab}', 'g'), s.replace(/ /g, '-').toLowerCase());
+      string = string.replace(new RegExp('{' + key + ':snake}', 'g'), s.replace(/ /g, '_').toLowerCase());
+      string = string.replace(new RegExp('{' + key + ':camel}', 'g'), s.replace(/ ./g, (str) => str.trim().toUpperCase()).replace(/^./, (str) => str.toLowerCase()));
+      string = string.replace(new RegExp('{' + key + ':pascal}', 'g'), s.replace(/ ./g, (str) => str.trim().toUpperCase()).replace(/^./, (str) => str.toUpperCase()));
     }
   }
 
