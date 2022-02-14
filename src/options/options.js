@@ -21,6 +21,7 @@ const defaultOptions = {
   disallowedChars: '[]#^',
   downloadMode: 'downloadsApi',
   turndownEscape: true,
+  contextMenus: true,
   // obsidianVault: null,
   // obsidianPathType: 'name'
 }
@@ -43,6 +44,7 @@ const saveOptions = e => {
         imagePrefix: document.querySelector("[name='imagePrefix']").value,
         mdClipsFolder: document.querySelector("[name='mdClipsFolder']").value,
         turndownEscape: document.querySelector("[name='turndownEscape']").checked,
+        contextMenus: document.querySelector("[name='contextMenus']").checked,
         // obsidianVault: document.querySelector("[name='obsidianVault']").value,
 
         headingStyle: getCheckedValue(document.querySelectorAll("input[name='headingStyle']")),
@@ -119,6 +121,7 @@ const restoreOptions = () => {
         document.querySelector("[name='imagePrefix']").value = options.imagePrefix;
         document.querySelector("[name='mdClipsFolder']").value = result.mdClipsFolder;
         document.querySelector("[name='turndownEscape']").checked = options.turndownEscape;
+        document.querySelector("[name='contextMenus']").checked = options.contextMenus;
         // document.querySelector("[name='obsidianVault']").value = options.obsidianVault;
 
         setCheckedValue(document.querySelectorAll("[name='headingStyle']"), options.headingStyle);
@@ -186,6 +189,11 @@ const inputChange = e => {
         let value = e.target.value;
         if (e.target.type == "checkbox") value = e.target.checked;
         options[key] = value;
+
+        if (key == "contextMenus") {
+            if (value) { createMenus(options) }
+            else { browser.contextMenus.removeAll() }
+        }
     }
     
     save();
