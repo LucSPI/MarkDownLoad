@@ -26,7 +26,6 @@ function turndown(content, options, article) {
         
         // get the original src
         let src = node.getAttribute('src')
-        console.log(src)
         // set the new src
         node.setAttribute('src', validateUri(src, article.baseURI));
         
@@ -581,6 +580,17 @@ async function getArticleFromDom(domString) {
   article.baseURI = dom.baseURI;
   // also grab the page title
   article.pageTitle = dom.title;
+  // and some URL info
+  const url = new URL(dom.baseURI);
+  article.hash = url.hash;
+  article.host = url.host;
+  article.origin = url.origin;
+  article.hostname = url.hostname;
+  article.pathname = url.pathname;
+  article.port = url.port;
+  article.protocol = url.protocol;
+  article.search = url.search;
+  
 
   // make sure the dom has a head
   if (dom.head) {

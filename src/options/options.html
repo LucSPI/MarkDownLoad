@@ -21,13 +21,26 @@
                 <li><code>{excerpt}</code> - Article description or short excerpt from the content</li>
                 <li><code>{byline}</code> - Author metadata</li>
                 <li><code>{dir}</code> - Content direction</li>
-                <li><code>{baseURI}</code> - The url of the article</li>
                 <li><code>{date:FORMAT}</code> - The current date and time. Check the <a href="https://momentjs.com/docs/#/displaying/format/" target="_blank" rel="noopener noreferrer">format reference</a> </li>
                 <li><code>{keywords}</code> - Meta keywords (if present). Comma separated by default.</li>
                 <li><code>{keywords:SEPARATOR}</code> - Meta keywords (if present) separated by SEPARATOR. For example, to separate by space, use <code>{keywords: }</code></li>
             </ul>
             There is also support for all meta tags not mentioned above, should the page you are clipping support them.
             For example, try <code>{og:image}</code> or any other widely supported meta tags
+            <p>
+                URL information:
+                <ul>
+                    <li><code>{baseURI}</code> - The url of the article</li>
+                    <li><code>{origin}</code> - The origin of the URL, that is its scheme, its domain and its port.</li>
+                    <li><code>{host}</code> - The domain (that is the <em>hostname</em>) followed by (if a port was specified) a <code>':'</code> and the <em>port</em> of the URL.</li>
+                    <li><code>{hostname}</code> - The domain of the URL.</li>
+                    <li><code>{port}</code> - The port number of the URL.</li>
+                    <li><code>{protocol}</code> - The protocol scheme of the URL, including the final <code>':'</code>.</li>
+                    <li><code>{pathname}</code> - An initial <code>'/'</code> followed by the path of the URL, not including the query string or fragment.</li>
+                    <li><code>{search}</code> - The URL's parameter string; if any parameters are provided, this string includes all of them, beginning with the leading <code>?</code> character.</li>
+                    <li><code>{hash}</code> - A '#' followed by the fragment identifier of the URL.</li>
+                </ul>
+            </p>
             <p>
                 Additionally, you can 'parameterize' any of the text variables (other than date and keywords) by using the following syntax:
                 <ul>
