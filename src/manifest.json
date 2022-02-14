@@ -39,6 +39,7 @@
       "background/turndown-plugin-gfm.js",
       "/background/Readability.js",
       "shared/context-menus.js",
+      "shared/default-options.js",
       "background/background.js"
     ]
   },
