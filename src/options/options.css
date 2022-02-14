@@ -312,3 +312,7 @@ input[type="text"], textarea {
 #downloadMode p{
     font-size: 0.85em;
 }
+
+summary > * {
+    display: inline-block;
+}

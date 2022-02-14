@@ -8,24 +8,37 @@
 </head>
 
 <body>
-    <h2>Custom text</h2>
-    <small class="instructions">For the title, as well as the front- and back-matter custom text, you can use the following text replacement values.
-        Please note that not all websites will provide all values
-        <ul>
-            <li><code>{title}</code> - Article Title</li>
-            <li><code>{pageTitle}</code> - Title of the actual page</li>
-            <li><code>{length}</code> - Length of the article, in characters</li>
-            <li><code>{excerpt}</code> - Article description or short excerpt from the content</li>
-            <li><code>{byline}</code> - Author metadata</li>
-            <li><code>{dir}</code> - Content direction</li>
-            <li><code>{baseURI}</code> - The url of the article</li>
-            <li><code>{date:FORMAT}</code> - The current date and time. Check the <a href="https://momentjs.com/docs/#/displaying/format/" target="_blank" rel="noopener noreferrer">format reference</a> </li>
-            <li><code>{keywords}</code> - Meta keywords (if present). Comma separated by default.</li>
-            <li><code>{keywords:SEPARATOR}</code> - Meta keywords (if present) separated by SEPARATOR. For example, to separate by space, use <code>{keywords: }</code></li>
-        </ul>
-        There is also support for all meta tags not mentioned above, should the page you are clipping support them.
-        For example, try <code>{og:image}</code> or any other widely supported meta tags
-    </small>
+    <details>
+        <summary>
+            <h2>Custom text ℹ️</h2>
+        </summary>
+        <small class="instructions">For the title, as well as the front- and back-matter custom text, you can use the following text replacement values.
+            Please note that not all websites will provide all values
+            <ul>
+                <li><code>{title}</code> - Article Title</li>
+                <li><code>{pageTitle}</code> - Title of the actual page</li>
+                <li><code>{length}</code> - Length of the article, in characters</li>
+                <li><code>{excerpt}</code> - Article description or short excerpt from the content</li>
+                <li><code>{byline}</code> - Author metadata</li>
+                <li><code>{dir}</code> - Content direction</li>
+                <li><code>{baseURI}</code> - The url of the article</li>
+                <li><code>{date:FORMAT}</code> - The current date and time. Check the <a href="https://momentjs.com/docs/#/displaying/format/" target="_blank" rel="noopener noreferrer">format reference</a> </li>
+                <li><code>{keywords}</code> - Meta keywords (if present). Comma separated by default.</li>
+                <li><code>{keywords:SEPARATOR}</code> - Meta keywords (if present) separated by SEPARATOR. For example, to separate by space, use <code>{keywords: }</code></li>
+            </ul>
+            There is also support for all meta tags not mentioned above, should the page you are clipping support them.
+            For example, try <code>{og:image}</code> or any other widely supported meta tags
+            <p>
+                Additionally, you can 'parameterize' any of the text variables (other than date and keywords) by using the following syntax:
+                <ul>
+                    <li><code>{variable:pascal}</code> - PascalCase: Every word capital</li>
+                    <li><code>{variable:camel}</code> - camelCase: every word capital except the first word</li>
+                    <li><code>{variable:kebab}</code> - kebab-case: hyphens between words, all lowercase</li>
+                    <li><code>{variable:snake}</code> - snake_case: underscores between words, all lowercase</li>
+                </ul>
+            </p>
+        </small>
+    </details>
 
     <h3>Title template</h3>
     <div class="textbox-container">
