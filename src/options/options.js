@@ -147,6 +147,7 @@ const refereshElements = () => {
     show(document.getElementById("imagePrefix"), downloadImages);
 
     document.getElementById('markdown').disabled = !downloadImages;
+    document.getElementById('base64').disabled = !downloadImages;
     document.getElementById('obsidian').disabled = !downloadImages;
     document.getElementById('obsidian-nofolder').disabled = !downloadImages;
 

@@ -26,6 +26,7 @@ function turndown(content, options, article) {
         
         // get the original src
         let src = node.getAttribute('src')
+        console.log(src)
         // set the new src
         node.setAttribute('src', validateUri(src, article.baseURI));
         
@@ -55,7 +56,7 @@ function turndown(content, options, article) {
             : imageFilename.split('/').map(s => obsidianLink ? s : encodeURI(s)).join('/')
           
           // set the new src attribute to be the local filename
-          if(options.imageStyle != 'originalSource') node.setAttribute('src', localSrc);
+          if(options.imageStyle != 'originalSource' && options.imageStyle != 'base64') node.setAttribute('src', localSrc);
           // pass the filter if we're making an obsidian link (or stripping links)
           return obsidianLink || options.imageStyle == 'noImage';
         }
@@ -291,30 +292,42 @@ async function preDownloadImages(imageList, markdown) {
         xhr.onload = async function () {
           // here's the returned blob
           const blob = xhr.response;
-          let newFilename = filename;
-          if (newFilename.endsWith('.idunno')) {
-            // replace any unknown extension with a lookup based on mime type
-            newFilename = filename.replace('.idunno', '.' + mimedb[blob.type]);
 
-            // and replace any instances of this in the markdown
-            // remember to url encode for replacement if it's not an obsidian link
-            if (!options.imageStyle.startsWith("obsidian")) {
-              markdown = markdown.replaceAll(filename.split('/').map(s => encodeURI(s)).join('/'), newFilename.split('/').map(s => encodeURI(s)).join('/'))
+          if (options.imageStyle == 'base64') {
+            var reader = new FileReader();
+            reader.onloadend = function () {
+              markdown = markdown.replaceAll(src, reader.result)
+              resolve()
             }
-            else {
-              markdown = markdown.replaceAll(filename, newFilename)
-            }
+            reader.readAsDataURL(blob);
           }
+          else {
 
-          // create an object url for the blob (no point fetching it twice)
-          const blobUrl = URL.createObjectURL(blob);
+            let newFilename = filename;
+            if (newFilename.endsWith('.idunno')) {
+              // replace any unknown extension with a lookup based on mime type
+              newFilename = filename.replace('.idunno', '.' + mimedb[blob.type]);
 
-          // add this blob into the new image list
-          newImageList[blobUrl] = newFilename;
+              // and replace any instances of this in the markdown
+              // remember to url encode for replacement if it's not an obsidian link
+              if (!options.imageStyle.startsWith("obsidian")) {
+                markdown = markdown.replaceAll(filename.split('/').map(s => encodeURI(s)).join('/'), newFilename.split('/').map(s => encodeURI(s)).join('/'))
+              }
+              else {
+                markdown = markdown.replaceAll(filename, newFilename)
+              }
+            }
 
-          // resolve this promise now
-          // (the file might not be saved yet, but the blob is and replacements are complete)
-          resolve();
+            // create an object url for the blob (no point fetching it twice)
+            const blobUrl = URL.createObjectURL(blob);
+
+            // add this blob into the new image list
+            newImageList[blobUrl] = newFilename;
+
+            // resolve this promise now
+            // (the file might not be saved yet, but the blob is and replacements are complete)
+            resolve();
+          }
         };
         xhr.onerror = function () {
           reject('A network error occurred attempting to download ' + src);

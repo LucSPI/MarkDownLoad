@@ -268,6 +268,10 @@ const helloWorld = () => {
         <label for="markdown">Pure Markdown
             <pre>![](folder/image.jpg)</pre>
         </label>
+        <input type="radio" name="imageStyle" id="base64" value="base64" />
+        <label for="base64">Base64 encoded inline
+            <pre>![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==)</pre>
+        </label>
         <input type="radio" name="imageStyle" id="obsidian" value="obsidian" />
         <label for="obsidian">Obsidian internal embed
             <pre>![[folder/image.jpg]]</pre>
