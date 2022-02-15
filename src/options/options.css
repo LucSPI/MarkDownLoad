@@ -149,7 +149,8 @@ input[type="text"] {
 .radio-container>label,
 .checkbox-container>label,
 .textbox-container,
-.instructions {
+.instructions,
+.button-container {
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 5px;
@@ -163,7 +164,8 @@ input[type="text"] {
 }
 
 .radio-container>label,
-.checkbox-container>label {
+.checkbox-container>label,
+.button-container > label {
     cursor: pointer;
     padding: 20px 20px 20px 65px;
     max-width: calc(100% - 100px);
@@ -175,26 +177,32 @@ label p{
     font-weight: normal;
 }
 
-.textbox-container {
+.textbox-container,
+.button-container {
     box-sizing: border-box;
     border-color: var(--border-primary);
     overflow:hidden;
     transition:all 0.3s ease-out;
 }
 
-.textbox-container > label {
+.textbox-container > label,
+.button-container > label {
     margin: 8px 20px;
+    padding:0;
 }
 
 .textbox-container > input[type="text"],
 .textbox-container > textarea,
-.textbox-container > .input-sizer {
+.textbox-container > .input-sizer,
+.button-container input,
+.button-container button {
     margin:0 20px 20px 20px;
 }
 
 .radio-container>label,
 .checkbox-container>label,
-.textbox-container>label {
+.textbox-container>label,
+.button-container>label {
     display: inline-block;
     font-weight: 600;
     transition: .3s ease all;
@@ -202,7 +210,8 @@ label p{
 }
 .textbox-container
 .radio-container>label:hover,
-.checkbox-container>label:hover {
+.checkbox-container>label:hover,
+.button-container {
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
 .radio-container>label::before,
@@ -249,7 +258,7 @@ label p{
     background-color: var(--pre-bg);
 }
 
-.radio-container, .checkbox-container {
+.radio-container, .checkbox-container, .button-container {
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -263,13 +272,19 @@ label p{
     transition:all 0.3s ease-out;
 }
 
+.button-container {
+    margin: calc(-1 * var(--gap)) 0 calc(var(--gap) * 2) 0;
+    width: 100%
+}
+
 .checkbox-container{
     margin-top:0;
     margin-bottom: 0;
 }
 
 .radio-container > *,
-.checkbox-container > * {
+.checkbox-container > *,
+.button-container > * {
     margin: var(--gap) 0 0 var(--gap);
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -281,6 +296,23 @@ label p{
 .radio-container>p,
 .checkbox-container>p {
     width: 100%;
+}
+
+.button-container input,
+.button-container button {
+    cursor: pointer;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+button {
+    background-color: var(--primary);
+    color: var(--fg-primary);
+    border-style: none;
+    border-radius: 5px;
+    padding:8px 20px;
 }
 
 @keyframes spinner {

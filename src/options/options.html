@@ -101,7 +101,7 @@
             <input name="contextMenus" id="contextMenus" type="checkbox" />
             <label for="contextMenus">Enable Context Menus</label>
         </div>
-        
+
         <br />
 
         <div class="radio-container" id="downloadMode">
@@ -317,6 +317,18 @@ const helloWorld = () => {
                 <br />Disabling this option disables this escaping.
             </small></p>
         </label>
+    </div>
+
+    <hr>
+    
+    <h2>Import / Export</h2>
+
+    <div class="button-container">
+        <label for="import">Import from a previous backup</label> <br />
+        <div class="input-sizer"><button name="import" id="import"> Choose file...<input type="file" name="import-file" id="import-file" /></button> </div>
+
+        <label for="export">Export current options</label> <br />
+        <div class="input-sizer"><button name="export" id="export">Export</button></div>
     </div>
 
     <div id="spinner" style="display: none;"></div>

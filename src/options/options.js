@@ -63,54 +63,56 @@ const save = () => {
         });
 }
 
-const restoreOptions = () => {
-    const setCurrentChoice = result => {
-        options = result;
+const setCurrentChoice = result => {
+    options = result;
 
-        // if browser doesn't support the download api (i.e. Safari)
-        // we have to use contentLink download mode
-        if (!browser.downloads) {
-            options.downloadMode = 'contentLink';
-            document.querySelectorAll("[name='downloadMode']").forEach(el => el.disabled = true)
-            document.querySelector('#downloadMode p').innerText = "The Downloas API is unavailable in this browser."
-        }
-
-        const downloadImages = options.downloadImages && options.downloadMode == 'downloadsApi';
-
-        if(!downloadImages && (options.imageStyle == 'markdown' || options.imageStyle.startsWith('obsidian'))) {
-            options.imageStyle = 'originalSource';
-        }
-
-        document.querySelector("[name='frontmatter']").value = options.frontmatter;
-        textareaInput.bind(document.querySelector("[name='frontmatter']"))();
-        document.querySelector("[name='backmatter']").value = options.backmatter;
-        textareaInput.bind(document.querySelector("[name='backmatter']"))();
-        document.querySelector("[name='title']").value = options.title;
-        document.querySelector("[name='disallowedChars']").value = options.disallowedChars;
-        document.querySelector("[name='includeTemplate']").checked = options.includeTemplate;
-        document.querySelector("[name='saveAs']").checked = options.saveAs;
-        document.querySelector("[name='downloadImages']").checked = options.downloadImages;
-        document.querySelector("[name='imagePrefix']").value = options.imagePrefix;
-        document.querySelector("[name='mdClipsFolder']").value = result.mdClipsFolder;
-        document.querySelector("[name='turndownEscape']").checked = options.turndownEscape;
-        document.querySelector("[name='contextMenus']").checked = options.contextMenus;
-        // document.querySelector("[name='obsidianVault']").value = options.obsidianVault;
-
-        setCheckedValue(document.querySelectorAll("[name='headingStyle']"), options.headingStyle);
-        setCheckedValue(document.querySelectorAll("[name='hr']"), options.hr);
-        setCheckedValue(document.querySelectorAll("[name='bulletListMarker']"), options.bulletListMarker);
-        setCheckedValue(document.querySelectorAll("[name='codeBlockStyle']"), options.codeBlockStyle);
-        setCheckedValue(document.querySelectorAll("[name='fence']"), options.fence);
-        setCheckedValue(document.querySelectorAll("[name='emDelimiter']"), options.emDelimiter);
-        setCheckedValue(document.querySelectorAll("[name='strongDelimiter']"), options.strongDelimiter);
-        setCheckedValue(document.querySelectorAll("[name='linkStyle']"), options.linkStyle);
-        setCheckedValue(document.querySelectorAll("[name='linkReferenceStyle']"), options.linkReferenceStyle);
-        setCheckedValue(document.querySelectorAll("[name='imageStyle']"), options.imageStyle);
-        setCheckedValue(document.querySelectorAll("[name='downloadMode']"), options.downloadMode);
-        // setCheckedValue(document.querySelectorAll("[name='obsidianPathType']"), options.obsidianPathType);
-
-        refereshElements();
+    // if browser doesn't support the download api (i.e. Safari)
+    // we have to use contentLink download mode
+    if (!browser.downloads) {
+        options.downloadMode = 'contentLink';
+        document.querySelectorAll("[name='downloadMode']").forEach(el => el.disabled = true)
+        document.querySelector('#downloadMode p').innerText = "The Downloas API is unavailable in this browser."
     }
+
+    const downloadImages = options.downloadImages && options.downloadMode == 'downloadsApi';
+
+    if (!downloadImages && (options.imageStyle == 'markdown' || options.imageStyle.startsWith('obsidian'))) {
+        options.imageStyle = 'originalSource';
+    }
+
+    document.querySelector("[name='frontmatter']").value = options.frontmatter;
+    textareaInput.bind(document.querySelector("[name='frontmatter']"))();
+    document.querySelector("[name='backmatter']").value = options.backmatter;
+    textareaInput.bind(document.querySelector("[name='backmatter']"))();
+    document.querySelector("[name='title']").value = options.title;
+    document.querySelector("[name='disallowedChars']").value = options.disallowedChars;
+    document.querySelector("[name='includeTemplate']").checked = options.includeTemplate;
+    document.querySelector("[name='saveAs']").checked = options.saveAs;
+    document.querySelector("[name='downloadImages']").checked = options.downloadImages;
+    document.querySelector("[name='imagePrefix']").value = options.imagePrefix;
+    document.querySelector("[name='mdClipsFolder']").value = result.mdClipsFolder;
+    document.querySelector("[name='turndownEscape']").checked = options.turndownEscape;
+    document.querySelector("[name='contextMenus']").checked = options.contextMenus;
+    // document.querySelector("[name='obsidianVault']").value = options.obsidianVault;
+
+    setCheckedValue(document.querySelectorAll("[name='headingStyle']"), options.headingStyle);
+    setCheckedValue(document.querySelectorAll("[name='hr']"), options.hr);
+    setCheckedValue(document.querySelectorAll("[name='bulletListMarker']"), options.bulletListMarker);
+    setCheckedValue(document.querySelectorAll("[name='codeBlockStyle']"), options.codeBlockStyle);
+    setCheckedValue(document.querySelectorAll("[name='fence']"), options.fence);
+    setCheckedValue(document.querySelectorAll("[name='emDelimiter']"), options.emDelimiter);
+    setCheckedValue(document.querySelectorAll("[name='strongDelimiter']"), options.strongDelimiter);
+    setCheckedValue(document.querySelectorAll("[name='linkStyle']"), options.linkStyle);
+    setCheckedValue(document.querySelectorAll("[name='linkReferenceStyle']"), options.linkReferenceStyle);
+    setCheckedValue(document.querySelectorAll("[name='imageStyle']"), options.imageStyle);
+    setCheckedValue(document.querySelectorAll("[name='downloadMode']"), options.downloadMode);
+    // setCheckedValue(document.querySelectorAll("[name='obsidianPathType']"), options.obsidianPathType);
+
+    refereshElements();
+}
+
+const restoreOptions = () => {
+    
 
     const onError = error => {
         console.error(error);
@@ -160,12 +162,25 @@ const inputChange = e => {
     if (e) {
         let key = e.target.name;
         let value = e.target.value;
-        if (e.target.type == "checkbox") value = e.target.checked;
-        options[key] = value;
+        if (key == "import-file") {
+            fr = new FileReader();
+            fr.onload = (ev) => {
+                let lines = ev.target.result;
+                options = JSON.parse(lines);
+                setCurrentChoice(options);
+                browser.contextMenus.removeAll()
+                createMenus()
+            };
+            fr.readAsText(e.target.files[0])
+        }
+        else {
+            if (e.target.type == "checkbox") value = e.target.checked;
+            options[key] = value;
 
-        if (key == "contextMenus") {
-            if (value) { createMenus() }
-            else { browser.contextMenus.removeAll() }
+            if (key == "contextMenus") {
+                if (value) { createMenus() }
+                else { browser.contextMenus.removeAll() }
+            }
         }
     }
     
@@ -179,16 +194,39 @@ const inputKeyup = (e) => {
     keyupTimeout = setTimeout(inputChange, 500, e);
 }
 
+const buttonClick = (e) => {
+    if (e.target.id == "import") {
+        document.getElementById("import-file").click();
+    }
+    else if (e.target.id == "export") {
+        console.log("export");
+        const json = JSON.stringify(options, null, 2);
+        var blob = new Blob([json], { type: "text/json" });
+        var url = URL.createObjectURL(blob);
+        var d = new Date();
+
+        var datestring = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+        browser.downloads.download({
+            url: url,
+            saveAs: true,
+            filename: `MarkDownload-export-${datestring}.json`
+        });
+    }
+}
+
 const loaded = () => {
-    document.querySelectorAll('.radio-container,.checkbox-container,.textbox-container').forEach(container => {
+    document.querySelectorAll('.radio-container,.checkbox-container,.textbox-container,.button-container').forEach(container => {
         container.dataset.height = container.clientHeight;
     });
 
     restoreOptions();
 
-    document.querySelectorAll('input,textarea').forEach(input => {
+    document.querySelectorAll('input,textarea,button').forEach(input => {
         if (input.tagName == "TEXTAREA" || input.type == "text") {
             input.addEventListener('keyup', inputKeyup);
+        }
+        else if (input.tagName == "BUTTON") {
+            input.addEventListener('click', buttonClick);
         }
         else input.addEventListener('change', inputChange);
     })
