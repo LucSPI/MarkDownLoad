@@ -97,6 +97,13 @@
     <div id="otherOptions">
         <h2>Other options</h2>
 
+        <div class="checkbox-container" id="contextMenus-container">
+            <input name="contextMenus" id="contextMenus" type="checkbox" />
+            <label for="contextMenus">Enable Context Menus</label>
+        </div>
+        
+        <br />
+
         <div class="radio-container" id="downloadMode">
             <h3>Download Mode</h3>
             <p>
@@ -128,22 +135,22 @@
             </div>
         </div> -->
         <div id="downloadModeGroup">
-        <div class="checkbox-container" id="saveAs-container">
-            <input name="saveAs" id="saveAs" type="checkbox" />
-            <label for="saveAs">Always show Save As dialog (regardless of browser setting)</label>
-        </div>
+            <div class="checkbox-container" id="saveAs-container">
+                <input name="saveAs" id="saveAs" type="checkbox" />
+                <label for="saveAs">Always show Save As dialog (regardless of browser setting)</label>
+            </div>
 
-        <br />
+            <br />
 
-        <div class="checkbox-container" id="downloadImages-container">
-            <input name="downloadImages" id="downloadImages" type="checkbox" />
-            <label for="downloadImages">Download images alongside markdown files</label>
-        </div>
+            <div class="checkbox-container" id="downloadImages-container">
+                <input name="downloadImages" id="downloadImages" type="checkbox" />
+                <label for="downloadImages">Download images alongside markdown files</label>
+            </div>
 
-        <div class="textbox-container" id="imagePrefix">
-            <label for="imagePrefix">Image filename prefix template: </label>
-            <input type="text" name="imagePrefix" role="textbox" />
-        </div>
+            <div class="textbox-container" id="imagePrefix">
+                <label for="imagePrefix">Image filename prefix template: </label>
+                <input type="text" name="imagePrefix" role="textbox" />
+            </div>
         </div>
     </div>
 
@@ -216,6 +223,8 @@ const helloWorld = () => {
         <label for="em_"><code>_italics_</code></label>
         <input type="radio" name="emDelimiter" id="em*" value="*" />
         <label for="em*"><code>*italics*</code></label>
+        <input type="radio" name="emDelimiter" id="em__" value="__" />
+        <label for="em__"><code>__italics__</code> <strong>(Non-standard. Roam specific.)</strong></label>
     </div>
 
     <div class="radio-container" id="strongDelimiter">
@@ -308,11 +317,6 @@ const helloWorld = () => {
                 <br />Disabling this option disables this escaping.
             </small></p>
         </label>
-    </div>
-
-    <div class="checkbox-container" id="contextMenus-container">
-        <input name="contextMenus" id="contextMenus" type="checkbox" />
-        <label for="contextMenus">Enable Context Menus</label>
     </div>
 
     <div id="spinner" style="display: none;"></div>
