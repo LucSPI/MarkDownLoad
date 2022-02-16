@@ -1,3 +1,9 @@
+// log some info
+browser.runtime.getPlatformInfo().then(async platformInfo => {
+  const browserInfo = await browser.runtime.getBrowserInfo()
+  console.info(platformInfo, browserInfo);
+});
+
 // add notification listener for foreground page messages
 browser.runtime.onMessage.addListener(notify);
 // create context menus

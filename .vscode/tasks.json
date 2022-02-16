@@ -11,7 +11,25 @@
         {
             "label": "run",
             "type": "shell",
-            "command": "web-ext run -s ./src"
+            "command": "web-ext run -s ./src -f firefoxdeveloperedition -u https://en.wikipedia.org/wiki/Special:Random --bc"
+        },
+        {
+            "label": "adb-connect",
+            "type": "shell",
+            "command": "C:/ADB/adb connect 127.0.0.1:58526"
+        },
+        {
+            "label": "run-android",
+            "type": "shell",
+            "command": "web-ext run -s ./src -t firefox-android --adb-device 127.0.0.1:58526 --firefox-apk org.mozilla.fenix --adb-bin C:/ADB/adb.exe",
+            "dependsOn": [
+                "adb-connect"
+            ]
+        },
+        {
+            "label": "run-wavebox",
+            "type": "shell",
+            "command": "web-ext run -s ./src -t chromium --chromium-binary ${env:localappdata}\\WaveboxApp\\Application\\wavebox.exe -u https://en.wikipedia.org/wiki/Special:Random"
         }
     ]
 }
