@@ -357,6 +357,8 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}, mdClipsF
     }));
   
     try {
+
+      if(mdClipsFolder && !mdClipsFolder.endsWith('/')) mdClipsFolder += '/';
       // start the download
       const id = await browser.downloads.download({
         url: url,
@@ -371,12 +373,13 @@ async function downloadMarkdown(markdown, title, tabId, imageList = {}, mdClipsF
       if (options.downloadImages) {
         // get the relative path of the markdown file (if any) for image path
         const destPath = mdClipsFolder + title.substring(0, title.lastIndexOf('/'));
+        if(destPath && !destPath.endsWith('/')) destPath += '/';
         Object.entries(imageList).forEach(async ([src, filename]) => {
           // start the download of the image
           const imgId = await browser.downloads.download({
             url: src,
             // set a destination path (relative to md file)
-            filename: destPath ? destPath + '/' + filename : filename,
+            filename: destPath ? destPath + filename : filename,
             saveAs: false
           })
           // add a listener (so we can release the blob url)
