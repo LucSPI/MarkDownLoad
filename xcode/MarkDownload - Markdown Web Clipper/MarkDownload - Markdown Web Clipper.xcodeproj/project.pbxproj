@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F879552F27BCCC7700571DA8 /* shared in Resources */ = {isa = PBXBuildFile; fileRef = F879552D27BCCBF900571DA8 /* shared */; };
 		F88D6F4425DDEF08001F90AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88D6F4325DDEF08001F90AF /* AppDelegate.swift */; };
 		F88D6F4725DDEF08001F90AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F88D6F4525DDEF08001F90AF /* Main.storyboard */; };
 		F88D6F4925DDEF08001F90AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88D6F4825DDEF08001F90AF /* ViewController.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F879552D27BCCBF900571DA8 /* shared */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shared; path = ../../../src/shared; sourceTree = "<group>"; };
 		F88D6F3F25DDEF08001F90AF /* MarkDownload - Markdown Web Clipper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MarkDownload - Markdown Web Clipper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F88D6F4225DDEF08001F90AF /* MarkDownload___Markdown_Web_Clipper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MarkDownload___Markdown_Web_Clipper.entitlements"; sourceTree = "<group>"; };
 		F88D6F4325DDEF08001F90AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 		F88D6F6625DDEF0B001F90AF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F879552D27BCCBF900571DA8 /* shared */,
 				F88D6F6725DDEF0B001F90AF /* background */,
 				F88D6F6825DDEF0B001F90AF /* options */,
 				F88D6F6925DDEF0B001F90AF /* popup */,
@@ -243,6 +246,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F879552F27BCCC7700571DA8 /* shared in Resources */,
 				F88D6F7125DDEF0B001F90AF /* browser-polyfill.min.js in Resources */,
 				F88D6F7025DDEF0B001F90AF /* popup in Resources */,
 				F88D6F6E25DDEF0B001F90AF /* background in Resources */,

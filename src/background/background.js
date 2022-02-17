@@ -1,6 +1,6 @@
 // log some info
 browser.runtime.getPlatformInfo().then(async platformInfo => {
-  const browserInfo = await browser.runtime.getBrowserInfo()
+  const browserInfo = browser.runtime.getBrowserInfo ? await browser.runtime.getBrowserInfo() : "Can't get browser info"
   console.info(platformInfo, browserInfo);
 });
 

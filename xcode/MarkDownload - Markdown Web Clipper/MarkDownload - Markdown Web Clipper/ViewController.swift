@@ -10,7 +10,7 @@ import SafariServices.SFSafariApplication
 import SafariServices.SFSafariExtensionManager
 
 let appName = "MarkDownload - Markdown Web Clipper"
-let extensionBundleIdentifier = "au.death.MarkDownload---Markdown-Web-Clipper.Extension"
+let extensionBundleIdentifier = "au.death.MarkDownload.Extension"
 
 class ViewController: NSViewController {
 
