@@ -51,6 +51,37 @@ in my hat via the following:
 [![Paypal](https://img.shields.io/badge/paypal-deathau-yellow?style=social&logo=paypal)](https://paypal.me/deathau)
 
 # Version History
+## 3.1.0
+- Updated Readability and Turndown
+- Added GitHub-flavoured Markdown (GFM) plugin to Turndown (adds some mardown table support)
+- Added support for MathJax -> LaTeX (thanks @LeLocTai)
+- Disallow slashes in title text replacements
+- Suport for Open Graph meta tags as variables (which use `property` instead of `key`)
+- Fixed an issue with regex characters like `|` in date formats
+- Resolved an extra slash in file name causing images to fail to download in chromium browsers
+- Added some support to parse pre elements as code blocks (supports syntax highlighting on GitHub, but not much else yet)
+- Added option to enable or disable the context menus
+- Added some extra keyboard shortcuts. These can be customised, depending on your browser
+    - <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd> opens the popup (as it has in previous versions)
+    - <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> downloads the current tab as markdown, bypassing the popup
+    - <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> copies the current tab as markdown to the clipboard, bypassing the popup
+    - <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd> copies the current tabs URL as a markdown link to the clipboard
+- Added support for template variables having different casing using `:` followed by the casing type. For example, for an article titled "Different Types of Casing":
+    - `{pageTitle:pascal}` — "DifferentTypesOfCasing"
+    - `{pageTitle:camel}` — "differentTypesOfCasing"
+    - `{pageTitle:kebab}` — "different-types-of-casing"
+    - `{pageTitle:snake` — "different_types_of_casing"
+- Added support for rending italics in double underscores (`__`). This isn't valid MarkDown (will output as __bold__), but it's useful for people copying to Roam
+- Support image download as base64 embedded urls, directly in the markdown file
+- Added some extra variables related to the url beyond the existing `{baseURI}`:
+    - `{origin}` - The origin of the URL, that is its scheme, its domain and its port
+    - `{host}` - The domain (that is the _hostname_) followed by (if a port was specified) a `:` and the _port_ of the URL.
+    - `{hostname}` - The domain of the URL.
+    - `{port}` - The port number of the URL.
+    - `{protocol}` - The protocol scheme of the URL, including the final `':'`.
+    - `{pathname}` - An initial `'/'` followed by the path of the URL, not including the query string or fragment.
+    - `{search}` - The URL's parameter string; if any parameters are provided, this string includes all of them, beginning with the leading `?` character.
+
 ## 3.0.0
 - Theme revamp
 - Utilizing CodeMirror for the Markdown Editor
