@@ -63,9 +63,9 @@ function turndown(content, options, article) {
           // set the new src attribute to be the local filename
           if(options.imageStyle != 'originalSource' && options.imageStyle != 'base64') node.setAttribute('src', localSrc);
           // pass the filter if we're making an obsidian link (or stripping links)
-          return obsidianLink || options.imageStyle == 'noImage';
+          return true;
         }
-        else return options.imageStyle == 'noImage'
+        else return true
       }
       // don't pass the filter, just output a normal markdown link
       return false;
@@ -73,8 +73,30 @@ function turndown(content, options, article) {
     replacement: function (content, node, tdopts) {
       // if we're stripping images, output nothing
       if (options.imageStyle == 'noImage') return '';
-      // otherwise, this must be an obsidian link, so output that
-      else return `![[${node.getAttribute('src')}]]`;
+      // if this is an obsidian link, so output that
+      else if (options.imageStyle.startsWith('obsidian')) return `![[${node.getAttribute('src')}]]`;
+      // otherwise, output the normal markdown link
+      else {
+        var alt = cleanAttribute(node.getAttribute('alt'));
+        var src = node.getAttribute('src') || '';
+        var title = cleanAttribute(node.getAttribute('title'));
+        var titlePart = title ? ' "' + title + '"' : '';
+        if (options.imageRefStyle == 'referenced') {
+          var id = this.references.length + 1;
+          this.references.push('[fig' + id + ']: ' + src + titlePart);
+          return '![' + alt + '][fig' + id + ']';
+        }
+        else return src ? '![' + alt + ']' + '(' + src + titlePart + ')' : ''
+      }
+    },
+    references: [],
+    append: function (options) {
+      var references = '';
+      if (this.references.length) {
+        references = '\n\n' + this.references.join('\n') + '\n\n';
+        this.references = []; // Reset references
+      }
+      return references
     }
 
   });
@@ -132,6 +154,10 @@ function turndown(content, options, article) {
   markdown = markdown.replace(/[\u0000-\u0009\u000b\u000c\u000e-\u001f\u007f-\u009f\u00ad\u061c\u200b-\u200f\u2028\u2029\ufeff\ufff9-\ufffc]/g, '');
   
   return { markdown: markdown, imageList: imageList };
+}
+
+function cleanAttribute(attribute) {
+  return attribute ? attribute.replace(/(\n+\s*)+/g, '\n') : ''
 }
 
 function validateUri(href, baseURI) {

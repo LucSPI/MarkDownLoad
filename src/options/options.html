@@ -291,7 +291,7 @@ const helloWorld = () => {
             <pre>![](folder/image.jpg)</pre>
         </label>
         <input type="radio" name="imageStyle" id="base64" value="base64" />
-        <label for="base64">Base64 encoded inline
+        <label for="base64">Base64 encoded
             <pre>![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==)</pre>
         </label>
         <input type="radio" name="imageStyle" id="obsidian" value="obsidian" />
@@ -301,6 +301,21 @@ const helloWorld = () => {
         <input type="radio" name="imageStyle" id="obsidian-nofolder" value="obsidian-nofolder" />
         <label for="obsidian-nofolder">Obsidian internal embed (no folder prefix)
             <pre>![[image.jpg]]</pre>
+        </label>
+    </div>
+
+    <div class="radio-container" id="imageRefOptions">
+        <h3>Image Reference Style</h3>
+        <p><strong>Note:</strong> The following only apply if Image Style is markdown (not Obsidian-styled).</p>
+        <input type="radio" name="imageRefStyle" id="img-inlined" value="inlined" />
+        <label for="img-inlined">Inlined
+            <pre>![](address/of/image.jpg)</pre>
+        </label>
+        <input type="radio" name="imageRefStyle" id="img-referenced" value="referenced" />
+        <label for="img-referenced">Referenced
+            <pre> ![][fig1]
+
+[fig1]: address/of/image.jpg</pre>
         </label>
     </div>
 

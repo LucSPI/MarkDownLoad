@@ -29,6 +29,7 @@ const saveOptions = e => {
         linkStyle: getCheckedValue(document.querySelectorAll("input[name='linkStyle']")),
         linkReferenceStyle: getCheckedValue(document.querySelectorAll("input[name='linkReferenceStyle']")),
         imageStyle: getCheckedValue(document.querySelectorAll("input[name='imageStyle']")),
+        imageRefStyle: getCheckedValue(document.querySelectorAll("input[name='imageRefStyle']")),
         downloadMode: getCheckedValue(document.querySelectorAll("input[name='downloadMode']")),
         // obsidianPathType: getCheckedValue(document.querySelectorAll("input[name='obsidianPathType']")),
     }
@@ -105,6 +106,7 @@ const setCurrentChoice = result => {
     setCheckedValue(document.querySelectorAll("[name='linkStyle']"), options.linkStyle);
     setCheckedValue(document.querySelectorAll("[name='linkReferenceStyle']"), options.linkReferenceStyle);
     setCheckedValue(document.querySelectorAll("[name='imageStyle']"), options.imageStyle);
+    setCheckedValue(document.querySelectorAll("[name='imageRefStyle']"), options.imageRefStyle);
     setCheckedValue(document.querySelectorAll("[name='downloadMode']"), options.downloadMode);
     // setCheckedValue(document.querySelectorAll("[name='obsidianPathType']"), options.obsidianPathType);
 
@@ -141,6 +143,8 @@ const refereshElements = () => {
     show(document.getElementById("mdClipsFolder"), options.downloadMode == 'downloadsApi');
 
     show(document.getElementById("linkReferenceStyle"), (options.linkStyle == "referenced"));
+
+    show(document.getElementById("imageRefOptions"), (!options.imageStyle.startsWith("obsidian") && options.imageStyle != "noImage"));
 
     show(document.getElementById("fence"), (options.codeBlockStyle == "fenced"));
 

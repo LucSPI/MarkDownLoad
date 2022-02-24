@@ -10,6 +10,7 @@ const defaultOptions = {
   linkStyle: "inlined",
   linkReferenceStyle: "full",
   imageStyle: "markdown",
+  imageRefStyle: "inlined",
   frontmatter: "---\ncreated: {date:YYYY-MM-DDTHH:mm:ss} (UTC {date:Z})\ntags: [{keywords}]\nsource: {baseURI}\nauthor: {byline}\n---\n\n# {pageTitle}\n\n> ## Excerpt\n> {excerpt}\n\n---",
   backmatter: "",
   title: "{pageTitle}",
