@@ -52,6 +52,7 @@ in my hat via the following:
 
 # Version History
 ## 3.1.0
+- Firefox for Android (nightly) support
 - Updated Readability and Turndown
 - Added GitHub-flavoured Markdown (GFM) plugin to Turndown (adds some mardown table support)
 - Added support for MathJax -> LaTeX (thanks @LeLocTai)
