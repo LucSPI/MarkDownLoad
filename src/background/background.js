@@ -734,6 +734,18 @@ async function copyMarkdownFromContext(info, tab) {
     else if (info.menuItemId == "copy-markdown-image") {
       await browser.tabs.executeScript(tab.id, {code: `copyToClipboard("![](${info.srcUrl})")`});
     }
+    else if(info.menuItemId == "copy-markdown-obsidian") {
+      const article = await getArticleFromContent(tab.id, info.menuItemId == "copy-markdown-obsidian");
+      const { markdown } = await convertArticleToMarkdown(article, downloadImages = false);
+      await browser.tabs.executeScript(tab.id, { code: `copyToClipboard(${JSON.stringify(markdown)})` });
+      document.location.href = "obsidian://advanced-uri?vault=&clipboard=true&mode=new&filepath=Clipper-" + generateValidFileName(tab.title)
+    }
+    else if(info.menuItemId == "copy-markdown-obsall") {
+      const article = await getArticleFromContent(tab.id, info.menuItemId == "copy-markdown-obsall");
+      const { markdown } = await convertArticleToMarkdown(article, downloadImages = false);
+      await browser.tabs.executeScript(tab.id, { code: `copyToClipboard(${JSON.stringify(markdown)})` });
+      document.location.href = "obsidian://advanced-uri?vault=&clipboard=true&mode=new&filepath=Clipper-" + generateValidFileName(tab.title)
+    }
     else {
       const article = await getArticleFromContent(tab.id, info.menuItemId == "copy-markdown-selection");
       const { markdown } = await convertArticleToMarkdown(article, downloadImages = false);
