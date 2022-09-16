@@ -105,18 +105,19 @@ async function createMenus() {
       contexts: ["all"]
     }, () => { });
 
-    // copy to clipboard actions
-    browser.contextMenus.create({
-      id: "copy-markdown-obsidian",
-      title: "Send Text selection to Obsidian",
-      contexts: ["selection"]
-    }, () => { });
-    browser.contextMenus.create({
-      id: "copy-markdown-obsall",
-      title: "Send Tab to Obsidian",
-      contexts: ["all"]
-    }, () => { });
-
+    if(options.obsidianIntegration){
+      // copy to clipboard actions
+      browser.contextMenus.create({
+        id: "copy-markdown-obsidian",
+        title: "Send Text selection to Obsidian",
+        contexts: ["selection"]
+      }, () => { });
+      browser.contextMenus.create({
+        id: "copy-markdown-obsall",
+        title: "Send Tab to Obsidian",
+        contexts: ["all"]
+      }, () => { });
+    }
     browser.contextMenus.create({
       id: "separator-3",
       type: "separator",

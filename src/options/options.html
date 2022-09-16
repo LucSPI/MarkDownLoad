@@ -104,6 +104,29 @@
 
         <br />
 
+        <div class="checkbox-container" id="obsidian-container">
+            <h3>Obsidian Integration</h3>
+            <p>
+                For integration with obsidian, you need to install and enable community plugins named <code>Advanced Obsidian URI</code>. This plugin help us to bypass character limitation in URL. Because it's using clipboard as the source for creating new file.
+More information:  <a href="https://vinzent03.github.io/obsidian-advanced-uri/">Obsidian Advanced URI</a><br/>
+            </p>
+            <input name="obsidianIntegration" id="obsidianIntegration" type="checkbox" />
+            <label for="obsidianIntegration">Enable Obsidian Integration</label>
+        </div>
+
+        <br />
+
+        <div id="obsidianUriGroup">
+            <div class="textbox-container" id="obsidianVault">
+                <label for="obsidianVault">Obsidian Vault Name: </label>
+                <input type="text" name="obsidianVault" role="textbox" />
+                <label for="obsidianFolder">Obsidian Folder: </label>
+                <input type="text" name="obsidianFolder" role="textbox" />
+            </div>
+        </div>
+
+        <br />
+
         <div class="radio-container" id="downloadMode">
             <h3>Download Mode</h3>
             <p>

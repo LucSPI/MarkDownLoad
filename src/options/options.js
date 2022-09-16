@@ -17,7 +17,9 @@ const saveOptions = e => {
         mdClipsFolder: document.querySelector("[name='mdClipsFolder']").value,
         turndownEscape: document.querySelector("[name='turndownEscape']").checked,
         contextMenus: document.querySelector("[name='contextMenus']").checked,
-        // obsidianVault: document.querySelector("[name='obsidianVault']").value,
+        obsidianIntegration: document.querySelector("[name='obsidianIntegration']").checked,
+        obsidianVault: document.querySelector("[name='obsidianVault']").value,
+        obsidianFolder: document.querySelector("[name='obsidianFolder']").value,
 
         headingStyle: getCheckedValue(document.querySelectorAll("input[name='headingStyle']")),
         hr: getCheckedValue(document.querySelectorAll("input[name='hr']")),
@@ -94,7 +96,9 @@ const setCurrentChoice = result => {
     document.querySelector("[name='mdClipsFolder']").value = result.mdClipsFolder;
     document.querySelector("[name='turndownEscape']").checked = options.turndownEscape;
     document.querySelector("[name='contextMenus']").checked = options.contextMenus;
-    // document.querySelector("[name='obsidianVault']").value = options.obsidianVault;
+    document.querySelector("[name='obsidianIntegration']").checked = options.obsidianIntegration;
+    document.querySelector("[name='obsidianVault']").value = options.obsidianVault;
+    document.querySelector("[name='obsidianFolder']").value = options.obsidianFolder;
 
     setCheckedValue(document.querySelectorAll("[name='headingStyle']"), options.headingStyle);
     setCheckedValue(document.querySelectorAll("[name='hr']"), options.hr);
