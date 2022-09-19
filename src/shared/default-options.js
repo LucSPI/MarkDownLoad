@@ -23,8 +23,9 @@ const defaultOptions = {
   downloadMode: 'downloadsApi',
   turndownEscape: true,
   contextMenus: true,
-  // obsidianVault: null,
-  // obsidianPathType: 'name'
+  obsidianIntegration: false,
+  obsidianVault: null,
+  obsidianFolder: "",
 }
 
 // function to get the options from storage and substitute default options if it fails

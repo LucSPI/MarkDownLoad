@@ -20,6 +20,11 @@ The extension is available for [Firefox](https://addons.mozilla.org/en-GB/firefo
 
 [![iTunes App Store](https://img.shields.io/itunes/v/1554029832?label=Safari&logo=safari&style=flat)](https://apple.co/3tcU0pD)
 
+# Obsidian Integration
+
+For integration with obsidian, you need to install and enable community plugins named "Advanced Obsidian URI". This plugin help us to bypass character limitation in URL. Because it's using clipboard as the source for creating new file.
+More information:  https://vinzent03.github.io/obsidian-advanced-uri/
+
 # External Libraries
 It uses the following libraries:
 - [Readability.js](https://github.com/mozilla/readability) by Mozilla in version from commit [146ecabf2cc37f6818d24caf10e09ac1ca708218](https://github.com/mozilla/readability/commit/146ecabf2cc37f6818d24caf10e09ac1ca708218). This library is also used for the Firefox Reader View and it simplifies the page so that only the important parts are clipped. (Licensed under Apache License Version 2.0)
