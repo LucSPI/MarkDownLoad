@@ -545,6 +545,9 @@ browser.contextMenus.onClicked.addListener(function (info, tab) {
     downloadMarkdownFromContext(info, tab);
   }
   // copy tab as markdown link
+  else if (info.menuItemId.startsWith("copy-tab-as-markdown-link-all")) {
+    copyTabAsMarkdownLinkAll(tab);
+  }
   else if (info.menuItemId.startsWith("copy-tab-as-markdown-link")) {
     copyTabAsMarkdownLink(tab);
   }
@@ -721,8 +724,37 @@ async function copyTabAsMarkdownLink(tab) {
     await ensureScripts(tab.id);
     const article = await getArticleFromContent(tab.id);
     const title = await formatTitle(article);
-    //await browser.tabs.executeScript(tab.id, { code: `copyToClipboard("[${title}](${article.baseURI})")` });
-    await navigator.clipboard.writeText(`[${title}](${article.baseURI})`);
+    await browser.tabs.executeScript(tab.id, { code: `copyToClipboard("[${title}](${article.baseURI})")` });
+    // await navigator.clipboard.writeText(`[${title}](${article.baseURI})`);
+  }
+  catch (error) {
+    // This could happen if the extension is not allowed to run code in
+    // the page, for example if the tab is a privileged page.
+    console.error("Failed to copy as markdown link: " + error);
+  };
+}
+
+// function to copy all tabs as markdown links
+async function copyTabAsMarkdownLinkAll(tab) {
+  try {
+    const options = await getOptions();
+    options.frontmatter = options.backmatter = '';
+    const tabs = await browser.tabs.query({
+      currentWindow: true
+    });
+    
+    const links = [];
+    for(const tab of tabs) {
+      await ensureScripts(tab.id);
+      const article = await getArticleFromContent(tab.id);
+      const title = await formatTitle(article);
+      const link = `${options.bulletListMarker} [${title}](${article.baseURI})`
+      links.push(link)
+    };
+    
+    const markdown = links.join(`\n`)
+    await browser.tabs.executeScript(tab.id, { code: `copyToClipboard(${JSON.stringify(markdown)})` });
+
   }
   catch (error) {
     // This could happen if the extension is not allowed to run code in

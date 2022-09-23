@@ -27,6 +27,12 @@ async function createMenus() {
       }, () => { });
 
       browser.contextMenus.create({
+        id: "copy-tab-as-markdown-link-all-tab",
+        title: "Copy All Tab URLs as Markdown Link List",
+        contexts: ["tab"]
+      }, () => { });
+
+      browser.contextMenus.create({
         id: "tab-separator-1",
         type: "separator",
         contexts: ["tab"]
@@ -96,6 +102,11 @@ async function createMenus() {
     browser.contextMenus.create({
       id: "copy-tab-as-markdown-link",
       title: "Copy Tab URL as Markdown Link",
+      contexts: ["all"]
+    }, () => { });
+    browser.contextMenus.create({
+      id: "copy-tab-as-markdown-link-all",
+      title: "Copy All Tab URLs as Markdown Link List",
       contexts: ["all"]
     }, () => { });
   
