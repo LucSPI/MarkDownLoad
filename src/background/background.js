@@ -515,8 +515,19 @@ browser.commands.onCommand.addListener(function (command) {
     const info = { menuItemId: "copy-markdown-all" };
     copyMarkdownFromContext(info, tab);
   }
+  else if (command == "copy_selection_as_markdown") {
+    const info = { menuItemId: "copy-markdown-selection" };
+    copyMarkdownFromContext(info, tab);
+  }
   else if (command == "copy_tab_as_markdown_link") {
     copyTabAsMarkdownLink(tab);
+  }else if (command == "copy_selection_to_obsidian") {
+    const info = { menuItemId: "copy-markdown-obsidian" };
+    copyMarkdownFromContext(info, tab);
+  }
+  else if (command == "copy_tab_to_obsidian") {
+    const info = { menuItemId: "copy-markdown-obsall" };
+    copyMarkdownFromContext(info, tab);
   }
 });
 
