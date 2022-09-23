@@ -56,6 +56,13 @@ in my hat via the following:
 [![Paypal](https://img.shields.io/badge/paypal-deathau-yellow?style=social&logo=paypal)](https://paypal.me/deathau)
 
 # Version History
+## 3.2.0
+- Added a basic Obsidian integration using the [Obsidian Advanced URI](https://vinzent03.github.io/obsidian-advanced-uri/) plugin and clipboard (thanks @aancw !)
+- Keep sub/sup tags so that superscript and subscript text is retained (thanks @mnaoumov !)
+- Added a keyboard shortcut for copy selection as markdown (nothing by default, needs to be user-configured)
+- Added a new context menu item to copy all tabs as a list of markdown links
+- Updated dependencies
+
 ## 3.1.0
 - Firefox for Android (nightly) support
 - Updated Readability and Turndown
