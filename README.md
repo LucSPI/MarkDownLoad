@@ -27,9 +27,9 @@ More information:  https://vinzent03.github.io/obsidian-advanced-uri/
 
 # External Libraries
 It uses the following libraries:
-- [Readability.js](https://github.com/mozilla/readability) by Mozilla in version from commit [146ecabf2cc37f6818d24caf10e09ac1ca708218](https://github.com/mozilla/readability/commit/146ecabf2cc37f6818d24caf10e09ac1ca708218). This library is also used for the Firefox Reader View and it simplifies the page so that only the important parts are clipped. (Licensed under Apache License Version 2.0)
+- [Readability.js](https://github.com/mozilla/readability) by Mozilla in version from commit [1fde3ac626bc4c2e5e54daa57c57d48b7ed9c574](https://github.com/mozilla/readability/commit/1fde3ac626bc4c2e5e54daa57c57d48b7ed9c574). This library is also used for the Firefox Reader View and it simplifies the page so that only the important parts are clipped. (Licensed under Apache License Version 2.0)
 - [Turndown](https://github.com/mixmark-io/turndown) by Dom Christie in version 7.1.1 is used to convert the simplified HTML (from Readability.js) into markdown. (Licensed under MIT License)
-- [Moment.js](https://momentjs.com) version 2.27.0 used to format dates in template variables
+- [Moment.js](https://momentjs.com) version 2.29.4 used to format dates in template variables
 
 # Permissions
 - Data on all sites: used to enable "Download All Tabs" functionality - no other data is captured or sent online
