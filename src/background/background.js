@@ -21,7 +21,7 @@ function turndown(content, options, article) {
 
   turndownService.use(turndownPluginGfm.gfm)
 
-  turndownService.keep(['iframe']);
+  turndownService.keep(['iframe', 'sub', 'sup']);
 
   let imageList = {};
   // add an image rule
