@@ -56,6 +56,8 @@ in my hat via the following:
 [![Paypal](https://img.shields.io/badge/paypal-deathau-yellow?style=social&logo=paypal)](https://paypal.me/deathau)
 
 # Version History
+## 3.2.1
+- Bugfixes for the Obsidian integration (thanks @aancw !)
 ## 3.2.0
 - Added a basic Obsidian integration using the [Obsidian Advanced URI](https://vinzent03.github.io/obsidian-advanced-uri/) plugin and clipboard (thanks @aancw !)
 - Keep sub/sup tags so that superscript and subscript text is retained (thanks @mnaoumov !)
