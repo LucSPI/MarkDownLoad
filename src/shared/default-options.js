@@ -24,7 +24,7 @@ const defaultOptions = {
   turndownEscape: true,
   contextMenus: true,
   obsidianIntegration: false,
-  obsidianVault: null,
+  obsidianVault: "",
   obsidianFolder: "",
 }
 
