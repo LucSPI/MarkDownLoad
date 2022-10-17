@@ -22,10 +22,41 @@ function getHTMLOfDocument() {
     if (!baseEl.getAttribute('href')) {
         baseEl.setAttribute('href', window.location.href);
     }
+    
+    // remove the hidden content from the page
 
+    removeHiddenNodes(document.body);
+    
     // get the content of the page as a string
     return document.documentElement.outerHTML;
 }
+
+// code taken from here: https://www.reddit.com/r/javascript/comments/27bcao/anyone_have_a_method_for_finding_all_the_hidden/
+function removeHiddenNodes(root) {
+    let nodeIterator, node,i = 0;
+
+    nodeIterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT, function(node) {
+      let nodeName = node.nodeName.toLowerCase();
+      if (nodeName === "script" || nodeName === "style" || nodeName === "noscript") {
+        return NodeFilter.FILTER_REJECT;
+      }
+      if (node.offsetParent === void 0) {
+        return NodeFilter.FILTER_ACCEPT;
+      }
+      let computedStyle = window.getComputedStyle(node, null);
+      if (computedStyle.getPropertyValue("visibility") === "hidden" || computedStyle.getPropertyValue("display") === "none") {
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    while ((node = nodeIterator.nextNode()) && ++i) {
+      if (node.parentNode instanceof HTMLElement) {
+        node.parentNode.removeChild(node);
+      }
+    }
+    return root
+  }
+  
 
 // code taken from here: https://stackoverflow.com/a/5084044/304786
 function getHTMLOfSelection() {
