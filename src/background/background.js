@@ -779,7 +779,7 @@ async function copyMarkdownFromContext(info, tab) {
     }
     else if(info.menuItemId == "copy-markdown-obsidian") {
       const article = await getArticleFromContent(tab.id, info.menuItemId == "copy-markdown-obsidian");
-      const title = await formatTitle(article);
+      const title = article.title;
       const options = await getOptions();
       const obsidianVault = options.obsidianVault;
       const obsidianFolder = options.obsidianFolder;
@@ -789,7 +789,7 @@ async function copyMarkdownFromContext(info, tab) {
     }
     else if(info.menuItemId == "copy-markdown-obsall") {
       const article = await getArticleFromContent(tab.id, info.menuItemId == "copy-markdown-obsall");
-      const title = await formatTitle(article);
+      const title = article.title;
       const options = await getOptions();
       const obsidianVault = options.obsidianVault;
       const obsidianFolder = options.obsidianFolder;
