@@ -142,7 +142,7 @@ function turndown(content, options, article) {
     replacement: (content, node, tdopts) => {
       const langMatch = node.id?.match(/code-lang-(.+)/);
       const lang = langMatch?.length > 0 ? langMatch[1] : '';
-      return '\n\n' + options.fence + (lang || '') + '\n' + node.textContent + '\n' + options.fence + '\n\n';
+      return turndownService.convertToFencedCodeBlock(lang, content, tdopts);
     }
   });
 
