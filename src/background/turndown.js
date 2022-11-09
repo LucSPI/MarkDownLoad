@@ -871,7 +871,7 @@ var TurndownService = (function () {
       }, string)
     },
 
-    convertToFencedCodeBlock: convertToFencedCodeBlock
+    convertToFencedCodeBlock
   };
 
   /**
