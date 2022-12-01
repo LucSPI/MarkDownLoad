@@ -146,7 +146,7 @@ const helloWorld = () => {
 - <code>```</code>
 - `~~~`
 
-### Emphesis (italics) Delimiter
+### Emphasis (italics) Delimiter
 - `_italics_`
 - `*italics*`
 
