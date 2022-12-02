@@ -130,7 +130,7 @@ function turndown(content, options, article) {
       const tex = math.tex.trim().replaceAll('\xa0', '');
 
       if (math.inline) {
-        tex = tex.replace('\n', ' ');
+        tex = tex.replaceAll('\n', ' ');
         return `$${tex}$`;
       }
       else
