@@ -127,7 +127,7 @@ function turndown(content, options, article) {
     },
     replacement(content, node, options) {
       const math = article.math[node.id];
-      const tex = math.tex.trim().replaceAll('\xa0', '');
+      let tex = math.tex.trim().replaceAll('\xa0', '');
 
       if (math.inline) {
         tex = tex.replaceAll('\n', ' ');
