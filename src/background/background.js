@@ -127,10 +127,14 @@ function turndown(content, options, article) {
     },
     replacement(content, node, options) {
       const math = article.math[node.id];
-      if (math.inline)
-        return `$${math.tex.trim()}$`;
+      const tex = math.tex.trim().replaceAll('\xa0', '');
+
+      if (math.inline) {
+        tex = tex.replace('\n', ' ');
+        return `$${tex}$`;
+      }
       else
-        return `$$\n${math.tex}\n$$`;
+        return `$$\n${tex}\n$$`;
     }
   });
 
@@ -609,11 +613,9 @@ async function getArticleFromDom(domString) {
   };
 
   dom.body.querySelectorAll('script[id^=MathJax-Element-]')?.forEach(mathSource => {
-    let tex = mathSource.innerText.trim()
-    tex = tex.replaceAll("\xa0", " ")
     const type = mathSource.attributes.type.value
     storeMathInfo(mathSource, {
-      tex,
+      tex: mathSource.innerText,
       inline: type ? !type.includes('mode=display') : false
     });
   });
