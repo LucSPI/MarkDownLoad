@@ -128,7 +128,7 @@ function turndown(content, options, article) {
     replacement(content, node, options) {
       const math = article.math[node.id];
       if (math.inline)
-        return `$${math.tex}$`;
+        return `$${math.tex.trim()}$`;
       else
         return `$$\n${math.tex}\n$$`;
     }
