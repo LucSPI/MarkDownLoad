@@ -136,13 +136,55 @@ function turndown(content, options, article) {
     }
   })
 
+  function repeat(character, count) {
+    return Array(count + 1).join(character);
+  }
+
+  function convertToFencedCodeBlock(language, code, options) {
+    var fenceChar = options.fence.charAt(0);
+    var fenceSize = 3;
+    var fenceInCodeRegex = new RegExp('^' + fenceChar + '{3,}', 'gm');
+
+    var match;
+    while ((match = fenceInCodeRegex.exec(code))) {
+      if (match[0].length >= fenceSize) {
+        fenceSize = match[0].length + 1;
+      }
+    }
+
+    var fence = repeat(fenceChar, fenceSize);
+
+    return (
+      '\n\n' + fence + language + '\n' +
+      code.replace(/\n$/, '') +
+      '\n' + fence + '\n\n'
+    )
+  }
+
+  turndownService.addRule('fencedCodeBlock', {
+    filter: function (node, options) {
+      return (
+        options.codeBlockStyle === 'fenced' &&
+        node.nodeName === 'PRE' &&
+        node.firstChild &&
+        node.firstChild.nodeName === 'CODE'
+      );
+    },
+    replacement: function (content, node, options) {
+      var className = node.firstChild.getAttribute('class') || '';
+      var language = (className.match(/language-(\S+)/) || [null, ''])[1];
+      var code = node.firstChild.innerHTML;
+      return convertToFencedCodeBlock(language, code, options);
+    }
+  });
+
   // handle <pre> as code blocks
   turndownService.addRule('pre', {
     filter: (node, tdopts) => node.nodeName == 'PRE' && (!node.firstChild || node.firstChild.nodeName != 'CODE'),
     replacement: (content, node, tdopts) => {
       const langMatch = node.id?.match(/code-lang-(.+)/);
       const lang = langMatch?.length > 0 ? langMatch[1] : '';
-      return turndownService.convertToFencedCodeBlock(lang, content, tdopts);
+      return convertToFencedCodeBlock(lang, content, tdopts);
     }
   });
 

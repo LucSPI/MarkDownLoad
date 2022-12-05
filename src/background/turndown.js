@@ -176,27 +176,6 @@ var TurndownService = (function () {
     }
   };
 
-  function convertToFencedCodeBlock(language, code, options) {
-    var fenceChar = options.fence.charAt(0);
-    var fenceSize = 3;
-    var fenceInCodeRegex = new RegExp('^' + fenceChar + '{3,}', 'gm');
-
-    var match;
-    while ((match = fenceInCodeRegex.exec(code))) {
-      if (match[0].length >= fenceSize) {
-        fenceSize = match[0].length + 1;
-      }
-    }
-
-    var fence = repeat(fenceChar, fenceSize);
-
-    return (
-      '\n\n' + fence + language + '\n' +
-      code.replace(/\n$/, '') +
-      '\n' + fence + '\n\n'
-    )
-  }
-
   rules.fencedCodeBlock = {
     filter: function (node, options) {
       return (
@@ -210,9 +189,26 @@ var TurndownService = (function () {
     replacement: function (content, node, options) {
       var className = node.firstChild.getAttribute('class') || '';
       var language = (className.match(/language-(\S+)/) || [null, ''])[1];
-      var code = node.firstChild.innerHTML;
+      var code = node.firstChild.textContent;
 
-      return convertToFencedCodeBlock(language, code, options);
+      var fenceChar = options.fence.charAt(0);
+      var fenceSize = 3;
+      var fenceInCodeRegex = new RegExp('^' + fenceChar + '{3,}', 'gm');
+
+      var match;
+      while ((match = fenceInCodeRegex.exec(code))) {
+        if (match[0].length >= fenceSize) {
+          fenceSize = match[0].length + 1;
+        }
+      }
+
+      var fence = repeat(fenceChar, fenceSize);
+
+      return (
+        '\n\n' + fence + language + '\n' +
+        code.replace(/\n$/, '') +
+        '\n' + fence + '\n\n'
+      )
     }
   };
 
@@ -869,9 +865,7 @@ var TurndownService = (function () {
       return escapes.reduce(function (accumulator, escape) {
         return accumulator.replace(escape[0], escape[1])
       }, string)
-    },
-
-    convertToFencedCodeBlock
+    }
   };
 
   /**
