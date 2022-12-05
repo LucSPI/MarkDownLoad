@@ -37,7 +37,7 @@ function removeHiddenNodes(root) {
 
     nodeIterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT, function(node) {
       let nodeName = node.nodeName.toLowerCase();
-      if (nodeName === "script" || nodeName === "style" || nodeName === "noscript") {
+      if (nodeName === "script" || nodeName === "style" || nodeName === "noscript" || nodeName === "math") {
         return NodeFilter.FILTER_REJECT;
       }
       if (node.offsetParent === void 0) {

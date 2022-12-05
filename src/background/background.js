@@ -123,18 +123,20 @@ function turndown(content, options, article) {
   // handle multiple lines math
   turndownService.addRule('mathjax', {
     filter(node, options) {
-      const id = node.id || ''
-      return id.startsWith('MathJax-Element')
+      return article.math.hasOwnProperty(node.id);
     },
     replacement(content, node, options) {
-      const mathId = node.id.match(/MathJax-Element-(\d+)/)[1]
-      const math = article.math[mathId]
-      if (math.inline)
-        return `$${math.tex}$`
+      const math = article.math[node.id];
+      let tex = math.tex.trim().replaceAll('\xa0', '');
+
+      if (math.inline) {
+        tex = tex.replaceAll('\n', ' ');
+        return `$${tex}$`;
+      }
       else
-        return `$$\n${math.tex}\n$$`
+        return `$$\n${tex}\n$$`;
     }
-  })
+  });
 
   // handle <pre> as code blocks
   turndownService.addRule('pre', {
@@ -601,20 +603,29 @@ async function getArticleFromDom(domString) {
     console.error("error while parsing");
   }
 
-  const math = {}
-  dom.body.querySelectorAll('script[id^=MathJax-Element-]')?.forEach(mathSource => {
-    const mathId = mathSource.id.match(/MathJax-Element-(\d+)/)[1]
-    if (mathId) {
-      let tex = mathSource.innerText.trim()
-      tex = tex.replaceAll("\xa0", " ")
+  const math = {};
 
-      const type = mathSource.attributes.type.value
-      math[mathId] = {
-        tex,
-        inline: type ? !type.includes('mode=display') : false
-      };
-    }
-  })
+  const storeMathInfo = (el, mathInfo) => {
+    let randomId = URL.createObjectURL(new Blob([]));
+    randomId = randomId.substring(randomId.length - 36);
+    el.id = randomId;
+    math[randomId] = mathInfo;
+  };
+
+  dom.body.querySelectorAll('script[id^=MathJax-Element-]')?.forEach(mathSource => {
+    const type = mathSource.attributes.type.value
+    storeMathInfo(mathSource, {
+      tex: mathSource.innerText,
+      inline: type ? !type.includes('mode=display') : false
+    });
+  });
+
+  dom.body.querySelectorAll('.katex-mathml')?.forEach(kaTeXNode => {
+    storeMathInfo(kaTeXNode, {
+      tex: kaTeXNode.querySelector('annotation').textContent,
+      inline: true
+    });
+  });
 
   dom.body.querySelectorAll('[class*=highlight-text],[class*=highlight-source]')?.forEach(codeSource => {
     const language = codeSource.className.match(/highlight-(?:text|source)-([a-z0-9]+)/)?.[1]
