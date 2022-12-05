@@ -178,6 +178,8 @@ const inputChange = e => {
                 setCurrentChoice(options);
                 browser.contextMenus.removeAll()
                 createMenus()
+                save();            
+                refereshElements();
             };
             fr.readAsText(e.target.files[0])
         }
@@ -189,12 +191,11 @@ const inputChange = e => {
                 if (value) { createMenus() }
                 else { browser.contextMenus.removeAll() }
             }
+    
+            save();
+            refereshElements();
         }
     }
-    
-    save();
-
-    refereshElements();
 }
 
 const inputKeyup = (e) => {
