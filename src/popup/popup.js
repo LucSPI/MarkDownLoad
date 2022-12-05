@@ -27,12 +27,16 @@ document.getElementById("downloadSelection").addEventListener("click", downloadS
 
 const defaultOptions = {
     includeTemplate: false,
-    clipSelection: true
+    clipSelection: true,
+    downloadImages: false
 }
 
 const checkInitialSettings = options => {
     if (options.includeTemplate)
         document.querySelector("#includeTemplate").classList.add("checked");
+
+    if (options.downloadImages)
+        document.querySelector("#downloadImages").classList.add("checked");
 
     if (options.clipSelection)
         document.querySelector("#selected").classList.add("checked");
@@ -67,6 +71,23 @@ const toggleIncludeTemplate = options => {
     });
 }
 
+const toggleDownloadImages = options => {
+    options.downloadImages = !options.downloadImages;
+    document.querySelector("#downloadOptions").classList.toggle("checked");
+    browser.storage.sync.set(options).then(() => {
+        browser.contextMenus.update("toggle-downloadImages", {
+            checked: options.downloadImages
+        });
+        try {
+            browser.contextMenus.update("tabtoggle-downloadImages", {
+                checked: options.downloadImages
+            });
+        } catch { }
+        return clipSite()
+    }).catch((error) => {
+        console.error(error);
+    });
+}
 const showOrHideClipOption = selection => {
     if (selection) {
         document.getElementById("clipOption").style.display = "flex";
@@ -117,6 +138,10 @@ browser.storage.sync.get(defaultOptions).then(options => {
     document.getElementById("includeTemplate").addEventListener("click", (e) => {
         e.preventDefault();
         toggleIncludeTemplate(options);
+    });
+    document.getElementById("downloadImages").addEventListener("click", (e) => {
+        e.preventDefault();
+        toggleDownloadImages(options);
     });
     
     return browser.tabs.query({

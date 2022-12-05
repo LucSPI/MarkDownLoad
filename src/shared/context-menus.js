@@ -45,6 +45,14 @@ async function createMenus() {
         contexts: ["tab"],
         checked: options.includeTemplate
       }, () => { });
+
+      browser.contextMenus.create({
+        id: "tabtoggle-downloadImages",
+        type: "checkbox",
+        title: "Download Images",
+        contexts: ["tab"],
+        checked: options.downloadImages
+      }, () => { });
     } catch {
 
     }
@@ -142,6 +150,14 @@ async function createMenus() {
       title: "Include front/back template",
       contexts: ["all"],
       checked: options.includeTemplate
+    }, () => { });
+
+    browser.contextMenus.create({
+      id: "toggle-downloadImages",
+      type: "checkbox",
+      title: "Download Images",
+      contexts: ["all"],
+      checked: options.downloadImages
     }, () => { });
   }
 }

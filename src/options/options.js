@@ -52,6 +52,15 @@ const save = () => {
                     checked: options.includeTemplate
                 });
             } catch { }
+            
+            browser.contextMenus.update("toggle-downloadImages", {
+                checked: options.downloadImages
+            });
+            try {
+                browser.contextMenus.update("tabtoggle-downloadImages", {
+                    checked: options.downloadImages
+                });
+            } catch { }
         })
         .then(() => {
             document.querySelectorAll(".status").forEach(statusEl => {

@@ -580,6 +580,17 @@ async function toggleSetting(setting, options = null) {
         });
       } catch { }
     }
+    
+    if (setting == "downloadImages") {
+      browser.contextMenus.update("toggle-downloadImages", {
+        checked: options.downloadImages
+      });
+      try {
+        browser.contextMenus.update("tabtoggle-downloadImages", {
+          checked: options.downloadImages
+        });
+      } catch { }
+    }
   }
 }
 

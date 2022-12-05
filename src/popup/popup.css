@@ -143,9 +143,7 @@ a.button {
 
 
 
-#selected,
-#document,
-#includeTemplate {
+.button.toggle {
     background: var(--bg);
     border: 1px solid var(--border);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -158,15 +156,11 @@ a.button {
     transition: .3s ease all;
 }
 
-#selected:hover,
-#document:hover,
-#includeTemplate:hover {
+.button.toggle:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-#selected.checked,
-#document.checked,
-#includeTemplate.checked {
+.button.toggle.checked {
     background: var(--bg-primary);
     border-color: var(--border-primary);
 }
