@@ -140,7 +140,11 @@ function turndown(content, options, article) {
     return Array(count + 1).join(character);
   }
 
-  function convertToFencedCodeBlock(language, code, options) {
+  function convertToFencedCodeBlock(node, options) {
+    const langMatch = node.id?.match(/code-lang-(.+)/);
+    const language = langMatch?.length > 0 ? langMatch[1] : '';
+    var code = language ? node.innerText : node.innerHTML;
+
     var fenceChar = options.fence.charAt(0);
     var fenceSize = 3;
     var fenceInCodeRegex = new RegExp('^' + fenceChar + '{3,}', 'gm');
@@ -171,10 +175,7 @@ function turndown(content, options, article) {
       );
     },
     replacement: function (content, node, options) {
-      var className = node.firstChild.getAttribute('class') || '';
-      var language = (className.match(/language-(\S+)/) || [null, ''])[1];
-      var code = node.firstChild.innerHTML;
-      return convertToFencedCodeBlock(language, code, options);
+      return convertToFencedCodeBlock(node.firstChild, options);
     }
   });
 
@@ -182,9 +183,7 @@ function turndown(content, options, article) {
   turndownService.addRule('pre', {
     filter: (node, tdopts) => node.nodeName == 'PRE' && (!node.firstChild || node.firstChild.nodeName != 'CODE'),
     replacement: (content, node, tdopts) => {
-      const langMatch = node.id?.match(/code-lang-(.+)/);
-      const lang = langMatch?.length > 0 ? langMatch[1] : '';
-      return convertToFencedCodeBlock(lang, content, tdopts);
+      return convertToFencedCodeBlock(node, tdopts);
     }
   });
 
@@ -663,6 +662,11 @@ async function getArticleFromDom(domString) {
     if (codeSource.firstChild.nodeName == "PRE") {
       codeSource.firstChild.id = `code-lang-${language}`
     }
+  });
+
+  dom.body.querySelectorAll('[class*=language-]')?.forEach(codeSource => {
+    const language = codeSource.className.match(/language-([a-z0-9]+)/)?.[1]
+    codeSource.id = `code-lang-${language}`;
   });
 
   // simplify the dom into an article
