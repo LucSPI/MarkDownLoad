@@ -73,7 +73,7 @@ const toggleIncludeTemplate = options => {
 
 const toggleDownloadImages = options => {
     options.downloadImages = !options.downloadImages;
-    document.querySelector("#downloadOptions").classList.toggle("checked");
+    document.querySelector("#downloadImages").classList.toggle("checked");
     browser.storage.sync.set(options).then(() => {
         browser.contextMenus.update("toggle-downloadImages", {
             checked: options.downloadImages
@@ -83,7 +83,6 @@ const toggleDownloadImages = options => {
                 checked: options.downloadImages
             });
         } catch { }
-        return clipSite()
     }).catch((error) => {
         console.error(error);
     });

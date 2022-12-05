@@ -128,6 +128,27 @@ a.button {
     border-collapse: collapse;
 }
 
+#options {
+    display: block;
+    position: absolute;
+    top:2px;
+    right:2px;
+    font-size: 0;
+    text-decoration: none;
+    background-color: var(--primary);
+    color: var(--fg-primary);
+    border-radius: 2rem;
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    line-height: 2rem;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+#options::before {
+    content: '⚙';
+    font-size: 1rem;
+}
+
 #downloadSelection {
     background-color: var(--bg-primary);
     display: none;
