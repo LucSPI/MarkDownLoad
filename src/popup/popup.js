@@ -113,12 +113,19 @@ const clipSite = id => {
                     });
                 }).catch(err => {
                     console.error(err);
-                    browser.runtime.sendMessage({
+                    showError(err)
+                    return browser.runtime.sendMessage({
                         ...message,
                         ...defaultOptions
                     });
+                }).catch(err => {
+                    console.error(err);
+                    showError(err)
                 });
             }
+        }).catch(err => {
+            console.error(err);
+            showError(err)
         });
 }
 
@@ -162,6 +169,7 @@ browser.storage.sync.get(defaultOptions).then(options => {
         return clipSite(id);
     }).catch( (error) => {
         console.error(error);
+        showError(error);
     });
 });
 
@@ -223,5 +231,12 @@ function notify(message) {
         document.getElementById("download").focus();
         cm.refresh();
     }
+}
+
+function showError(err) {
+    // show the hidden elements
+    document.getElementById("container").style.display = 'flex';
+    document.getElementById("spinner").style.display = 'none';
+    cm.setValue(`Error clipping the page\n\n${err}`)
 }
 
