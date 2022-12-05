@@ -54,6 +54,17 @@ const save = () => {
             } catch { }
         })
         .then(() => {
+            document.querySelectorAll(".status").forEach(statusEl => {
+                statusEl.textContent = "Options Saved 💾";
+                statusEl.classList.remove('error');
+                statusEl.classList.add('success');
+                statusEl.style.opacity = 1;
+            });
+            setTimeout(() => {
+                document.querySelectorAll(".status").forEach(statusEl => {
+                    statusEl.style.opacity = 0;
+                });
+            }, 5000)
             spinner.style.display = "none";
         })
         .catch(err => {
@@ -61,9 +72,14 @@ const save = () => {
                 statusEl.textContent = err;
                 statusEl.classList.remove('success');
                 statusEl.classList.add('error');
+                statusEl.style.opacity = 1;
             });
             spinner.style.display = "none";
         });
+}
+
+function hideStatus() {
+    this.style.opacity = 0;
 }
 
 const setCurrentChoice = result => {
@@ -243,6 +259,7 @@ const loaded = () => {
 
 document.addEventListener("DOMContentLoaded", loaded);
 document.querySelectorAll(".save").forEach(el => el.addEventListener("click", saveOptions));
+document.querySelectorAll(".status").forEach(el => el.addEventListener("click", hideStatus));
 document.querySelectorAll(".input-sizer > textarea").forEach(el => el.addEventListener("input", textareaInput));
 
 /// https://www.somacon.com/p143.php
