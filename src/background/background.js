@@ -138,13 +138,54 @@ function turndown(content, options, article) {
     }
   });
 
+  function repeat(character, count) {
+    return Array(count + 1).join(character);
+  }
+
+  function convertToFencedCodeBlock(node, options) {
+    const langMatch = node.id?.match(/code-lang-(.+)/);
+    const language = langMatch?.length > 0 ? langMatch[1] : '';
+    var code = language ? node.innerText : node.innerHTML;
+
+    var fenceChar = options.fence.charAt(0);
+    var fenceSize = 3;
+    var fenceInCodeRegex = new RegExp('^' + fenceChar + '{3,}', 'gm');
+
+    var match;
+    while ((match = fenceInCodeRegex.exec(code))) {
+      if (match[0].length >= fenceSize) {
+        fenceSize = match[0].length + 1;
+      }
+    }
+
+    var fence = repeat(fenceChar, fenceSize);
+
+    return (
+      '\n\n' + fence + language + '\n' +
+      code.replace(/\n$/, '') +
+      '\n' + fence + '\n\n'
+    )
+  }
+
+  turndownService.addRule('fencedCodeBlock', {
+    filter: function (node, options) {
+      return (
+        options.codeBlockStyle === 'fenced' &&
+        node.nodeName === 'PRE' &&
+        node.firstChild &&
+        node.firstChild.nodeName === 'CODE'
+      );
+    },
+    replacement: function (content, node, options) {
+      return convertToFencedCodeBlock(node.firstChild, options);
+    }
+  });
+
   // handle <pre> as code blocks
   turndownService.addRule('pre', {
     filter: (node, tdopts) => node.nodeName == 'PRE' && (!node.firstChild || node.firstChild.nodeName != 'CODE'),
     replacement: (content, node, tdopts) => {
-      const langMatch = node.id?.match(/code-lang-(.+)/);
-      const lang = langMatch?.length > 0 ? langMatch[1] : '';
-      return '\n\n' + options.fence + (lang || '') + '\n' + node.textContent + '\n' + options.fence + '\n\n';
+      return convertToFencedCodeBlock(node, tdopts);
     }
   });
 
@@ -643,6 +684,11 @@ async function getArticleFromDom(domString) {
     if (codeSource.firstChild.nodeName == "PRE") {
       codeSource.firstChild.id = `code-lang-${language}`
     }
+  });
+
+  dom.body.querySelectorAll('[class*=language-]')?.forEach(codeSource => {
+    const language = codeSource.className.match(/language-([a-z0-9]+)/)?.[1]
+    codeSource.id = `code-lang-${language}`;
   });
 
   // simplify the dom into an article
