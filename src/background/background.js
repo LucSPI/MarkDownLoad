@@ -143,9 +143,21 @@ function turndown(content, options, article) {
   }
 
   function convertToFencedCodeBlock(node, options) {
+    node.innerHTML = node.innerHTML.replaceAll('<br-keep></br-keep>', '<br>');
     const langMatch = node.id?.match(/code-lang-(.+)/);
     const language = langMatch?.length > 0 ? langMatch[1] : '';
-    var code = language ? node.innerText : node.innerHTML;
+
+    var code;
+
+    if (language) {
+      var div = document.createElement('div');
+      document.body.appendChild(div);
+      div.appendChild(node);
+      code = node.innerText;
+      div.remove();
+    } else {
+      code = node.innerHTML;
+    }
 
     var fenceChar = options.fence.charAt(0);
     var fenceSize = 3;
@@ -690,6 +702,10 @@ async function getArticleFromDom(domString) {
     const language = codeSource.className.match(/language-([a-z0-9]+)/)?.[1]
     codeSource.id = `code-lang-${language}`;
   });
+
+  dom.body.querySelectorAll('pre br')?.forEach(br => {
+    // we need to keep <br> tags because they are removed by Readability.js
+    br.outerHTML = '<br-keep></br-keep>';
 
   dom.body.querySelectorAll('.codehilite > pre')?.forEach(codeSource => {
     if (codeSource.firstChild.nodeName !== 'CODE' && !codeSource.className.includes('language')) {
