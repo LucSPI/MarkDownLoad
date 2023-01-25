@@ -7,7 +7,7 @@ This is an extension to clip websites and download them into a readable markdown
 To use this add-on, simply click the add-on icon while you are browsing the page you want to save offline. A popup will show the rendered markdown so you can make minor edits or copy the text, or you can click the download button to download an .md file.  
 Selecting text will allow you to download just the selected text
 
-See the [Markdownload User Guide](https://death.id.au/30-39+Personal+Dev/33+Browser+Extensions/33.01+MarkDownload/Markdownload+User+Guide) for more details on the functionality of this extension
+See the [Markdownload User Guide](https://notes.death.id.au/30-39+Personal+Dev/33+Browser+Extensions/33.01+MarkDownload/Markdownload+User+Guide) for more details on the functionality of this extension
 
 # Installation
 The extension is available for [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/markdownload/), [Google Chrome](https://chrome.google.com/webstore/detail/markdownload-markdown-web/pcmpcfapbekmbjjkdalcgopdkipoggdi), [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/hajanaajapkhaabfcofdjgjnlgkdkknm) and [Safari](https://apple.co/3tcU0pD).

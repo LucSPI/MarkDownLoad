@@ -706,6 +706,11 @@ async function getArticleFromDom(domString) {
   dom.body.querySelectorAll('pre br')?.forEach(br => {
     // we need to keep <br> tags because they are removed by Readability.js
     br.outerHTML = '<br-keep></br-keep>';
+
+  dom.body.querySelectorAll('.codehilite > pre')?.forEach(codeSource => {
+    if (codeSource.firstChild.nodeName !== 'CODE' && !codeSource.className.includes('language')) {
+      codeSource.id = `code-lang-text`;
+    }
   });
 
   // simplify the dom into an article
