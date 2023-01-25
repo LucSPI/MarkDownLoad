@@ -1,11 +1,11 @@
 # MarkDownload User Guide
 ## Basic Usage
-Simply click the ![](icons/favicon-16x16.png) Markdown icon in the browser's extension area to show a popup containing the current website as Markdown. Here you can make quick edits to the content or the title before clicking the Download button at the bottom of the popup to download the content as a Markdown file. The file will be named according to the text in the title box at the top of the popover.
+Simply click the ![](src/icons/favicon-16x16.png) Markdown icon in the browser's extension area to show a popup containing the current website as Markdown. Here you can make quick edits to the content or the title before clicking the Download button at the bottom of the popup to download the content as a Markdown file. The file will be named according to the text in the title box at the top of the popover.
 
 Because the website is first passed through a readability process, you won't get extra content such as website navigation, footers and advertisements. However, please note that not all websites are created equal and as such some sites may not clip the content you expect.
 
 ### Clipping Selected Text
-If you select text on the page *and then* click the ![](icons/favicon-16x16.png) Markdown icon, you will have the option of clipping just the selected text, or the entire document. This is great for capturing small snippets of a website, or for websites whose main content may not clip properly.
+If you select text on the page *and then* click the ![](src/icons/favicon-16x16.png) Markdown icon, you will have the option of clipping just the selected text, or the entire document. This is great for capturing small snippets of a website, or for websites whose main content may not clip properly.
 
 Furthermore, if you select text *within* the popup, a "Download Selected" button will appear, allowing you to download just the selected section of text in the popup
 
