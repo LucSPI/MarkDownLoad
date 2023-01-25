@@ -691,6 +691,12 @@ async function getArticleFromDom(domString) {
     codeSource.id = `code-lang-${language}`;
   });
 
+  dom.body.querySelectorAll('.codehilite > pre')?.forEach(codeSource => {
+    if (codeSource.firstChild.nodeName !== 'CODE' && !codeSource.className.includes('language')) {
+      codeSource.id = `code-lang-text`;
+    }
+  });
+
   // simplify the dom into an article
   const article = new Readability(dom).parse();
   // get the base uri from the dom and attach it as important article info
