@@ -33,6 +33,9 @@ This converts the  currently selected section of the web page as Markdown and co
 ### Copy Tab URL as Markdown Link
 Copys the current tab's url and title as a Markdown link to be pasted into another Markdown document
 
+### Copy Selected Tabs as Markdown Link
+Copys all selected tabs into Markdown link to be pasted into another Markdown document
+
 ### Copy Link as Markdown
 **Only when right-clicking on a link**  
 Copies the selected link as a Markdown link to be pasted into another Markdown document

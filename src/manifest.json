@@ -75,6 +75,9 @@
         "default": "Alt+Shift+L"
       },
       "description": "Copy current tab URL as Markdown link to the clipboard"
+    },
+    "copy_selected_tab_as_markdown_link": {
+      "description": "Copy selected tabs URL as Markdown link to the clipboard"
     }
   },
   "browser_specific_settings": {
