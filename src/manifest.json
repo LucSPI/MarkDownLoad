@@ -75,6 +75,12 @@
         "default": "Alt+Shift+L"
       },
       "description": "Copy current tab URL as Markdown link to the clipboard"
+    },
+    "copy_selection_to_obsidian": {
+      "description": "Copy current selection as Markdown to Obsidian"
+    },
+    "copy_tab_to_obsidian": {
+      "description": "Copy current tab as Markdown to Obsidian"
     }
   },
   "browser_specific_settings": {
