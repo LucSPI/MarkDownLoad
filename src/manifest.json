@@ -75,7 +75,14 @@
         "default": "Alt+Shift+L"
       },
       "description": "Copy current tab URL as Markdown link to the clipboard"
+    },
+    "copy-markdown-obsidian": {
+      "description": "Copy current selection as Markdown to Obsidian"
+    },
+    "copy-markdown-obsall": {
+      "description": "Send Tab as Markdown to Obsidian"
     }
+    
   },
   "browser_specific_settings": {
     "gecko": {
