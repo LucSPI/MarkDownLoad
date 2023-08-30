@@ -576,7 +576,11 @@ browser.commands.onCommand.addListener(function (command) {
   }
   else if (command == "copy_tab_as_markdown_link") {
     copyTabAsMarkdownLink(tab);
-  }else if (command == "copy_selection_to_obsidian") {
+  }
+  else if (command == "copy_selected_tab_as_markdown_link") {
+    copySelectedTabAsMarkdownLink(tab);
+  }
+  else if (command == "copy_selection_to_obsidian") {
     const info = { menuItemId: "copy-markdown-obsidian" };
     copyMarkdownFromContext(info, tab);
   }
@@ -602,6 +606,10 @@ browser.contextMenus.onClicked.addListener(function (info, tab) {
   // copy tab as markdown link
   else if (info.menuItemId.startsWith("copy-tab-as-markdown-link-all")) {
     copyTabAsMarkdownLinkAll(tab);
+  }
+  // copy only selected tab as markdown link
+  else if (info.menuItemId.startsWith("copy-tab-as-markdown-link-selected")) {
+    copySelectedTabAsMarkdownLink(tab);
   }
   else if (info.menuItemId.startsWith("copy-tab-as-markdown-link")) {
     copyTabAsMarkdownLink(tab);
@@ -856,6 +864,36 @@ async function copyTabAsMarkdownLinkAll(tab) {
       links.push(link)
     };
     
+    const markdown = links.join(`\n`)
+    await browser.tabs.executeScript(tab.id, { code: `copyToClipboard(${JSON.stringify(markdown)})` });
+
+  }
+  catch (error) {
+    // This could happen if the extension is not allowed to run code in
+    // the page, for example if the tab is a privileged page.
+    console.error("Failed to copy as markdown link: " + error);
+  };
+}
+
+// function to copy only selected tabs as markdown links
+async function copySelectedTabAsMarkdownLink(tab) {
+  try {
+    const options = await getOptions();
+    options.frontmatter = options.backmatter = '';
+    const tabs = await browser.tabs.query({
+      currentWindow: true,
+      highlighted: true
+    });
+
+    const links = [];
+    for (const tab of tabs) {
+      await ensureScripts(tab.id);
+      const article = await getArticleFromContent(tab.id);
+      const title = await formatTitle(article);
+      const link = `${options.bulletListMarker} [${title}](${article.baseURI})`
+      links.push(link)
+    };
+
     const markdown = links.join(`\n`)
     await browser.tabs.executeScript(tab.id, { code: `copyToClipboard(${JSON.stringify(markdown)})` });
 
