@@ -83,7 +83,7 @@
       "description": "Copy current selection as Markdown to Obsidian"
     },
     "copy_tab_to_obsidian": {
-      "description": "Send Tab as Markdown to Obsidian"
+      "description": "Copy current tab as Markdown to Obsidian"
     }
     
   },
