@@ -692,6 +692,22 @@ async function getArticleFromDom(domString) {
     });
   });
 
+  dom.body.querySelectorAll('[markdownload-latex]')?.forEach(mathJax3Node =>  {
+    const tex = mathJax3Node.getAttribute('markdownload-latex')
+    const display = mathJax3Node.getAttribute('display')
+    const inline = !(display && display === 'true')
+
+    const mathNode = document.createElement(inline ? "i" : "p")
+    mathNode.textContent = tex;
+    mathJax3Node.parentNode.insertBefore(mathNode, mathJax3Node.nextSibling)
+    mathJax3Node.parentNode.removeChild(mathJax3Node)
+
+    storeMathInfo(mathNode, {
+      tex: tex,
+      inline: inline
+    });
+  });
+
   dom.body.querySelectorAll('.katex-mathml')?.forEach(kaTeXNode => {
     storeMathInfo(kaTeXNode, {
       tex: kaTeXNode.querySelector('annotation').textContent,
