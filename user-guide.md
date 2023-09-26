@@ -61,7 +61,7 @@ This specifies a subfolder within your downloads folder to save downloaded files
 
 **Default value:** (none)
 
-### Disallowed Caracters
+### Disallowed Characters
 There are specific characters that are automatically stripped from filenames, as they are invalid on certain operating systems. This setting allows you to add more characters to strip out, in case they are not supported in other programs you use.
 
 **Default value:** `[]#^` (these characters can cause issues with Obsidian)
