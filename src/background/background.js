@@ -671,6 +671,7 @@ async function getArticleFromDom(domString) {
   // parse the dom
   const parser = new DOMParser();
   const dom = parser.parseFromString(domString, "text/html");
+
   if (dom.documentElement.nodeName == "parsererror") {
     console.error("error while parsing");
   }
@@ -722,8 +723,16 @@ async function getArticleFromDom(domString) {
     }
   });
 
+  dom.body.querySelectorAll('h1, h2, h3, h4, h5, h6')?.forEach(header => {
+    // Readability.js will strip out headings from the dom if certain words appear in their className
+    // See: https://github.com/mozilla/readability/issues/807  
+    header.className = '';
+    header.outerHTML = header.outerHTML;  
+  });
+
   // simplify the dom into an article
   const article = new Readability(dom).parse();
+
   // get the base uri from the dom and attach it as important article info
   article.baseURI = dom.baseURI;
   // also grab the page title
